@@ -63,6 +63,8 @@
 #' each time re-randomising the PIT
 #' @param full_output return all individual p_values and computed u_t values
 #' for the randomised PIT. Usually not needed.
+#' @param verbose if TRUE (default is FALSE) more error messages are printed.
+#' Usually, this should not be needed, but may help with debugging.
 #' @return a list with the following components:
 #' \itemize{
 #' \item \code{p_value}: p-value of the Anderson-Darling test on the
@@ -106,7 +108,8 @@ pit <- function(true_values,
                 plot = TRUE,
                 full_output = FALSE,
                 n_replicates = 20,
-                num_bins = NULL) {
+                num_bins = NULL,
+                verbose = FALSE) {
 
 
 
@@ -116,7 +119,6 @@ pit <- function(true_values,
     stop("true_values or predictions argument missing")
   }
 
-
   ## check whether continuous or integer
   if (all.equal(as.vector(predictions), as.integer(predictions)) != TRUE) {
     continuous_predictions <- TRUE
@@ -125,6 +127,21 @@ pit <- function(true_values,
   }
 
   n <- length(true_values)
+
+
+  if (n == 1) {
+    if (verbose) {
+      message("you need more than one observation to assess uniformity of the PIT")
+    }
+    out <- list(p_value = NA,
+                sd = NA)
+
+    if (full_output) {
+      out <- list(p_values = NA,
+                  calibration = NA,
+                  u = NA)
+    }
+  }
 
   if (is.data.frame(predictions)) {
     predictions <- as.matrix(predictions)
@@ -139,10 +156,6 @@ pit <- function(true_values,
     msg <- sprintf("Mismatch: 'true_values' has length `%s`, but 'predictions' has `%s` rows.",
                    n, nrow(predictions))
     stop(msg)
-  }
-
-  if (length(true_values) == 1) {
-    stop("you need more than one observation to assess uniformity of the PIT")
   }
 
   # ============================================
@@ -163,8 +176,8 @@ pit <- function(true_values,
     out <- list(p_value = p_value,
                 sd = NA)
 
-    if (plot == TRUE) {
-      hist_PIT <- hist_PIT(P_x, num_bins = num_bins)
+    if (plot) {
+      hist_PIT <- hist_PIT(P_x, num_bins = num_bins, caption = p_value)
       out$hist_PIT = hist_PIT
     }
 
@@ -203,8 +216,9 @@ pit <- function(true_values,
     }
 
 
-    if (plot == TRUE) {
-      hist_PIT <- hist_PIT(rowMeans(u), num_bins = num_bins)
+    if (plot) {
+      hist_PIT <- hist_PIT(rowMeans(u), num_bins = num_bins,
+                           caption = mean(p_values))
       out$hist_PIT = hist_PIT
     }
   }
@@ -225,22 +239,68 @@ pit <- function(true_values,
 #'
 #' @param PIT_samples A vector with the PIT values of size n
 #' @param num_bins the number of bins in the PIT histogram.
+#' @param caption provide a caption that gets passed to the plot
 #' If not given, the square root of n will be used
 #' @return vector with the scoring values
-#' @importFrom graphics hist
+#' @importFrom ggplot2 ggplot aes xlab ylab geom_histogram stat
 
 
-hist_PIT <- function(PIT_samples, num_bins = NULL) {
+hist_PIT <- function(PIT_samples,
+                     num_bins = NULL,
+                     caption = NULL) {
 
   if (is.null(num_bins)) {
     n <- length(PIT_samples)
     num_bins = round(sqrt(n))
   }
 
-  PIT <- PIT_samples
-  hist_PIT <- hist(PIT_samples, breaks = num_bins)
+  hist_PIT <- ggplot2::ggplot(data = data.frame(x = PIT_samples),
+                  ggplot2::aes(x = x)) +
+    ggplot2::geom_histogram(ggplot2::aes(y = stat(count) / sum(count)),
+                            breaks = seq(0, 1, length.out = num_bins + 1),
+                            colour = "grey") +
+    ggplot2::xlab("PIT") +
+    ggplot2::ylab("Frequency") +
+    ggplot2::labs(caption = paste0("p-value of Andersen-Darling test for uniformity: ",
+                                   round(caption, 3)))
 
   return(hist_PIT)
 }
 
+
+
+#' @title PIT Histogram Quantile
+#'
+#' @description
+#' Make a simple histogram of the probability integral transformed values to
+#' visually check whether a uniform distribution seems likely.
+#'
+#' @param PIT_samples A vector with the PIT values of size n
+#' @param num_bins the number of bins in the PIT histogram.
+#' @param caption provide a caption that gets passed to the plot
+#' If not given, the square root of n will be used
+#' @return vector with the scoring values
+#' @importFrom ggplot2 ggplot aes xlab ylab geom_histogram stat
+
+
+hist_PIT_quantile <- function(PIT_samples,
+                     num_bins = NULL,
+                     caption = NULL) {
+
+  if (is.null(num_bins)) {
+    n <- length(PIT_samples)
+    num_bins = round(sqrt(n))
+  }
+
+  hist_PIT <- ggplot2::ggplot(data = data.frame(x = PIT_samples),
+                              ggplot2::aes(x = x)) +
+    ggplot2::geom_histogram(ggplot2::aes(y = stat(count) / sum(count)),
+                            breaks = seq(0, 1, length.out = num_bins + 1),
+                            colour = "grey") +
+    ggplot2::xlab("PIT") +
+    ggplot2::ylab("Frequency") +
+    ggplot2::labs()
+
+  return(hist_PIT)
+}
 

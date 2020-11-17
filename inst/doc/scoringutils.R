@@ -1,5 +1,6 @@
 ## ---- include = FALSE---------------------------------------------------------
 knitr::opts_chunk$set(
+  fig.width = 7,
   collapse = TRUE,
   comment = "#>"
 )
@@ -7,6 +8,65 @@ knitr::opts_chunk$set(
 ## -----------------------------------------------------------------------------
 library(scoringutils)
 library(data.table)
+
+## -----------------------------------------------------------------------------
+data <- scoringutils::quantile_example_data_plain
+print(data, 3, 3)
+scoringutils::eval_forecasts(data, 
+                             summarise_by = c("model", "quantile", "range"))
+
+## -----------------------------------------------------------------------------
+scoringutils::plot_predictions(data, x = "id", range = c(0, 90), 
+                               facet_formula = ~ model)
+
+## -----------------------------------------------------------------------------
+scores <- scoringutils::eval_forecasts(data, 
+                             summarise_by = c("model"))
+scoringutils::score_table(scores)
+
+## ----out.width="50%", fig.show="hold"-----------------------------------------
+scores <- scoringutils::eval_forecasts(data, 
+                             summarise_by = c("model", "range", "quantile"))
+scoringutils::interval_coverage(scores) + 
+  ggplot2::ggtitle("Interval Coverage")
+
+scoringutils::quantile_coverage(scores) + 
+  ggplot2::ggtitle("Quantile Coverage")
+
+## -----------------------------------------------------------------------------
+scores <- scoringutils::eval_forecasts(data, 
+                             summarise_by = c("model"))
+scoringutils::wis_components(scores)
+
+## -----------------------------------------------------------------------------
+scores <- scoringutils::eval_forecasts(data, 
+                             summarise_by = c("model", "range"))
+scoringutils::range_plot(scores, y = "interval_score")
+
+## -----------------------------------------------------------------------------
+scores <- scoringutils::eval_forecasts(data, 
+                             summarise_by = c("model", "horizon"))
+scores[, horizon := as.factor(horizon)]
+scoringutils::score_heatmap(scores, 
+                            x = "horizon", metric = "bias")
+
+## -----------------------------------------------------------------------------
+print(scoringutils::quantile_example_data_plain, 3, 3)
+print(scoringutils::quantile_example_data_long, 3, 3)
+
+## -----------------------------------------------------------------------------
+print(scoringutils::integer_example_data, 3, 3)
+print(scoringutils::continuous_example_data, 3, 3)
+
+## -----------------------------------------------------------------------------
+print(scoringutils::binary_example_data, 3, 3)
+
+## ----eval=FALSE---------------------------------------------------------------
+#  scoringutils::sample_to_quantile() # convert from sample based to quantile format
+#  scoringutils::range_to_quantile() # convert from range format to plain quantile
+#  scoringutils::quantile_to_range() # convert the other way round
+#  scoringutils::quantile_to_long() # convert range based format from wide to long
+#  scoringutils::quantile_to_wide() # convert the other way round
 
 ## -----------------------------------------------------------------------------
 ## integer valued forecasts
@@ -55,57 +115,4 @@ interval_score(true_values = true_values,
                lower = lower,
                upper = upper,
                interval_range = interval_range)
-
-## -----------------------------------------------------------------------------
-library(data.table)
-
-# load example data
-binary_example <- data.table::setDT(scoringutils::binary_example_data)
-print(binary_example, 3, 3)
-
-## -----------------------------------------------------------------------------
-# score forecasts
-eval <- scoringutils::eval_forecasts(binary_example)
-print(eval)
-
-## -----------------------------------------------------------------------------
-eval <- scoringutils::eval_forecasts(binary_example, summarised = FALSE)
-print(eval, 3, 3)
-
-## -----------------------------------------------------------------------------
-quantile_example <- data.table::setDT(scoringutils::quantile_example_data)
-print(quantile_example, 3, 3)
-
-## -----------------------------------------------------------------------------
-eval <- scoringutils::eval_forecasts(quantile_example)
-print(eval)
-
-## -----------------------------------------------------------------------------
-eval <- scoringutils::eval_forecasts(quantile_example, summarised = FALSE)
-print(eval, 3, 3)
-
-## -----------------------------------------------------------------------------
-integer_example <- data.table::setDT(scoringutils::integer_example_data)
-print(integer_example, 3, 3)
-
-## -----------------------------------------------------------------------------
-eval <- scoringutils::eval_forecasts(integer_example)
-print(eval)
-
-## -----------------------------------------------------------------------------
-eval <- scoringutils::eval_forecasts(integer_example, summarised = FALSE)
-print(eval, 3, 3)
-
-## -----------------------------------------------------------------------------
-continuous_example <- data.table::setDT(scoringutils::continuous_example_data)
-print(continuous_example, 3, 3)
-
-## -----------------------------------------------------------------------------
-eval <- scoringutils::eval_forecasts(continuous_example)
-print(eval)
-
-## -----------------------------------------------------------------------------
-eval <- scoringutils::eval_forecasts(continuous_example, summarised = FALSE)
-print(eval, 3, 3)
-
 

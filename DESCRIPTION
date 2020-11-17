@@ -1,6 +1,6 @@
 Package: scoringutils
 Title: Utilities for Scoring and Assessing Predictions
-Version: 0.1.0
+Version: 0.1.4
 Authors@R: c(
     person(given = "Nikos",
            family = "Bosse",
@@ -49,15 +49,16 @@ Description:
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
-Imports: data.table, goftest, graphics, scoringRules, stats
+Imports: data.table, forcats, ggplot2, goftest, graphics, scoringRules,
+        stats
 Suggests: testthat, knitr, rmarkdown
-RoxygenNote: 7.1.0
+RoxygenNote: 7.1.1
 URL: https://github.com/epiforecasts/scoringutils
 BugReports: https://github.com/epiforecasts/scoringutils/issues
 VignetteBuilder: knitr
 Depends: R (>= 2.10)
 NeedsCompilation: no
-Packaged: 2020-06-09 15:23:07 UTC; nikos
+Packaged: 2020-11-17 09:26:14 UTC; nikos
 Author: Nikos Bosse [aut, cre] (<https://orcid.org/0000-0002-7750-5280>),
   Sam Abbott [aut] (<https://orcid.org/0000-0001-8057-8037>),
   Joel Hellewell [ctb] (<https://orcid.org/0000-0003-2683-0849>),
@@ -67,4 +68,4 @@ Author: Nikos Bosse [aut, cre] (<https://orcid.org/0000-0002-7750-5280>),
   Sebastian Funk [aut]
 Maintainer: Nikos Bosse <nikosbosse@gmail.com>
 Repository: CRAN
-Date/Publication: 2020-06-14 15:00:03 UTC
+Date/Publication: 2020-11-17 10:30:02 UTC
