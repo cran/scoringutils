@@ -10,14 +10,27 @@ library(scoringutils)
 library(data.table)
 
 ## -----------------------------------------------------------------------------
-data <- scoringutils::quantile_example_data_plain
+data <- scoringutils::quantile_example_data
 print(data, 3, 3)
-scoringutils::eval_forecasts(data, 
-                             summarise_by = c("model", "quantile", "range"))
+
+scores <- scoringutils::eval_forecasts(data, 
+                                       summarise_by = c("model", "quantile", "range"))
+print(scores, 3, 3)
 
 ## -----------------------------------------------------------------------------
-scoringutils::plot_predictions(data, x = "id", range = c(0, 90), 
-                               facet_formula = ~ model)
+# 
+# filtered_data <- data[geography == "England" & 
+#                         creation_date <= "2020-06-29" & 
+#                         value_desc == "Deaths"]
+
+scoringutils::plot_predictions(data = data,
+                               filter_both = list("geography == 'England'"),
+                               filter_forecasts = list("creation_date == '2020-07-06'"), 
+                               filter_truth = list("as.Date(value_date) <= '2020-07-06'"),
+                               x = "value_date", 
+                               range = c(0, 50, 90), 
+                               scale = "free",
+                               facet_formula = value_desc ~ model)
 
 ## -----------------------------------------------------------------------------
 scores <- scoringutils::eval_forecasts(data, 
@@ -35,24 +48,26 @@ scoringutils::quantile_coverage(scores) +
 
 ## -----------------------------------------------------------------------------
 scores <- scoringutils::eval_forecasts(data, 
-                             summarise_by = c("model"))
-scoringutils::wis_components(scores)
+                             summarise_by = c("model", "value_desc"))
+scoringutils::wis_components(scores, facet_formula = ~ value_desc)
 
 ## -----------------------------------------------------------------------------
 scores <- scoringutils::eval_forecasts(data, 
-                             summarise_by = c("model", "range"))
-scoringutils::range_plot(scores, y = "interval_score")
+                             summarise_by = c("model", "range", "value_desc"))
+scoringutils::range_plot(scores, y = "interval_score", 
+                         facet_formula = ~ value_desc)
 
 ## -----------------------------------------------------------------------------
 scores <- scoringutils::eval_forecasts(data, 
                              summarise_by = c("model", "horizon"))
-scores[, horizon := as.factor(horizon)]
+scores <- scores[, horizon := as.factor(horizon)]
 scoringutils::score_heatmap(scores, 
                             x = "horizon", metric = "bias")
 
 ## -----------------------------------------------------------------------------
-print(scoringutils::quantile_example_data_plain, 3, 3)
-print(scoringutils::quantile_example_data_long, 3, 3)
+print(scoringutils::quantile_example_data, 3, 3)
+print(scoringutils::range_example_data_long, 3, 3)
+print(scoringutils::range_example_data_wide, 3, 3)
 
 ## -----------------------------------------------------------------------------
 print(scoringutils::integer_example_data, 3, 3)
@@ -63,10 +78,10 @@ print(scoringutils::binary_example_data, 3, 3)
 
 ## ----eval=FALSE---------------------------------------------------------------
 #  scoringutils::sample_to_quantile() # convert from sample based to quantile format
-#  scoringutils::range_to_quantile() # convert from range format to plain quantile
-#  scoringutils::quantile_to_range() # convert the other way round
-#  scoringutils::quantile_to_long() # convert range based format from wide to long
-#  scoringutils::quantile_to_wide() # convert the other way round
+#  scoringutils::range_long_to_quantile() # convert from range format to plain quantile
+#  scoringutils::quantile_to_range_long() # convert the other way round
+#  scoringutils::range_wide_to_long() # convert range based format from wide to long
+#  scoringutils::range_long_to_wide() # convert the other way round
 
 ## -----------------------------------------------------------------------------
 ## integer valued forecasts

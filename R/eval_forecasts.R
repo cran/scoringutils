@@ -47,14 +47,14 @@
 #'   binary predictions.}
 #' For quantile forecasts the data can be provided in variety of formats. You
 #' can either use a range-based format or a quantile-based format. (You can
-#' convert between formats using \code{\link{quantile_to_range}},
-#' \code{\link{range_to_quantile}},
-#' \code{\link{sample_to_range}},
+#' convert between formats using \code{\link{quantile_to_range_long}},
+#' \code{\link{range_long_to_quantile}},
+#' \code{\link{sample_to_range_long}},
 #' \code{\link{sample_to_quantile}})
 #' For a quantile-format forecast you should provide:
 #' \itemize{
 #'   \item {prediction} - prediction to the corresponding quantile
-#'   \item {qunaitle} - quantile to which the prediction corresponds}
+#'   \item {quantile} - quantile to which the prediction corresponds}
 #' For a range format (long) forecast you need
 #' \itemize{
 #'   \item \code{prediction} the quantile forecasts
@@ -72,7 +72,7 @@
 #' \itemize{
 #'   \item pairs of columns called something like 'upper_90' and 'lower_90',
 #'   or 'upper_50' and 'lower_50', where the number denotes the interval range.
-#'   For the median, you need to proivde columns called 'upper_0' and 'lower_0'}
+#'   For the median, you need to provide columns called 'upper_0' and 'lower_0'}
 #' @param by character vector of columns to group scoring by. This should be the
 #' lowest level of grouping possible, i.e. the unit of the individual
 #' observation. This is important as many functions work on individual
@@ -86,7 +86,8 @@
 #' over categories different from the scoring.
 #' \code{summarise_by} is also the grouping level used to compute
 #' (and possibly plot) the probability integral transform(pit).
-# #' @param metrics the metrics you want to have in the output
+#' @param metrics the metrics you want to have in the output. If `NULL` (the
+#' default), all available metrics will be computed.
 #' @param quantiles numeric vector of quantiles to be returned when summarising.
 #' Instead of just returning a mean, quantiles will be returned for the
 #' groups specified through `summarise_by`. By default, no quantiles are
@@ -95,13 +96,40 @@
 #' metrics will be returned when summarising.
 #' @param pit_plots if TRUE (not the default), pit plots will be returned. For
 #' details see \code{\link{pit}}.
-#' @param pit_arguments pass down additional arguments to the \code{\link{pit}}
-#' function.
-#' @param interval_score_arguments pass down additional arguments to the
-#' \code{\link{interval_score}} function, e.g. \code{weigh = FAlSE}.
+#' @param interval_score_arguments list with arguments for the calculation of
+#' the interval score. These arguments get passed down to
+#' \code{interval_score}, except for the argument `count_median_twice` that
+#' controls how the interval scores for different intervals are summed up. This
+#' should be a logical (default is FALSE) that indicates whether or not
+#' to count the median twice when summarising. This would conceptually treat the
+#' median as a 0\% prediction interval, where the median is the lower as well as
+#' the upper bound. The alternative is to treat the median as a single quantile
+#' forecast instead of an interval. The interval score would then
+#' be better understood as an average of quantile scores.)
 #' @param summarised Summarise arguments (i.e. take the mean per group
 #' specified in group_by. Default is TRUE.
 #' @param verbose print out additional helpful messages (default is TRUE)
+#' @param forecasts data.frame with forecasts, that should follow the same
+#' general guidelines as the `data` input. Argument can be used to supply
+#' forecasts and truth data independently. Default is `NULL`.
+#' @param truth_data data.frame with a column called `true_value` to be merged
+#' with `forecasts`
+#' @param merge_by character vector with column names that `forecasts` and
+#' `truth_data` should be merged on. Default is `NULL` and merge will be
+#' attempted automatically.
+#' @param compute_relative_skill logical, whether or not to compute relative
+#' performance between models. If `TRUE` (default is FALSE), then a column called
+#' 'model' must be present in the input data. For more information on
+#' the computation of relative skill, see \code{\link{pairwise_comparison}}.
+#' Relative skill will be calculated for the aggregation level specified in
+#' `summarise_by`.
+#' @param rel_skill_metric character string with the name of the metric for which
+#' a relative skill shall be computed. If equal to 'auto' (the default), then
+#' one of interval score, crps or brier score will be used where appropriate
+#' @param baseline character string with the name of a model. If a baseline is
+#' given, then a scaled relative skill with respect to the baseline will be
+#' returned. By default (`NULL`), relative skill will not be scaled with
+#' respect to a baseline model.
 #'
 #' @return A data.table with appropriate scores. For binary predictions,
 #' the Brier Score will be returned, for quantile predictions the interval
@@ -116,52 +144,47 @@
 #' If specified, quantiles and standard deviation of scores can also be returned
 #' when summarising.
 #'
-#' @importFrom data.table ':=' setDT %like% rbindlist
-#' @importFrom stats quantile
+#' @importFrom data.table ':=' as.data.table
+#' @importFrom methods hasArg
 #'
 #' @examples
 #' ## Probability Forecast for Binary Target
 #' binary_example <- data.table::setDT(scoringutils::binary_example_data)
 #' eval <- scoringutils::eval_forecasts(binary_example,
-#'                                      by = c("id", "model", "horizon"),
 #'                                      summarise_by = c("model"),
-#'                                      quantiles = c(0.5), sd = TRUE)
-#' eval <- scoringutils::eval_forecasts(binary_example,
-#'                                      by = c("id", "model", "horizon"))
+#'                                      quantiles = c(0.5), sd = TRUE,
+#'                                      verbose = FALSE)
 #'
 #' ## Quantile Forecasts
-#' # wide format
-#' quantile_example <- data.table::setDT(scoringutils::quantile_example_data_wide)
-#' eval <- scoringutils::eval_forecasts(quantile_example,
-#'                                      by = c("model", "horizon", "id"),
+#' # wide format example (this examples shows usage of both wide formats)
+#' range_example_wide <- data.table::setDT(scoringutils::range_example_data_wide)
+#' range_example <- scoringutils::range_wide_to_long(range_example_wide)
+#' # equivalent:
+#' wide2 <- data.table::setDT(scoringutils::range_example_data_semi_wide)
+#' range_example <- scoringutils::range_wide_to_long(wide2)
+#' eval <- scoringutils::eval_forecasts(range_example,
 #'                                      summarise_by = "model",
 #'                                      quantiles = c(0.05, 0.95),
 #'                                      sd = TRUE)
-#' eval <- scoringutils::eval_forecasts(quantile_example,
-#'                                      by = c("model", "horizon", "id"))
+#' eval <- scoringutils::eval_forecasts(range_example)
 #'
 #' #long format
 #'
-#' eval <- scoringutils::eval_forecasts(scoringutils::quantile_example_data_long,
-#'                                      by = c("model", "horizon", "id"),
+#' eval <- scoringutils::eval_forecasts(scoringutils::range_example_data_long,
 #'                                      summarise_by = c("model", "range"))
 #'
 #' ## Integer Forecasts
 #' integer_example <- data.table::setDT(scoringutils::integer_example_data)
 #' eval <- scoringutils::eval_forecasts(integer_example,
-#'                                      by = c("model", "id", "horizon"),
 #'                                      summarise_by = c("model"),
 #'                                      quantiles = c(0.1, 0.9),
 #'                                      sd = TRUE,
-#'                                      pit_plots = TRUE,
-#'                                      pit_arguments = list(n_replicates = 30,
-#'                                                           plot = TRUE))
+#'                                      pit_plots = TRUE)
 #' eval <- scoringutils::eval_forecasts(integer_example)
 #'
 #' ## Continuous Forecasts
 #' continuous_example <- data.table::setDT(scoringutils::continuous_example_data)
-#' eval <- scoringutils::eval_forecasts(continuous_example,
-#'                                      by = c("model", "id", "horizon"))
+#' eval <- scoringutils::eval_forecasts(continuous_example)
 #' eval <- scoringutils::eval_forecasts(continuous_example,
 #'                                      quantiles = c(0.5, 0.9),
 #'                                      sd = TRUE,
@@ -171,35 +194,95 @@
 #' @references Funk S, Camacho A, Kucharski AJ, Lowe R, Eggo RM, Edmunds WJ
 #' (2019) Assessing the performance of real-time epidemic forecasts: A
 #' case study of Ebola in the Western Area region of Sierra Leone, 2014-15.
-#' PLoS Comput Biol 15(2): e1006785.
-#' \url{https://doi.org/10.1371/journal.pcbi.1006785}
+#' PLoS Comput Biol 15(2): e1006785. <doi.org/10.1371/journal.pcbi.1006785>
 #' @export
 
-eval_forecasts <- function(data,
+eval_forecasts <- function(data = NULL,
                            by = NULL,
                            summarise_by = by,
-                           # metrics = NULL,
+                           metrics = NULL,
                            quantiles = c(),
                            sd = FALSE,
+                           interval_score_arguments = list(weigh = TRUE,
+                                                           count_median_twice = FALSE,
+                                                           separate_results = TRUE),
                            pit_plots = FALSE,
-                           pit_arguments = list(plot = FALSE),
-                           interval_score_arguments = list(weigh = TRUE),
                            summarised = TRUE,
-                           verbose = TRUE) {
+                           verbose = TRUE,
+                           forecasts = NULL,
+                           truth_data = NULL,
+                           merge_by = NULL,
+                           compute_relative_skill = FALSE,
+                           rel_skill_metric = "auto",
+                           baseline = NULL) {
+
 
   # preparations ---------------------------------------------------------------
-  # do a copy to avoid that the input may be altered in any way.
-  data <- data.table::as.data.table(data)
-
-
-  # error handling
-  if (any(is.na(data$true_value))) {
-    if(verbose) {
-      warning("There are NA values in the true values provided")
+  # check data argument is provided
+  if (is.null(data) && (is.null(truth_data) | is.null(forecasts))) {
+    stop("need arguments 'data' in function 'eval_forecasts()', or alternatively 'forecasts' and 'truth_data'")
+  }
+  if (is.null(data)) {
+    data <- merge_pred_and_obs(forecasts, truth_data, by = merge_by)
+    if (nrow(data) == 0) {
+      if (verbose) {
+        warning("After attempting to merge, only an empty data.table was left")
+      }
+      return(data)
     }
   }
 
+  # do a copy to avoid that the input may be altered in any way.
+  data <- data.table::as.data.table(data)
 
+  # error handling for relative skill computation
+  # should probably wrap this in a function warn_if_verbose(warning, verbose)
+  if (compute_relative_skill) {
+    if (!("model" %in% colnames(data))) {
+      if (verbose) {
+        warning("to compute relative skills, there must column present called 'model'. Relative skill will not be computed")
+      }
+      compute_relative_skill <- FALSE
+    }
+    models <- unique(data$model)
+    if (length(models) < 2 + (!is.null(baseline))) {
+      if (verbose) {
+        warning("you need more than one model non-baseline model to make model comparisons. Relative skill will not be computed")
+      }
+      compute_relative_skill <- FALSE
+    }
+    if (!is.null(baseline) && !(baseline %in% models)) {
+      if (verbose){
+        warning("The baseline you provided for the relative skill is not one of the models in the data. Relative skill will not be computed")
+      }
+      compute_relative_skill <- FALSE
+    }
+    if (rel_skill_metric != "auto" && !(rel_skill_metric %in% list_of_avail_metrics())) {
+      if (verbose) {
+        warning("argument 'rel_skill_metric' must either be 'auto' or one of the metrics that can be computed. Relative skill will not be computed")
+      }
+      compute_relative_skill <- FALSE
+    }
+  }
+
+  # check that everything is unique
+  unique_data <- unique(data)
+  if (nrow(unique_data) != nrow(data)) {
+    data <- unique_data
+    if(verbose) {
+      warning("There are duplicate rows in data. These were removed")
+    }
+  }
+
+  # check and remove any rows where the true value is missing
+  if (any(is.na(data$true_value))) {
+    if(verbose) {
+      warning("There are NA values in the true values provided. These will be removed")
+    }
+  }
+  data <- data[!is.na(true_value)]
+
+  # obtain a value for by if nothing was provided by the user
   if (is.null(by)) {
     protected_columns <- c("prediction", "true_value", "sample", "quantile",
                            "range", "boundary")
@@ -210,33 +293,36 @@ eval_forecasts <- function(data,
     }
   }
 
-  # helper function to add quantiles to summarised predictions
-  add_quantiles <- function(dt, varnames, quantiles, by) {
-    for (varname in varnames) {
-      dt[, paste0(varname, "_", quantiles) := as.list(quantile(get(varname),
-                                                               probs = quantiles,
-                                                               na.rm = TRUE)),
-         by = c(by)]
+  # check that the arguments in by and summarise_by are actually present
+  if (!all(c(by, summarise_by) %in% c(colnames(data), "range", "quantile"))) {
+    not_present <- setdiff(unique(c(by, summarise_by)),
+                           c(colnames(data), "range", "quantile"))
+    msg <- paste0("The following items in `by` or `summarise_by` are not",
+                 "valid column names of the data: '",
+                 paste(not_present, collapse = ", "),
+                 "'. Check and run `eval_forecasts()` again")
+    stop(msg)
+  }
+
+  # check metrics to be computed
+  available_metrics <- list_of_avail_metrics()
+  if (is.null(metrics)) {
+    metrics <- available_metrics
+  } else {
+    if (!all(metrics %in% available_metrics)) {
+      if (verbose) {
+        msg <- paste("The following metrics are not currently implemented and",
+                     "will not be computed:",
+                     paste(setdiff(metrics, available_metrics), collapse = ", "))
+      }
+      warning(msg)
     }
-    return(dt)
-  }
-
-  add_sd <- function(dt, varnames, by) {
-    for (varname in varnames) {
-      dt[, paste0(varname, "_sd") := sd(get(varname), na.rm = TRUE), by = by]
-    }
-    return(dt)
-  }
-
-  # if data is in quantile format, convert it to range format
-  if ("quantile" %in% names(data) & !("range" %in% names(data))) {
-    quantile_data <- data
-    data <- scoringutils::quantile_to_range(data, keep_quantile_col = FALSE)
   }
 
 
-  # check if predictions are integer, continuous, etc. -------------------------
-  if (any(grepl("lower", names(data))) | "boundary" %in% names(data)) {
+  # check prediction and target type -------------------------------------------
+  if (any(grepl("lower", names(data))) | "boundary" %in% names(data) |
+      "quantile" %in% names(data) | "range" %in% names(data)) {
     prediction_type <- "quantile"
   } else if (all.equal(data$prediction, as.integer(data$prediction)) == TRUE) {
     prediction_type <- "integer"
@@ -245,7 +331,7 @@ eval_forecasts <- function(data,
   }
 
   if (all.equal(data$true_value, as.integer(data$true_value)) == TRUE) {
-    if (all(data$true_value %in% c(0,1))) {
+    if (all(data$true_value %in% c(0,1)) && all(data$prediction >= 0) && all(data$prediction <= 1)) {
       target_type = "binary"
     } else {
       target_type = "integer"
@@ -254,331 +340,71 @@ eval_forecasts <- function(data,
     target_type = "continuous"
   }
 
-  # # only compute the metrics desired by the user -------------------------------
-  # all_metrics <- list_of_avail_metrics()
-  # if (is.null(metrics)) {
-  #   metrics  <- all_metrics
-  # } else {
-  #   if (!all(metrics %in% all_metrics)) {
-  #     msg <- paste(setdiff(metrics, all_metrics),
-  #                  "is not an available metric and will not be computed")
-  #   }
-  # }
-
+  # remove any rows where the prediction is missing ----------------------------
+  data <- data[!is.na(prediction)]
+  if (nrow(data) == 0) {
+    if (verbose) {
+      message("After removing all NA true values and predictions, there were no observations left")
+    }
+    return(data)
+  }
 
 
   # Score binary predictions ---------------------------------------------------
   if (target_type == "binary") {
-
-    res <- data[, "brier_score" := scoringutils::brier_score(true_value, prediction),
-         by = by]
-
-    if (summarised) {
-      # add quantiles
-      if (!is.null(quantiles)) {
-        res <- add_quantiles(res, "brier_score", quantiles, by = summarise_by)
-      }
-
-      # add standard deviation
-      if (sd) {
-        res[, "brier_score_sd" := sd(brier_score, na.rm = TRUE), by = c(summarise_by)]
-      }
-
-      # summarise by taking the mean over all relevant columns
-      res <- data[, lapply(.SD, mean, na.rm = TRUE),
-                 .SDcols = colnames(res) %like% "brier",
-                 by = summarise_by]
-
-    }
+    res <- eval_forecasts_binary(data = data,
+                                 by = by,
+                                 summarise_by = summarise_by,
+                                 metrics = metrics,
+                                 quantiles = quantiles,
+                                 sd = sd,
+                                 summarised = summarised,
+                                 verbose = verbose)
     return(res)
   }
 
   # Score quantile predictions -------------------------------------------------
   if (prediction_type == "quantile") {
-
-    # check if long or wide format
-    if ("boundary" %in% names(data)) {
-      wide = FALSE
-    } else {
-      wide = TRUE
-    }
-
-    if (wide) {
-      # convert into long format
-      colnames <- colnames(data)
-      ranges <- colnames[grepl("lower", colnames) | grepl("upper", colnames)]
-
-      data <- data.table::melt(data,
-                               measure.vars = ranges,
-                               variable.name = "range",
-                               value.name = "prediction")
-      data[, boundary := gsub("_.*", "", range)]
-      data[, range := as.numeric(gsub("^.*?_","", range))]
-    }
-
-    # save quantile version of the forecast for later
-    quantile_data <- scoringutils::range_to_quantile(data,
-                                                     keep_range_col = TRUE)
-
-    data <- data.table::dcast(data, ... ~ boundary,
-                              value.var = "prediction")
-
-    # this is a bit weird --> find a more elegant solution. Idea is to add the
-    # separate_results = TRUE argument to the function
-    if (!("separate_results" %in% names(interval_score_arguments))) {
-      interval_score_arguments <- c(interval_score_arguments,
-                                    list(separate_results = TRUE))
-    }
-
-    res <- data[, c("interval_score",
-                    "sharpness",
-                    "underprediction",
-                    "overprediction") := do.call(scoringutils::interval_score,
-                                              c(list(true_value,
-                                                     lower,
-                                                     upper,
-                                                     range),
-                                                interval_score_arguments))]
-
-
-    # compute coverage for every single observation
-    res[, coverage := ifelse(true_value <= upper & true_value >= lower, 1, 0)]
-    res[, coverage_deviation := coverage - range/100]
-
-
-    # compute bias
-    res[, bias := quantile_bias(range = range, lower = lower, upper = upper,
-                                true_value = unique(true_value)),
-        by = by]
-
-
-    # compute absolute error based on quantile version
-    abs_err <- function(true_value, prediction, quantile) {
-      if (0.5 %in% quantile) {
-        ae <- abs(unique(true_value - prediction[quantile == 0.5]))
-      } else {
-        ae <- NA
-      }
-      return(ae)
-    }
-
-    quantile_data[, aem := abs_err(true_value,
-                                   prediction,
-                                   quantile),
-                  by = by]
-    # tmp <- quantile_data[quantile == 0.5, .(ae = abs(true_value - prediction))]
-    # quantile_data <- merge(quantile_data, tmp)
-
-
-    # compute quantile coverage based on quantile version
-    quantile_data[, quantile_coverage := (true_value <= prediction)]
-
-    # delete unnecessary columns before merging back
-    keep_cols <- unique(c(by, "quantile", "aem", "quantile_coverage",
-                          "boundary", "range"))
-    delete_cols <- names(quantile_data)[!(names(quantile_data) %in% keep_cols)]
-    quantile_data[, eval(delete_cols) := NULL]
-
-    #duplicate median column before merging
-    median <- quantile_data[quantile == 0.5, ][, boundary := "upper"]
-    quantile_data <- data.table::rbindlist(list(quantile_data, median))
-
-    # merge back with other metrics
-    merge_cols <- setdiff(keep_cols, c("aem", "quantile_coverage", "quantile",
-                                       "boundary"))
-    res <- merge(res, quantile_data, by = merge_cols)
-
-    if (summarised) {
-
-      if (!is.null(quantiles)) {
-        # add quantiles for the scores
-        res <- add_quantiles(res,
-                             c("interval_score", "coverage",
-                               "overprediction", "underprediction",
-                               "coverage_deviation", "bias", "sharpness", "aem"),
-                             quantiles,
-                             by = c(summarise_by))
-      }
-
-      # add standard deviation
-      if (sd) {
-        res <- add_sd(res,
-                      varnames = c("interval_score", "bias", "coverage",
-                                   "overprediction", "underprediction",
-                                   "coverage_deviation", "sharpness", "aem"),
-                      by = c(summarise_by))
-      }
-
-      # summarise by taking the mean and omitting unnecessary columns
-      res <- res[, lapply(.SD, mean, na.rm = TRUE),
-                 by = c(summarise_by),
-                 .SDcols = colnames(res) %like%
-                   "coverage|bias|sharpness|coverage_deviation|interval_score|overprediction|underprediction|aem"]
-    }
+    res <- eval_forecasts_quantile(data = data,
+                                   by = by,
+                                   summarise_by = summarise_by,
+                                   metrics = metrics,
+                                   quantiles = quantiles,
+                                   sd = sd,
+                                   pit_plots = pit_plots,
+                                   interval_score_arguments = interval_score_arguments,
+                                   summarised = summarised,
+                                   verbose = verbose,
+                                   compute_relative_skill = compute_relative_skill,
+                                   rel_skill_metric = rel_skill_metric,
+                                   baseline = baseline)
     return(res)
   }
 
 
   # Score integer or continuous predictions ------------------------------------
-  # sharpness
-  data[, sharpness := scoringutils::sharpness(t(prediction)), by = c(by)]
+  if (prediction_type %in% c("integer", "continuous")) {
 
-  # bias
-  data[, bias := scoringutils::bias(unique(true_value),
-                                     t(prediction)), by = c(by)]
-
-  # DSS
-  data[, dss := scoringutils::dss(unique(true_value),
-                                    t(prediction)), by = c(by)]
-
-  # CRPS
-  data[, crps := scoringutils::crps(unique(true_value),
-                                    t(prediction)), by = c(by)]
-
-  # Log Score
-  if (prediction_type == "continuous") {
-    data[, log_score := scoringutils::logs(unique(true_value),
-                                       t(prediction)), by = c(by)]
+    # compute scores -----------------------------------------------------------
+    res <- eval_forecasts_sample(data = data,
+                                 by = by,
+                                 summarise_by = summarise_by,
+                                 metrics = metrics,
+                                 prediction_type = prediction_type,
+                                 quantiles = quantiles,
+                                 sd = sd,
+                                 pit_plots = pit_plots,
+                                 summarised = summarised,
+                                 verbose = verbose)
+    return(res)
   }
-
-  # coverage
-  # reformat data.table to wide format
-  dat <- data.table::dcast(data, ... ~ paste("sampl_", sample, sep = ""),
-                           value.var = "prediction")
-
-
-
-  # extract pit plots if specified
-  if (pit_plots & summarised) {
-    pit_arguments$plot <- TRUE
-
-    split_dat <- split(dat, by = summarise_by)
-
-    pits <- lapply(split_dat,
-                   FUN = function(dat) {
-                     samples <- as.matrix(dat[, grepl("sampl_", colnames(dat)),
-                                              with = FALSE])
-
-                     res <- do.call(pit, c(list(dat$true_value,
-                                         samples),
-                                    pit_arguments))
-
-                     dat[, `:=` (pit_p_val = res$p_value,
-                                 pit_sd = res$sd)]
-                     plot <- res$hist_PIT
-                     return(list(data = dat,
-                                 hist_PIT = plot,
-                                 samples = samples,
-                                 true_value = dat$true_value))
-                   })
-
-    pit_histograms <- lapply(pits,
-                             FUN = function(pit) {
-                               return(pit$hist_PIT)
-                             })
-
-    pit_values <- lapply(pits,
-                         FUN = function(pit) {
-                           return(pit$data)
-                         })
-
-    overall_samples <- lapply(pits,
-                              FUN = function(pit) {
-                                return(pit$samples)
-                              })
-
-    overall_samples <- do.call(rbind, overall_samples)
-
-    overall_true_value <- lapply(pits,
-                                  FUN = function(pit) {
-                                    return(pit$true_value)
-                                  })
-
-    overall_true_value <- do.call(c, overall_true_value)
-
-    overall_pit_hist <- res <- do.call(pit, c(list(overall_true_value,
-                                                   overall_samples),
-                                              pit_arguments))
-
-    pit_histograms[["overall_pit"]] <- overall_pit_hist$hist_PIT
-
-
-    dat <- rbindlist(pit_values)
-  } else {
-
-    if (summarised) {
-
-      if (identical(by, summarise_by)) {
-        dat[, c("pit_p_val", "pit_sd") := NA]
-        if (verbose) {
-          message("In order to compute PIT values, 'summarise_by' must be different from 'by'")
-        }
-      } else {
-        # compute pit p-values in a quicker way
-        dat[, c("pit_p_val", "pit_sd") := do.call(pit, c(list(true_value,
-                                                              as.matrix(.SD)),
-                                                         pit_arguments)),
-            .SDcols = names(dat)[grepl("sampl_", names(dat))], by = summarise_by]
-      }
-    }
-  }
-
-  # remove variables not necessary for merging
-  dat[, names(dat)[grepl("sampl_", names(dat))] := NULL]
-  dat[, c("sharpness", "bias", "dss", "crps") := NULL]
-
-  # merge with previous data
-  merge_cols = colnames(dat)[!colnames(dat) %in% c("pit_p_val", "pit_sd")]
-  res <- merge(data, dat, by = merge_cols)
-
-  # make scores unique to avoid redundancy.
-  res <- res[, lapply(.SD, unique),
-             .SDcols = colnames(res) %like% "pit_|bias|sharpness|dss|crps|log_score",
-             by = c(by)]
-
-
-  if (summarised) {
-    # add quantiles
-    if (!is.null(quantiles)) {
-
-      if (prediction_type == "continuous") {
-        quantile_vars <- c("crps", "dss", "log_score", "pit_p_val", "bias", "sharpness")
-      } else {
-        quantile_vars <- c("crps", "dss", "pit_p_val", "bias", "sharpness")
-      }
-      res <- add_quantiles(res, quantile_vars, quantiles, by = c(summarise_by))
-    }
-
-    if (sd) {
-      # add standard deviations
-      if (prediction_type == "continuous") {
-        sd_vars <- c("crps", "dss", "log_score", "bias", "sharpness")
-      } else {
-        sd_vars <- c("crps", "dss", "bias", "sharpness")
-      }
-
-      res <- add_sd(res,
-                    varnames = sd_vars,
-                    by = c(summarise_by))
-    }
-
-    res <- res[, lapply(.SD, mean, na.rm = TRUE),
-               .SDcols = colnames(res) %like% "pit_|bias|sharpness|dss|crps|log_score",
-               by = summarise_by]
-  }
-
-  # if pit_plots is TRUE, add the plots as an output
-  if (pit_plots) {
-    res <- list(scores = res,
-                pit_plots = pit_histograms)
-  }
-
-  # # return only those metrics the user wants to see
-  # filter_cols <- unique(c(by, summarise_by, metrics))
-  #
-  # return (res[, filter_cols])
-  return(res)
 }
+
+
+
+
+
+
 
 
 

@@ -5,16 +5,23 @@
 \title{Evaluate forecasts}
 \usage{
 eval_forecasts(
-  data,
+  data = NULL,
   by = NULL,
   summarise_by = by,
+  metrics = NULL,
   quantiles = c(),
   sd = FALSE,
+  interval_score_arguments = list(weigh = TRUE, count_median_twice = FALSE,
+    separate_results = TRUE),
   pit_plots = FALSE,
-  pit_arguments = list(plot = FALSE),
-  interval_score_arguments = list(weigh = TRUE),
   summarised = TRUE,
-  verbose = TRUE
+  verbose = TRUE,
+  forecasts = NULL,
+  truth_data = NULL,
+  merge_by = NULL,
+  compute_relative_skill = FALSE,
+  rel_skill_metric = "auto",
+  baseline = NULL
 )
 }
 \arguments{
@@ -35,14 +42,14 @@ For integer and continuous forecasts a \code{sample} column is needed:
   binary predictions.}
 For quantile forecasts the data can be provided in variety of formats. You
 can either use a range-based format or a quantile-based format. (You can
-convert between formats using \code{\link{quantile_to_range}},
-\code{\link{range_to_quantile}},
-\code{\link{sample_to_range}},
+convert between formats using \code{\link{quantile_to_range_long}},
+\code{\link{range_long_to_quantile}},
+\code{\link{sample_to_range_long}},
 \code{\link{sample_to_quantile}})
 For a quantile-format forecast you should provide:
 \itemize{
   \item {prediction} - prediction to the corresponding quantile
-  \item {qunaitle} - quantile to which the prediction corresponds}
+  \item {quantile} - quantile to which the prediction corresponds}
 For a range format (long) forecast you need
 \itemize{
   \item \code{prediction} the quantile forecasts
@@ -60,7 +67,7 @@ This format needs
 \itemize{
   \item pairs of columns called something like 'upper_90' and 'lower_90',
   or 'upper_50' and 'lower_50', where the number denotes the interval range.
-  For the median, you need to proivde columns called 'upper_0' and 'lower_0'}}
+  For the median, you need to provide columns called 'upper_0' and 'lower_0'}}
 
 \item{by}{character vector of columns to group scoring by. This should be the
 lowest level of grouping possible, i.e. the unit of the individual
@@ -77,6 +84,9 @@ over categories different from the scoring.
 \code{summarise_by} is also the grouping level used to compute
 (and possibly plot) the probability integral transform(pit).}
 
+\item{metrics}{the metrics you want to have in the output. If `NULL` (the
+default), all available metrics will be computed.}
+
 \item{quantiles}{numeric vector of quantiles to be returned when summarising.
 Instead of just returning a mean, quantiles will be returned for the
 groups specified through `summarise_by`. By default, no quantiles are
@@ -85,19 +95,51 @@ returned.}
 \item{sd}{if TRUE (the default is FALSE) the standard deviation of all
 metrics will be returned when summarising.}
 
+\item{interval_score_arguments}{list with arguments for the calculation of
+the interval score. These arguments get passed down to
+\code{interval_score}, except for the argument `count_median_twice` that
+controls how the interval scores for different intervals are summed up. This
+should be a logical (default is FALSE) that indicates whether or not
+to count the median twice when summarising. This would conceptually treat the
+median as a 0\% prediction interval, where the median is the lower as well as
+the upper bound. The alternative is to treat the median as a single quantile
+forecast instead of an interval. The interval score would then
+be better understood as an average of quantile scores.)}
+
 \item{pit_plots}{if TRUE (not the default), pit plots will be returned. For
 details see \code{\link{pit}}.}
-
-\item{pit_arguments}{pass down additional arguments to the \code{\link{pit}}
-function.}
-
-\item{interval_score_arguments}{pass down additional arguments to the
-\code{\link{interval_score}} function, e.g. \code{weigh = FAlSE}.}
 
 \item{summarised}{Summarise arguments (i.e. take the mean per group
 specified in group_by. Default is TRUE.}
 
 \item{verbose}{print out additional helpful messages (default is TRUE)}
+
+\item{forecasts}{data.frame with forecasts, that should follow the same
+general guidelines as the `data` input. Argument can be used to supply
+forecasts and truth data independently. Default is `NULL`.}
+
+\item{truth_data}{data.frame with a column called `true_value` to be merged
+with `forecasts`}
+
+\item{merge_by}{character vector with column names that `forecasts` and
+`truth_data` should be merged on. Default is `NULL` and merge will be
+attempted automatically.}
+
+\item{compute_relative_skill}{logical, whether or not to compute relative
+performance between models. If `TRUE` (default is FALSE), then a column called
+'model' must be present in the input data. For more information on
+the computation of relative skill, see \code{\link{pairwise_comparison}}.
+Relative skill will be calculated for the aggregation level specified in
+`summarise_by`.}
+
+\item{rel_skill_metric}{character string with the name of the metric for which
+a relative skill shall be computed. If equal to 'auto' (the default), then
+one of interval score, crps or brier score will be used where appropriate}
+
+\item{baseline}{character string with the name of a model. If a baseline is
+given, then a scaled relative skill with respect to the baseline will be
+returned. By default (`NULL`), relative skill will not be scaled with
+respect to a baseline model.}
 }
 \value{
 A data.table with appropriate scores. For binary predictions,
@@ -149,45 +191,40 @@ the following metrics are used where appropriate:
 ## Probability Forecast for Binary Target
 binary_example <- data.table::setDT(scoringutils::binary_example_data)
 eval <- scoringutils::eval_forecasts(binary_example,
-                                     by = c("id", "model", "horizon"),
                                      summarise_by = c("model"),
-                                     quantiles = c(0.5), sd = TRUE)
-eval <- scoringutils::eval_forecasts(binary_example,
-                                     by = c("id", "model", "horizon"))
+                                     quantiles = c(0.5), sd = TRUE,
+                                     verbose = FALSE)
 
 ## Quantile Forecasts
-# wide format
-quantile_example <- data.table::setDT(scoringutils::quantile_example_data_wide)
-eval <- scoringutils::eval_forecasts(quantile_example,
-                                     by = c("model", "horizon", "id"),
+# wide format example (this examples shows usage of both wide formats)
+range_example_wide <- data.table::setDT(scoringutils::range_example_data_wide)
+range_example <- scoringutils::range_wide_to_long(range_example_wide)
+# equivalent:
+wide2 <- data.table::setDT(scoringutils::range_example_data_semi_wide)
+range_example <- scoringutils::range_wide_to_long(wide2)
+eval <- scoringutils::eval_forecasts(range_example,
                                      summarise_by = "model",
                                      quantiles = c(0.05, 0.95),
                                      sd = TRUE)
-eval <- scoringutils::eval_forecasts(quantile_example,
-                                     by = c("model", "horizon", "id"))
+eval <- scoringutils::eval_forecasts(range_example)
 
 #long format
 
-eval <- scoringutils::eval_forecasts(scoringutils::quantile_example_data_long,
-                                     by = c("model", "horizon", "id"),
+eval <- scoringutils::eval_forecasts(scoringutils::range_example_data_long,
                                      summarise_by = c("model", "range"))
 
 ## Integer Forecasts
 integer_example <- data.table::setDT(scoringutils::integer_example_data)
 eval <- scoringutils::eval_forecasts(integer_example,
-                                     by = c("model", "id", "horizon"),
                                      summarise_by = c("model"),
                                      quantiles = c(0.1, 0.9),
                                      sd = TRUE,
-                                     pit_plots = TRUE,
-                                     pit_arguments = list(n_replicates = 30,
-                                                          plot = TRUE))
+                                     pit_plots = TRUE)
 eval <- scoringutils::eval_forecasts(integer_example)
 
 ## Continuous Forecasts
 continuous_example <- data.table::setDT(scoringutils::continuous_example_data)
-eval <- scoringutils::eval_forecasts(continuous_example,
-                                     by = c("model", "id", "horizon"))
+eval <- scoringutils::eval_forecasts(continuous_example)
 eval <- scoringutils::eval_forecasts(continuous_example,
                                      quantiles = c(0.5, 0.9),
                                      sd = TRUE,
@@ -198,8 +235,7 @@ eval <- scoringutils::eval_forecasts(continuous_example,
 Funk S, Camacho A, Kucharski AJ, Lowe R, Eggo RM, Edmunds WJ
 (2019) Assessing the performance of real-time epidemic forecasts: A
 case study of Ebola in the Western Area region of Sierra Leone, 2014-15.
-PLoS Comput Biol 15(2): e1006785.
-\url{https://doi.org/10.1371/journal.pcbi.1006785}
+PLoS Comput Biol 15(2): e1006785. <doi.org/10.1371/journal.pcbi.1006785>
 }
 \author{
 Nikos Bosse \email{nikosbosse@gmail.com}
