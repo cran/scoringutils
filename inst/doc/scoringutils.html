@@ -12,7 +12,7 @@
 
 <meta name="author" content="Nikos Bosse" />
 
-<meta name="date" content="2021-07-14" />
+<meta name="date" content="2021-07-19" />
 
 <title>scoringutils</title>
 
@@ -141,7 +141,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <h1 class="title toc-ignore">scoringutils</h1>
 <h4 class="author">Nikos Bosse</h4>
-<h4 class="date">2021-07-14</h4>
+<h4 class="date">2021-07-19</h4>
 
 
 
@@ -413,17 +413,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>true_values <span class="ot">&lt;-</span> <span class="fu">rpois</span>(<span class="dv">30</span>, <span class="at">lambda =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">30</span>)</span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>predictions <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">200</span>, <span class="fu">rpois</span>(<span class="at">n =</span> <span class="dv">30</span>, <span class="at">lambda =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">30</span>))</span>
 <span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="fu">bias</span>(true_values, predictions)</span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1]  0.645  0.875  0.735 -0.675 -0.430 -0.855 -0.600 -0.135 -0.795 -0.960</span></span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [11]  0.220 -0.960  0.440 -0.955 -0.840  0.310 -0.945  0.365  0.200  0.705</span></span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [21] -0.780  0.660  0.770 -0.020  0.255  0.255 -0.430  0.735  0.605  0.610</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] -0.615 -0.105 -0.895 -0.125  0.000 -0.080  0.325  0.285 -0.945 -0.990</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [11]  0.670  0.385  0.605  0.395  0.180 -0.875  0.270  0.655  0.840  0.085</span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [21] -0.955  0.370 -0.410 -0.115  0.690 -0.610 -0.780 -0.420 -0.610 -0.765</span></span>
 <span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a><span class="do">## continuous forecasts</span></span>
 <span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>true_values <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">30</span>, <span class="at">mean =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">30</span>)</span>
 <span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>predictions <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">200</span>, <span class="fu">rnorm</span>(<span class="dv">30</span>, <span class="at">mean =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">30</span>))</span>
 <span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a><span class="fu">bias</span>(true_values, predictions)</span>
-<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1]  0.54 -0.93  0.93 -0.50  0.67 -0.92 -0.49 -0.94  0.87 -0.32  0.48  0.47</span></span>
-<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [13] -0.01  0.19  0.87  0.06  0.09  0.84  0.65  0.50 -0.33 -0.90 -0.87 -0.02</span></span>
-<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [25] -0.58 -0.57  0.13 -0.72  0.21  0.16</span></span></code></pre></div>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1]  0.17  0.09  0.86  0.87  0.37 -0.18 -0.84  0.28 -0.04 -0.40  0.85  0.74</span></span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [13]  0.63 -0.60  0.18 -0.98  1.00 -0.19 -0.61  0.40 -0.01  0.31  0.52 -0.52</span></span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [25] -0.35  0.58  0.37 -0.87 -0.83 -0.22</span></span></code></pre></div>
 </div>
 <div id="sharpness" class="section level2">
 <h2>Sharpness</h2>
@@ -431,9 +431,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Shaprness of predictive samples corresponding to one single true value is measured as the normalised median of the absolute deviation from the median of the predictive samples. For details, see <code>?stats::mad</code></p>
 <div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>predictions <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">200</span>, <span class="fu">rpois</span>(<span class="at">n =</span> <span class="dv">30</span>, <span class="at">lambda =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">30</span>))</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sharpness</span>(predictions)</span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] 1.4826 1.4826 1.4826 1.4826 1.4826 2.9652 2.9652 2.9652 2.9652 2.9652</span></span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [11] 2.9652 2.9652 2.9652 4.4478 2.9652 4.4478 4.4478 4.4478 4.4478 4.4478</span></span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [21] 4.4478 4.4478 4.4478 4.4478 4.4478 4.4478 5.9304 4.4478 4.4478 5.9304</span></span></code></pre></div>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] 1.4826 1.4826 1.4826 1.4826 2.9652 2.9652 2.9652 2.9652 2.9652 2.9652</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [11] 2.9652 2.9652 2.9652 2.9652 4.4478 4.4478 4.4478 2.9652 4.4478 5.1891</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [21] 4.4478 4.4478 4.4478 4.4478 4.4478 4.4478 5.9304 5.9304 5.1891 5.9304</span></span></code></pre></div>
 </div>
 <div id="calibration" class="section level2">
 <h2>Calibration</h2>
@@ -453,11 +453,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>true_values <span class="ot">&lt;-</span> <span class="fu">rpois</span>(<span class="dv">30</span>, <span class="at">lambda =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">30</span>)</span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>predictions <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">200</span>, <span class="fu">rpois</span>(<span class="at">n =</span> <span class="dv">30</span>, <span class="at">lambda =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">30</span>))</span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="fu">crps</span>(true_values, predictions)</span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1]  0.492800  0.328500  0.652150  0.554600  1.266950  0.748125  3.190025</span></span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [8]  1.329775  0.772300  1.651475  0.693500  1.839475  0.830575  0.888425</span></span>
-<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [15]  0.948475  0.997800  8.249200  1.803225  1.360625  2.669575 12.497475</span></span>
-<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [22]  1.425050  7.101300  1.720025  3.749200  1.692875  3.935400  2.082850</span></span>
-<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [29]  1.298650  1.305550</span></span></code></pre></div>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] 0.521050 0.633500 0.518600 0.642100 1.304650 1.546475 0.783700 2.565575</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [9] 1.631875 1.188800 0.964525 1.299300 1.166925 0.876525 1.278900 1.164950</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [17] 0.971600 3.270825 0.978750 1.317950 1.580125 1.142550 1.598300 1.433550</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [25] 1.775475 4.722050 1.582800 5.441600 1.511750 1.465100</span></span></code></pre></div>
 </div>
 <div id="dawid-sebastiani-score-dss" class="section level2">
 <h2>Dawid-Sebastiani Score (DSS)</h2>
@@ -465,11 +464,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>true_values <span class="ot">&lt;-</span> <span class="fu">rpois</span>(<span class="dv">30</span>, <span class="at">lambda =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">30</span>)</span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>predictions <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">200</span>, <span class="fu">rpois</span>(<span class="at">n =</span> <span class="dv">30</span>, <span class="at">lambda =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">30</span>))</span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="fu">dss</span>(true_values, predictions)</span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1]  0.9494670  0.7816772  1.1249331  1.4073351  6.5561100  5.8187232</span></span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [7]  2.0236446  2.5387103  4.0426957  2.2175720  2.7298068  2.5201181</span></span>
-<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [13]  2.7180291  2.7239338  5.1682368  2.8278792  3.4875732  3.0520261</span></span>
-<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [19]  3.0039640  5.5167402  3.3474706  3.2965804  4.9034963  3.5355936</span></span>
-<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [25]  3.4278113 10.2090742  3.4606859  3.2023022  3.4376913  3.4646831</span></span></code></pre></div>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] 0.02469261 0.78390156 2.27761638 2.38684624 2.49340570 4.04028966</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [7] 4.50257683 2.34778554 2.28442133 2.51475681 2.48235606 3.11642617</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [13] 4.55349386 5.21757570 2.79817000 3.03363287 6.19321433 4.23659162</span></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [19] 4.12915528 3.25309266 3.23198654 3.53401086 3.04884438 3.07643435</span></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [25] 3.47692091 6.44457327 4.81439113 6.42344089 6.17941748 3.92567561</span></span></code></pre></div>
 </div>
 <div id="log-score" class="section level2">
 <h2>Log Score</h2>
@@ -477,11 +476,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>true_values <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">30</span>, <span class="at">mean =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">30</span>)</span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>predictions <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">200</span>, <span class="fu">rnorm</span>(<span class="at">n =</span> <span class="dv">30</span>, <span class="at">mean =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">30</span>))</span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="fu">logs</span>(true_values, predictions)</span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] 1.0010095 1.2638614 1.9762898 1.2337692 1.6258264 1.1412059 2.1869379</span></span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [8] 1.5210234 0.9426607 1.4565544 1.4220372 1.1320133 2.8132817 1.4433494</span></span>
-<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [15] 1.5910803 1.1618555 1.4387880 1.0583241 1.4305465 1.0352033 1.3425131</span></span>
-<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [22] 1.4831942 1.1087032 1.0108139 1.1878828 2.5559795 2.1340470 0.9891334</span></span>
-<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [29] 1.5848072 1.0321273</span></span></code></pre></div>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] 1.3124651 1.5053204 1.0226910 3.9212832 1.0678010 2.1379663 1.3503934</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [8] 1.6879367 1.2022707 0.8184592 1.0658446 1.7941600 1.4048805 1.5266651</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [15] 1.9782177 1.2706816 1.7360610 1.0361746 1.1157336 1.1174888 1.8872156</span></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [22] 1.7570332 1.1997242 1.1886026 0.9835935 1.6386980 0.9617363 2.2150274</span></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [29] 1.4626931 1.7952708</span></span></code></pre></div>
 </div>
 <div id="brier-score" class="section level2">
 <h2>Brier Score</h2>
@@ -492,7 +491,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>predictions <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="at">n =</span> <span class="dv">30</span>, <span class="at">min =</span> <span class="dv">0</span>, <span class="at">max =</span> <span class="dv">1</span>)</span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="fu">brier_score</span>(true_values, predictions)</span>
-<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.4273369</span></span></code></pre></div>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.3935805</span></span></code></pre></div>
 </div>
 <div id="interval-score" class="section level2">
 <h2>Interval Score</h2>
@@ -513,11 +512,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>               <span class="at">lower =</span> lower,</span>
 <span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>               <span class="at">upper =</span> upper,</span>
 <span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>               <span class="at">interval_range =</span> interval_range)</span>
-<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] 0.21721823 0.25795959 0.09850168 1.20274456 0.10689057 0.87361791</span></span>
-<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [7] 0.18608222 0.17755343 0.11851380 0.18294877 0.08122508 1.82507107</span></span>
-<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [13] 0.17975867 0.11415077 0.14619959 0.12763261 0.18409876 0.17212059</span></span>
-<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [19] 0.16539078 0.27607530 0.21053150 0.15724085 0.19710150 0.14217428</span></span>
-<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [25] 0.21193912 0.21479530 0.22501833 0.25137776 0.51468589 0.22578642</span></span></code></pre></div>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] 0.211132908 0.172013604 0.302209921 0.311720297 1.378214370 1.241004569</span></span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [7] 0.175782711 0.134653330 0.064041655 0.211989554 0.271432820 0.877267651</span></span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [13] 0.260809959 0.548756359 0.265993547 0.192761327 0.602578654 0.320843233</span></span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [19] 0.182406002 0.007189698 0.153981561 0.090803988 0.222892065 0.221680796</span></span>
+<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [25] 0.191490825 0.269578799 0.239607572 0.150371288 0.079979421 0.860197649</span></span></code></pre></div>
 </div>
 </div>
 
