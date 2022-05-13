@@ -18,7 +18,7 @@ sample_to_range_long(
 (e.g. \code{c(0, 50, 90)})}
 
 \item{type}{type argument passed down to the quantile function. For more
-information, see \code{\link{quantile}}}
+information, see \code{\link[=quantile]{quantile()}}}
 
 \item{keep_quantile_col}{keep quantile column, default is TRUE}
 }
@@ -29,9 +29,4 @@ a data.frame in a long interval range format
 Transform data from a format that is based on predictive samples to a format
 based on interval ranges
 }
-\examples{
-example_data <- scoringutils::integer_example_data
-
-quantile_data <- scoringutils::sample_to_range_long(example_data)
-
-}
+\keyword{internal}

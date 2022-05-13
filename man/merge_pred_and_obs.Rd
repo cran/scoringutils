@@ -13,11 +13,11 @@ merge_pred_and_obs(
 }
 \arguments{
 \item{forecasts}{data.frame with the forecast data (as can be passed to
-\code{\link{eval_forecasts}}).}
+\code{\link[=score]{score()}}).}
 
 \item{observations}{data.frame with the observations}
 
-\item{join}{character, one of `c("left", "full", "right")`. Determines the
+\item{join}{character, one of \code{c("left", "full", "right")}. Determines the
 type of the join. Usually, a left join is appropriate, but sometimes you
 may want to do a full join to keep dates for which there is a forecast, but
 no ground truth data.}
@@ -34,3 +34,9 @@ aims to handle the merging well if additional columns are present
 in one or both data sets. If in doubt, you should probably merge the
 data sets manually.
 }
+\examples{
+forecasts <- example_quantile_forecasts_only
+observations <- example_truth_only
+merge_pred_and_obs(forecasts, observations)
+}
+\keyword{data-handling}

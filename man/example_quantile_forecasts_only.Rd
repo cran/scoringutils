@@ -7,23 +7,28 @@
 \format{
 A data frame with 7,581 rows and 9 columns:
 \describe{
-  \item{value_date}{the date for which a prediction was made}
-  \item{value_type}{the target to be predicted (short form)}
-  \item{geography}{the region for which a prediction was made}
-  \item{model}{name of the model that generated the forecasts}
-  \item{creation_date}{date on which the forecast was made}
-  \item{quantile}{quantile of the corresponding prediction}
-  \item{prediction}{quantile predictions}
-  \item{value_desc}{long form description of the prediction target}
-  \item{horizon}{forecast horizon in days}
-
+\item{location}{the country for which a prediction was made}
+\item{target_end_date}{the date for which a prediction was made}
+\item{target_type}{the target to be predicted (cases or deaths)}
+\item{forecast_date}{the date on which a prediction was made}
+\item{quantile}{quantile of the corresponding prediction}
+\item{prediction}{predicted value}
+\item{model}{name of the model that generated the forecasts}
+\item{horizon}{forecast horizon in weeks}
 }
+}
+\source{
+\url{https://github.com/covid19-forecast-hub-europe/covid19-forecast-hub-europe/commit/a42867b1ea152c57e25b04f9faa26cfd4bfd8fa6/}
 }
 \usage{
 example_quantile_forecasts_only
 }
 \description{
-A data set with predictions for different quantities relevant in the
-2020 UK Covid-19 epidemic, but no true_values
+A data set with quantile predictions for COVID-19 cases and deaths
+submitted to the European Forecast Hub.
+}
+\details{
+The data was created using the script create-example-data.R in the inst/
+folder (or the top level folder in a compiled package).
 }
 \keyword{datasets}

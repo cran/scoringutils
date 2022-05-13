@@ -12,7 +12,7 @@ sample_to_quantile(data, quantiles = c(0.05, 0.25, 0.5, 0.75, 0.95), type = 7)
 \item{quantiles}{a numeric vector of quantiles to extract}
 
 \item{type}{type argument passed down to the quantile function. For more
-information, see \code{\link{quantile}}}
+information, see \code{\link[=quantile]{quantile()}}}
 }
 \value{
 a data.frame in a long interval range format
@@ -22,8 +22,6 @@ Transform data from a format that is based on predictive samples to a format
 based on plain quantiles.
 }
 \examples{
-example_data <- scoringutils::integer_example_data
-
-quantile_data <- scoringutils::sample_to_quantile(example_data)
-
+sample_to_quantile(example_integer)
 }
+\keyword{data-handling}

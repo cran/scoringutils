@@ -10,8 +10,9 @@ geom_mean_helper(x)
 \item{x}{numeric vector of values for which to calculate the geometric mean}
 }
 \value{
-the geometric mean of the values in `x`
+the geometric mean of the values in \code{x}
 }
 \description{
 Calculate Geometric Mean
 }
+\keyword{internal}
