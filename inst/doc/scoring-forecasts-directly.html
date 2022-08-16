@@ -12,7 +12,7 @@
 
 <meta name="author" content="Nikos Bosse" />
 
-<meta name="date" content="2022-05-13" />
+<meta name="date" content="2022-08-16" />
 
 <title>Scoring forecasts directly</title>
 
@@ -334,7 +334,7 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 
 <h1 class="title toc-ignore">Scoring forecasts directly</h1>
 <h4 class="author">Nikos Bosse</h4>
-<h4 class="date">2022-05-13</h4>
+<h4 class="date">2022-08-16</h4>
 
 
 
@@ -362,17 +362,17 @@ Bias can assume values between -1 and 1 and is 0 ideally.</p>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>true_values <span class="ot">&lt;-</span> <span class="fu">rpois</span>(<span class="dv">30</span>, <span class="at">lambda =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">30</span>)</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>predictions <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">200</span>, <span class="fu">rpois</span>(<span class="at">n =</span> <span class="dv">30</span>, <span class="at">lambda =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">30</span>))</span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">bias_sample</span>(true_values, predictions)</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1]  0.20  0.23 -0.90  0.01 -0.58  0.15 -0.98  0.75 -0.63  0.39 -0.16  0.23</span></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [13] -0.81  0.42  0.13  0.93  0.14 -0.66 -0.58 -0.86  0.63 -0.23  0.43  0.50</span></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [25]  0.40 -0.36 -0.15 -0.78 -0.69  0.47</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] -0.90  0.78 -0.94 -0.31  0.83 -0.91 -0.46 -0.81  0.82  0.54  0.68 -0.20</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [13] -0.49  0.32 -0.35 -0.14 -0.30 -0.49  0.05  0.34  0.56  0.89 -0.37 -0.69</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [25]  0.45  0.66 -0.30  0.22 -0.51 -0.46</span></span>
 <span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="do">## continuous forecasts</span></span>
 <span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>true_values <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">30</span>, <span class="at">mean =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">30</span>)</span>
 <span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>predictions <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">200</span>, <span class="fu">rnorm</span>(<span class="dv">30</span>, <span class="at">mean =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">30</span>))</span>
 <span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="fu">bias_sample</span>(true_values, predictions)</span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1]  0.84  0.56 -0.89  0.65  0.39  0.52 -0.67 -0.58  0.82 -0.41 -0.92 -0.76</span></span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [13] -0.50 -0.09  0.86 -0.15  0.47 -0.58 -0.52 -0.50 -0.05 -0.20  0.48  0.33</span></span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [25] -0.27 -0.05  0.18 -0.93 -0.80  0.39</span></span></code></pre></div>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] -0.81  0.08 -0.77 -0.28 -0.58 -0.32 -0.43 -0.72 -0.45  0.23  0.95  0.87</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [13] -0.32  0.59 -0.82  0.24 -0.81  0.92 -0.64  0.88 -0.87 -0.29 -0.83  0.11</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [25]  0.13 -0.12  0.63 -0.17  0.40 -0.07</span></span></code></pre></div>
 </div>
 <div id="sharpness" class="section level1">
 <h1>Sharpness</h1>
@@ -385,9 +385,9 @@ deviation from the median of the predictive samples. For details, see
 <code>?stats::mad</code></p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>predictions <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">200</span>, <span class="fu">rpois</span>(<span class="at">n =</span> <span class="dv">30</span>, <span class="at">lambda =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">30</span>))</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mad_sample</span>(predictions)</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] 1.4826 1.4826 1.4826 2.2239 2.9652 2.9652 2.9652 2.9652 2.9652 2.9652</span></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [11] 2.9652 4.4478 4.4478 4.4478 2.9652 4.4478 4.4478 4.4478 4.4478 4.4478</span></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [21] 4.4478 4.4478 4.4478 4.4478 5.9304 4.4478 4.4478 4.4478 5.9304 4.4478</span></span></code></pre></div>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] 1.4826 1.4826 1.4826 1.4826 2.9652 2.9652 2.2239 2.9652 2.9652 2.9652</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [11] 2.9652 3.7065 4.4478 4.4478 4.4478 4.4478 4.4478 4.4478 4.4478 4.4478</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [21] 4.4478 5.9304 4.4478 3.7065 4.4478 5.9304 5.9304 5.9304 5.9304 5.9304</span></span></code></pre></div>
 </div>
 <div id="calibration" class="section level1">
 <h1>Calibration</h1>
@@ -441,10 +441,10 @@ are better.</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>true_values <span class="ot">&lt;-</span> <span class="fu">rpois</span>(<span class="dv">30</span>, <span class="at">lambda =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">30</span>)</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>predictions <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">200</span>, <span class="fu">rpois</span>(<span class="at">n =</span> <span class="dv">30</span>, <span class="at">lambda =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">30</span>))</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">crps_sample</span>(true_values, predictions)</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] 0.666275 0.509675 0.430750 0.946525 1.191650 2.028475 1.257800 1.896225</span></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [9] 5.533325 0.784725 3.262475 1.880175 1.010100 4.318075 0.988975 0.933025</span></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [17] 2.333375 1.488475 3.985175 4.024625 1.847125 1.050100 9.625600 3.201950</span></span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [25] 1.259125 4.338600 1.299100 8.578275 3.036300 1.223500</span></span></code></pre></div>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] 0.429775 0.281750 0.524600 0.602725 1.262075 1.080250 0.629675 0.890025</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [9] 0.876000 0.970050 0.844025 1.263600 0.929700 1.344850 0.879525 4.101475</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [17] 1.031975 1.804100 2.870250 2.725900 2.939950 3.869800 1.246525 1.711725</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [25] 1.721675 1.204450 2.031775 1.643200 2.488150 3.597225</span></span></code></pre></div>
 </div>
 <div id="dawid-sebastiani-score-dss" class="section level1">
 <h1>Dawid-Sebastiani Score (DSS)</h1>
@@ -456,10 +456,11 @@ are better.</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>true_values <span class="ot">&lt;-</span> <span class="fu">rpois</span>(<span class="dv">30</span>, <span class="at">lambda =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">30</span>)</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>predictions <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">200</span>, <span class="fu">rpois</span>(<span class="at">n =</span> <span class="dv">30</span>, <span class="at">lambda =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">30</span>))</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">dss_sample</span>(true_values, predictions)</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] 3.778308 2.934232 1.013456 2.498714 1.567576 1.906372 2.351256 2.104134</span></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [9] 2.472085 4.182862 2.853322 4.659280 2.323377 2.963271 2.708225 6.837704</span></span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [17] 3.610578 4.202738 4.224053 3.099866 3.047793 2.950735 3.058481 3.446446</span></span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [25] 4.014136 4.053700 3.295288 4.352889 3.261140 4.199747</span></span></code></pre></div>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] 1.1806501 0.7724205 2.3711260 8.5101478 1.8862851 1.9397989 2.1021237</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [8] 2.1750992 4.6629699 2.9085047 2.3466570 5.1580051 2.6675912 2.8995027</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [15] 2.8219740 3.7333843 2.8545581 2.9373084 3.1665251 4.1997797 3.3279192</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [22] 3.4145497 4.5998931 3.2290007 3.3030058 3.6157869 7.6454929 4.6537346</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [29] 3.7256697 4.8384816</span></span></code></pre></div>
 </div>
 <div id="log-score" class="section level1">
 <h1>Log Score</h1>
@@ -473,11 +474,11 @@ values are better.</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>true_values <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">30</span>, <span class="at">mean =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">30</span>)</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>predictions <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">200</span>, <span class="fu">rnorm</span>(<span class="at">n =</span> <span class="dv">30</span>, <span class="at">mean =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">30</span>))</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="fu">logs_sample</span>(true_values, predictions)</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] 1.4947729 0.9704791 0.8992562 1.2070092 1.0160102 1.1455992 1.6387944</span></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [8] 1.3675825 0.9119887 1.1332534 0.8784422 1.1145903 1.0148291 1.0837452</span></span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [15] 1.1700948 0.9981675 0.9083709 1.5319604 1.4120388 1.1495566 1.0371895</span></span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [22] 1.9524466 1.6075937 1.6541065 1.5318269 1.1835917 1.4587418 1.8032726</span></span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [29] 0.9201874 1.4254566</span></span></code></pre></div>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] 0.9148593 2.2015025 0.9810609 1.1270173 1.3074626 1.5869638 1.6786254</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [8] 1.9799950 4.4090563 1.0118336 1.7137631 1.4145373 3.3250302 1.1966158</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [15] 1.0588706 2.5730175 2.6622540 0.9887906 1.4609316 2.5428668 1.1401444</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [22] 2.6268288 1.0889910 1.5231457 2.5961462 3.1843058 0.9939355 1.5940437</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [29] 1.1808028 1.0143136</span></span></code></pre></div>
 </div>
 <div id="brier-score" class="section level1">
 <h1>Brier Score</h1>
@@ -492,11 +493,11 @@ the probabilistic prediction and the true outcome.</p>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>predictions <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="at">n =</span> <span class="dv">30</span>, <span class="at">min =</span> <span class="dv">0</span>, <span class="at">max =</span> <span class="dv">1</span>)</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="fu">brier_score</span>(true_values, predictions)</span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] 0.511952269 0.029466047 0.683174504 0.251234773 0.069930883 0.002775272</span></span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [7] 0.306580471 0.248686287 0.588960163 0.876300527 0.106578902 0.680399804</span></span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [13] 0.140997740 0.034723455 0.145966893 0.149640487 0.061504220 0.587872832</span></span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [19] 0.179528321 0.061527328 0.863037762 0.219092821 0.213296907 0.016036168</span></span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [25] 0.539365453 0.857487519 0.054405038 0.125398121 0.001007106 0.934569281</span></span></code></pre></div>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] 0.869822990 0.553971549 0.605277392 0.281430698 0.524834679 0.154998911</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [7] 0.082265040 0.874273347 0.964359615 0.009161109 0.130904205 0.232579075</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [13] 0.040088802 0.089768559 0.180337385 0.857109108 0.146643003 0.399187509</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [19] 0.093691130 0.039430998 0.028903374 0.001824507 0.088766496 0.064580364</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [25] 0.005353511 0.903184243 0.175981473 0.716227636 0.050954844 0.018651464</span></span></code></pre></div>
 <div id="interval-score" class="section level2">
 <h2>Interval Score</h2>
 <p>The Interval Score is a Proper Scoring Rule to score quantile
@@ -534,11 +535,11 @@ quantiles.</p>
 <span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">upper =</span> upper,</span>
 <span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">interval_range =</span> interval_range</span>
 <span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] 0.04953453 0.69984876 0.15587556 1.06556106 1.60192031 0.16736199</span></span>
-<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [7] 0.15367907 0.21238416 0.28381447 1.11574951 0.18490699 0.21133179</span></span>
-<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [13] 0.14312833 0.08597517 0.17491752 0.21629685 0.70924981 0.17201572</span></span>
-<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [19] 0.23240418 0.61631063 0.12438120 0.17599015 0.33036817 0.57736220</span></span>
-<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [25] 0.23133752 0.31802415 1.45102549 0.16380366 0.20064643 0.30821352</span></span></code></pre></div>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] 0.1018407 0.2706393 0.5343236 1.4272554 0.1484149 0.1322816 0.5843382</span></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [8] 0.1788821 0.4251177 0.1990973 0.1543250 0.2557435 0.1632156 0.2234433</span></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [15] 0.1620806 0.2060813 0.2629933 0.1858109 0.2021390 0.1695048 0.1644547</span></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [22] 0.2707416 0.3100129 0.1950517 0.1263768 0.2534080 0.1257435 0.6983067</span></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [29] 0.2021879 0.2843696</span></span></code></pre></div>
 </div>
 </div>
 
