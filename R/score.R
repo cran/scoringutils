@@ -1,23 +1,39 @@
 #' @title Evaluate forecasts
 #'
-#' @description The function `score` allows automatic scoring of forecasts and
-#' wraps the lower level functions in the \pkg{scoringutils} package.
+#' @description This function allows automatic scoring of forecasts using a
+#' range of metrics. For most users it will be the workhorse for
+#' scoring forecasts as it wraps the lower level functions package functions.
+#' However, these functions are also available if you wish to make use of them
+#' independently.
 #'
-#' It can be used to score forecasts in a quantile-based, sample-based, or
-#' binary format. To obtain an overview of what input is expected, have a look
-#' at the [example_quantile], [example_continuous], [example_integer], and
-#' [example_binary] data sets.
+#' A range of forecasts formats are supported, including quantile-based,
+#' sample-based, binary forecasts. Prior to scoring, users may wish to make use
+#' of [check_forecasts()] to ensure that the input data is in a supported
+#' format though this will also be run internally by [score()]. Examples for
+#' each format are also provided (see the documentation for `data` below or in
+#' [check_forecasts()]).
 #'
-#' You can (and should) check your input using the function [check_forecasts()]
-#' before scoring.
+#' Each format has a set of required columns (see below). Additional columns may
+#' be present to indicate a grouping of forecasts. For example, we could have
+#' forecasts made by different models in various locations at different time
+#' points, each for several weeks into the future. It is important, that there
+#' are only columns present which are relevant in order to group forecasts.
+#' A combination of different columns should uniquely define the
+#' *unit of a single forecast*, meaning that a single forecast is defined by the
+#' values in the other columns. Adding additional unrelated columns may alter
+#' results.
 #'
-#' To obtain a quick overview of the evaluation metrics used, have a look at the
-#' [metrics] data included in the package. The column `metrics$Name` gives an
-#' overview of all available metric names that can be computed.
+#' To obtain a quick overview of the currently supported evaluation metrics,
+#' have a look at the [metrics] data included in the package. The column
+#' `metrics$Name` gives an overview of all available metric names that can be
+#' computed. If interested in an unsupported metric please open a [feature
+#' request](https://github.com/epiforecasts/scoringutils/issues) or consider
+#' contributing a pull request.
+#'
+#' For additional help and examples, check out the [Getting Started
+#' Vignette](https://epiforecasts.io/scoringutils/articles/getting-started.html).
 #'
 #' @param data A data.frame or data.table with the predictions and observations.
-#' For examples, look at the [example_quantile], [example_continuous],
-#' [example_integer], and [example_binary] data sets.
 #' For scoring using [score()], the following columns need to be present:
 #' \itemize{
 #'   \item `true_value` - the true observed values
@@ -33,19 +49,31 @@
 #' For scoring predictions in a quantile-format forecast you should provide
 #' a column called `quantile`:
 #'   - `quantile`: quantile to which the prediction corresponds
+#'
+#' In addition a `model` column is suggested and if not present this will be
+#' flagged and added to the input data with all forecasts assigned as an
+#' "unspecified model").
+#'
+#' You can check the format of your data using [check_forecasts()] and there
+#' are examples for each format ([example_quantile], [example_continuous],
+#' [example_integer], and [example_binary]).
+#'
 #' @param metrics the metrics you want to have in the output. If `NULL` (the
 #' default), all available metrics will be computed. For a list of available
-#' metrics see [available_metrics()], or check the [metrics] data set.
+#' metrics see [available_metrics()], or  check the [metrics] data set.
+#'
 #' @param ... additional parameters passed down to [score_quantile()] (internal
 #' function used for scoring forecasts in a quantile-based format).
+#'
 #' @return A data.table with unsummarised scores. There will be one score per
-#' quantile or sample, which is usually not desired, so you should always run
-#' [summarise_scores()] on the unsummarised scores.
+#' quantile or sample, which is usually not desired, so you should almost
+#' always run [summarise_scores()] on the unsummarised scores.
 #'
 #' @importFrom data.table ':=' as.data.table
 #'
 #' @examples
 #' library(magrittr) # pipe operator
+#' data.table::setDTthreads(1) # only needed to avoid issues on CRAN
 #'
 #' check_forecasts(example_quantile)
 #' score(example_quantile) %>%
@@ -53,10 +81,12 @@
 #'   summarise_scores(by = c("model", "target_type"))
 #'
 #' # forecast formats with different metrics
+#' \dontrun{
 #' score(example_binary)
 #' score(example_quantile)
 #' score(example_integer)
 #' score(example_continuous)
+#' }
 #'
 #' # score point forecasts (marked by 'NA' in the quantile column)
 #' score(example_point) %>%

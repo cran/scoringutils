@@ -7,24 +7,28 @@
 #' number of forecasts per model and location).
 #' This is useful to determine whether there are any missing forecasts.
 #'
-#' @param data data.frame with predictions in the same format required for
-#' [score()].
 #' @param by character vector or `NULL` (the default) that denotes the
 #' categories over which the number of forecasts should be counted.
 #' By default (`by = NULL`) this will be the unit of a single forecast (i.e.
 #' all available columns (apart from a few "protected" columns such as
 #' 'prediction' and 'true value') plus "quantile" or "sample" where present).
+#'
 #' @param collapse character vector (default is `c("quantile", "sample"`) with
 #' names of categories for which the number of rows should be collapsed to one
 #' when counting. For example, a single forecast is usually represented by a
 #' set of several quantiles or samples and collapsing these to one makes sure
 #' that a single forecast only gets counted once.
+#'
 #' @return A data.table with columns as specified in `by` and an additional
 #' column with the number of forecasts.
+#'
+#' @inheritParams score
 #' @importFrom data.table .I .N
 #' @export
 #' @keywords check-forecasts
 #' @examples
+#' data.table::setDTthreads(1) # only needed to avoid issues on CRAN
+#'
 #' avail_forecasts(example_quantile,
 #'   collapse = c("quantile"),
 #'   by = c("model", "target_type")

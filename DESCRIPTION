@@ -1,6 +1,6 @@
 Package: scoringutils
 Title: Utilities for Scoring and Assessing Predictions
-Version: 1.0.1
+Version: 1.1.0
 Language: en-GB
 Authors@R: c(
     person(given = "Nikos",
@@ -45,19 +45,19 @@ Description:
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
-Imports: data.table, ggdist (>= 3.1.0), ggplot2, methods, rlang,
-        scoringRules, stats
+Imports: data.table, ggdist (>= 3.2.0), ggplot2 (>= 3.4.0), lifecycle,
+        methods, rlang, scoringRules, stats
 Suggests: kableExtra, knitr, magrittr, rmarkdown, testthat, vdiffr
 Config/Needs/website: r-lib/pkgdown, amirmasoudabdol/preferably
 Config/testthat/edition: 3
-RoxygenNote: 7.2.0
+RoxygenNote: 7.2.3
 URL: https://epiforecasts.io/scoringutils/,
         https://github.com/epiforecasts/scoringutils
 BugReports: https://github.com/epiforecasts/scoringutils/issues
 VignetteBuilder: knitr
 Depends: R (>= 3.5)
 NeedsCompilation: no
-Packaged: 2022-08-16 12:25:12 UTC; nikos
+Packaged: 2023-01-30 16:26:22 UTC; nikos
 Author: Nikos Bosse [aut, cre] (<https://orcid.org/0000-0002-7750-5280>),
   Sam Abbott [aut] (<https://orcid.org/0000-0001-8057-8037>),
   Hugo Gruson [aut] (<https://orcid.org/0000-0002-4094-1476>),
@@ -65,4 +65,4 @@ Author: Nikos Bosse [aut, cre] (<https://orcid.org/0000-0002-7750-5280>),
   Sebastian Funk [ctb]
 Maintainer: Nikos Bosse <nikosbosse@gmail.com>
 Repository: CRAN
-Date/Publication: 2022-08-16 22:00:02 UTC
+Date/Publication: 2023-01-30 17:30:02 UTC

@@ -71,7 +71,7 @@ London School of Hygiene \& Tropical Medicine\\
 Keppel Street\\
 London WC1E 7HT\\
   E-mail: \email{hugo.gruson@lshtm.ac.uk}\\
-  
+
       Anne Cori\\
     Imperial College London\\
     MRC Centre for Global Infectious Disease Analysis, School of Public
@@ -80,14 +80,14 @@ Imperial College London\\
 Norfolk Place\\
 London W2 1PG\\
   E-mail: \email{a.cori@imperial.ac.uk}\\
-  
+
       Edwin van Leeuwen\\
     UK Health Security Agency, LSHTM\\
     Statistics, Modelling and Economics Department\\
 UK Health Security Agency\\
 London NW9 5EQ\\
   E-mail: \email{Edwin.VanLeeuwen@phe.gov.uk}\\
-  
+
       Sebastian Funk\\
     LSHTM\\
     Centre for Mathematical Modelling of Infectious Diseases\\
@@ -95,7 +95,7 @@ London School of Hygiene \& Tropical Medicine\\
 Keppel Street\\
 London WC1E 7HT\\
   E-mail: \email{sebastian.funk@lshtm.ac.uk}\\
-  
+
       Sam Abbott\\
     LSHTM\\
     Centre for Mathematical Modelling of Infectious Diseases\\
@@ -103,7 +103,7 @@ London School of Hygiene \& Tropical Medicine\\
 Keppel Street\\
 London WC1E 7HT\\
   E-mail: \email{sam.abbott@lshtm.ac.uk}\\
-  
+
   }
 
 
@@ -159,7 +159,8 @@ forecasting efforts (``Forecast Hubs'') in the US, Germany and Poland,
 and Europe. An integral part of assessing and improving their usefulness
 is forecast evaluation. For decades, researchers have developed and
 refined an arsenal of techniques not only to forecast, but also to
-evaluate these forecasts (see e.g.~\cite{goodRationalDecisions1952},
+evaluate these forecasts (see for example
+\cite{goodRationalDecisions1952},
 \cite{epsteinScoringSystemProbability1969, murphyNoteRankedProbability1971a, mathesonScoringRulesContinuous1976},
 \cite{gneitingProbabilisticForecastsCalibration2007},
 \cite{funkAssessingPerformanceRealtime2019},
@@ -238,8 +239,8 @@ distribution.
 The \pkg{scoringutils} package focuses on probabilistic forecasts, and
 specifically on forecasts that are represented through either predictive
 samples or through quantiles of the predictive distributions, making it
-possible to evaluate arbitrary forecasts even if a closed form
-(i.e.~parametric) distribution is not available. A variety of parametric
+possible to evaluate arbitrary forecasts even if a closed form (i.e.,
+parametric) distribution is not available. A variety of parametric
 distributions can be scored directly using \pkg{scoringRules}, but this
 is not yet supported in \pkg{scoringutils}.
 
@@ -259,8 +260,6 @@ formats.
 
 \begin{table}[]
 \centering
-\caption{Forecast and forecast target types. Forecasts can be probabilistic in nature, or a point forecast only. Depending on the type of the target (discrete, continuous or binary) different representations of the predictive distribution are possible.}
-\label{tab:forecast-types}
 \begin{tabular}{@{}lll@{}}
 \toprule
 Forecast type                        & Target type          & Representation of the predictive distribution  \\ \midrule
@@ -268,10 +267,12 @@ Forecast type                        & Target type          & Representation of 
 \multicolumn{1}{l}{\multirow{2}{*}{Probabilistic forecast}} & \begin{tabular}[c]{@{}l@{}}continuous\\ discrete\end{tabular} & \begin{tabular}[c]{@{}l@{}}predictive samples, \\ closed analytical form, \\ or quantiles \end{tabular} \\ \cmidrule(lr){2-3}
 \multicolumn{1}{l}{} & binary & binary probabilities                                                                                    \\ \bottomrule
 \end{tabular}
+\caption{Forecast and forecast target types. Forecasts can be probabilistic in nature, or a point forecast only. Depending on the type of the target (discrete, continuous or binary) different representations of the predictive distribution are possible.}
+\label{tab:forecast-types}
 \end{table}
 
 \hypertarget{the-forecasting-paradigm}{%
-\subsection{The Forecasting paradigm}\label{the-forecasting-paradigm}}
+\subsection{The forecasting paradigm}\label{the-forecasting-paradigm}}
 
 Any forecaster should aim to provide a predictive distribution \(F\)
 that is equal to the unknown true data-generating distribution \(G\)
@@ -286,13 +287,13 @@ the similarity between the two distributions directly.
 \cite{gneitingProbabilisticForecastsCalibration2007} instead suggest to
 focus on two central aspects of the predictive distribution: calibration
 and sharpness (illustrated in Figure \ref{fig:forecast-paradigm}).
-Calibration refers to the statistical consistency (i.e.~absence of
+Calibration refers to the statistical consistency (i.e., absence of
 systematic deviations) between the predictive distribution and the
 observations. One can distinguish several forms of calibration which are
 discussed in detail by
 \cite{gneitingProbabilisticForecastsCalibration2007}. Sharpness is a
 feature of the forecast only and describes how concentrated the
-predictive distribution is, i.e.~how informative the forecasts are. The
+predictive distribution is, i.e., how informative the forecasts are. The
 general forecasting paradigm states that a forecaster should maximise
 sharpness of the predictive distribution subject to calibration
 \citep{gneitingProbabilisticForecastsCalibration2007}.
@@ -300,7 +301,7 @@ sharpness of the predictive distribution subject to calibration
 \begin{CodeChunk}
 \begin{figure}
 
-{\centering \includegraphics[width=1\linewidth]{output/calibration-sharpness-illustration} 
+{\centering \includegraphics[width=1\linewidth]{output/calibration-sharpness-illustration}
 
 }
 
@@ -319,7 +320,7 @@ definitions and further details. Some of the metrics in
 so-called proper scoring rules
 \citep{gneitingStrictlyProperScoring2007}, which combine both aspects
 into a single number. A scoring rule is proper if the ideal forecaster
-(i.e.~one using the data-generating distribution) receives the lowest
+(i.e., one using the data-generating distribution) receives the lowest
 score in expectation. The scoring rule is called strictly proper, if its
 optimum is unique. This ensures that a forecaster evaluated by a
 strictly proper scoring rule is always incentivised to state their best
@@ -332,9 +333,7 @@ predictive performance of forecasters.
 
 \begin{CodeChunk}
 \begingroup\fontsize{7.5}{9.5}\selectfont
-
 \begin{longtable}[t]{>{\raggedright\arraybackslash}p{2.9cm}cccc>{\raggedright\arraybackslash}p{9.3cm}}
-\caption{\label{tab:metrics-summary}Summary table of scores available in \pkg{scoringutils}. This table (including corresponding function names) can be accessed by calling \code{scoringutils::metrics} in \proglang{R}. Not all metrics are implemented for all types of forecasts and forecasting formats, as indicated by tickmarks, '-', or '$\sim$' (depends). D (discrete forecasts based on predictive samples), C (continuous, sample-based forecasts), B (binary), and Q (any forecasts in a quantile-based format) refer to different forecast formats. While the distinction is not clear-cut (e.g. binary is a special case of discrete), it is useful in the context of the package as available functions and functionality may differ. For a more detailed description of the terms used in this table see the corresponding paper sections (e.g. for 'global' and 'local' see section \ref{localglobal}). For mathematical defintions of the metrics see Table \ref{tab:score-table-detailed}.}\\
 \toprule
 Metric & D & C & B & Q & Info\\
 \midrule
@@ -372,9 +371,9 @@ Mean score ratio & $\sim$ & $\sim$ & $\sim$ & $\sim$ & Compares performance of t
 \addlinespace
 \cellcolor{gray!6}{(Scaled) Relative skill} & \cellcolor{gray!6}{$\sim$} & \cellcolor{gray!6}{$\sim$} & \cellcolor{gray!6}{$\sim$} & \cellcolor{gray!6}{$\sim$} & \cellcolor{gray!6}{Ranks models based on pairwise comparisons, useful in the context of missing forecasts. Properties depend on the metric chosen for the comparison.}\\
 \bottomrule
+\caption{\label{tab:metrics-summary}Summary table of scores available in \pkg{scoringutils}. This table (including corresponding function names) can be accessed by calling \code{scoringutils::metrics} in \proglang{R}. Not all metrics are implemented for all types of forecasts and forecasting formats, as indicated by tickmarks, '-', or '$\sim$' (depends). D (discrete forecasts based on predictive samples), C (continuous, sample-based forecasts), B (binary), and Q (any forecasts in a quantile-based format) refer to different forecast formats. While the distinction is not clear-cut (e.g., binary is a special case of discrete), it is useful in the context of the package as available functions and functionality may differ. For a more detailed description of the terms used in this table see the corresponding paper sections (e.g., for 'global' and 'local' see Section \ref{localglobal}). For mathematical definitions of the metrics see Table \ref{tab:score-table-detailed}.}\\
 \end{longtable}
 \endgroup{}
-
 \end{CodeChunk}
 
 \newpage
@@ -382,10 +381,9 @@ Mean score ratio & $\sim$ & $\sim$ & $\sim$ & $\sim$ & Compares performance of t
 \hypertarget{assessing-calibration}{%
 \subsection{Assessing calibration}\label{assessing-calibration}}
 
-There are many ways in which a forecast can be miscalibrated,
-i.e.~systematically deviate from the observations. We also discuss
-metrics measuring bias, as this is an especially common form of
-miscalibration.
+There are many ways in which a forecast can be miscalibrated, i.e.,
+systematically deviate from the observations. We also discuss metrics
+measuring bias, as this is an especially common form of miscalibration.
 
 \hypertarget{probabilistic-calibration}{%
 \subsubsection{Probabilistic
@@ -435,8 +433,9 @@ integral transform (PIT) histogram
 observed value \(x_t\) (see more details in Table
 \ref{tab:score-table-detailed}). If forecasts are probabilistically
 calibrated, then the transformed values will be uniformly distributed
-(for a proof see e.g. \citet{angusProbabilityIntegralTransform1994}).
-When plotting a histogram of PIT values (see row 2 in Figure
+(for a proof see for example
+\citet{angusProbabilityIntegralTransform1994}). When plotting a
+histogram of PIT values (see row 2 in Figure
 \ref{fig:calibration-plots}), bias usually leads to a triangular shape,
 a U-shaped histogram corresponds to forecasts that are under-dispersed
 (too sharp) and a hump-shape appears when forecasts are over-dispersed
@@ -457,11 +456,11 @@ mis-calibrated, but have uniform PIT histograms.
 \begin{CodeChunk}
 \begin{figure}[!h]
 
-{\centering \includegraphics[width=1\linewidth,]{output/calibration-diagnostic-examples} 
+{\centering \includegraphics[width=1\linewidth,]{output/calibration-diagnostic-examples}
 
 }
 
-\caption[A]{A: Different forecasting distributions (black) against observations sampled from a standard normal distribution (grey histograms). B: PIT histograms based on the predictive distributions and the sampled observations shown in A. C: Empirical vs. nominal coverage of the central prediction intervals for simulated observations and predictions. Areas shaded in green indicate that the forecasts are too wide (i.e. underconfident), covering more true values than they actually should, while areas in white indicate that the model generates too narrow predictions and fails to cover the desired proportion of true values with its prediction intervals. D: Quantile coverage values, with green areas indicating too wide (i.e. conservative) forecasts. E: Scores for the standard normal predictive distribution and the observations drawn from different data-generating distributions.}\label{fig:calibration-plots}
+\caption[A]{A: Different forecasting distributions (black) against observations sampled from a standard normal distribution (grey histograms). B: PIT histograms based on the predictive distributions and the sampled observations shown in A. C: Empirical vs. nominal coverage of the central prediction intervals for simulated observations and predictions. Areas shaded in green indicate that the forecasts are too wide (i.e., underconfident), covering more true values than they actually should, while areas in white indicate that the model generates too narrow predictions and fails to cover the desired proportion of true values with its prediction intervals. D: Quantile coverage values, with green areas indicating too wide (i.e., conservative) forecasts. E: Scores for the standard normal predictive distribution and the observations drawn from different data-generating distributions.}\label{fig:calibration-plots}
 \end{figure}
 \end{CodeChunk}
 
@@ -480,7 +479,7 @@ observed value (and analogously above it for a value of 1).
 
 For forecasts in a quantile format, bias is also reflected in the over-
 and underprediction components of the weighted interval score (a proper
-scoring rule explained in more detail in section \ref{wis}). These
+scoring rule explained in more detail in Section \ref{wis}). These
 measure over- and underprediction on an absolute scale (analogous to the
 absolute error of a point forecast), rather than a relative scale.
 However, it is not clear what the decomposition `should' look like and a
@@ -502,7 +501,7 @@ inverse of sharpness) as the normalised median absolute deviation (MAD),
 following \cite{funkAssessingPerformanceRealtime2019} (for details see
 Table \ref{tab:metrics-summary}). For quantile forecasts, we instead
 report the dispersion component of the weighted interval score (see
-details in section \ref{wis} and \ref{tab:score-table-detailed}) which
+details in Section \ref{wis} and \ref{tab:score-table-detailed}) which
 corresponds to a weighted average of the individual interval widths.
 
 \hypertarget{proper-scoring-rules}{%
@@ -561,7 +560,7 @@ pronounced for the log score, as illustrated in Figure
 \begin{CodeChunk}
 \begin{figure}
 
-{\centering \includegraphics[width=1\linewidth]{output/score-convergence-outliers} 
+{\centering \includegraphics[width=1\linewidth]{output/score-convergence-outliers}
 
 }
 
@@ -621,7 +620,7 @@ Bayesian statistics
 \begin{CodeChunk}
 \begin{figure}
 
-{\centering \includegraphics[width=1\linewidth]{output/score-locality} 
+{\centering \includegraphics[width=1\linewidth]{output/score-locality}
 
 }
 
@@ -651,7 +650,7 @@ in the variance of the forecast target.
 \begin{CodeChunk}
 \begin{figure}
 
-{\centering \includegraphics[width=1\linewidth]{output/illustration-effect-scale} 
+{\centering \includegraphics[width=1\linewidth]{output/illustration-effect-scale}
 
 }
 
@@ -696,7 +695,7 @@ forgiving of outlier predictions.
 
 Raw scores for different forecasting models are not directly comparable
 in the case of missing forecasts, as forecasting targets usually differ
-in their characteristics (e.g.~the scale of the forecast target, how
+in their characteristics (e.g., the scale of the forecast target, how
 difficult targets are to forecast etc.). One way to mitigate this are
 relative skill scores based on pairwise comparisons
 \citep{cramerEvaluationIndividualEnsemble2021}. Models enter a `pairwise
@@ -707,16 +706,16 @@ For every pair, the ratio of the mean scores of both models is computed.
 The relative skill score of a model is then the geometric mean of all
 mean score ratios which involve that model. This gives us an indicator
 of performance relative to all other models, with the orientation
-depending on the score used (e.g.~for the proper scoring rules presented
-above, a relative skill score below 1 indicates better performance). As
-two models can only be fairly compared if they have overlapping
-forecasts it is advisable to only compare forecasts that are at least
-50\% complete (to avoid comparisons of models that have no overlapping
-forecasts). Furthermore, pairwise comparisons are only possible if all
-scores have the same sign. One can also compute a scaled relative skill
-score by providing a baseline model. All individual relative skill
-scores are then scaled by (i.e.~divided by) the relative score of the
-baseline model.
+depending on the score used (e.g., for the proper scoring rules
+presented above, a relative skill score below 1 indicates better
+performance). As two models can only be fairly compared if they have
+overlapping forecasts it is advisable to only compare forecasts that are
+at least 50\% complete (to avoid comparisons of models that have no
+overlapping forecasts). Furthermore, pairwise comparisons are only
+possible if all scores have the same sign. One can also compute a scaled
+relative skill score by providing a baseline model. All individual
+relative skill scores are then scaled by (i.e., divided by) the relative
+score of the baseline model.
 
 It is in principle possible to compute p-values to determine whether two
 models perform significantly differently. \pkg{scoringutils} allows to
@@ -724,7 +723,7 @@ compute these using either the Wilcoxon rank sum test (also known as
 Mann-Whitney-U test) \citep{mannTestWhetherOne1947} or a permutation
 test. In practice, this is complicated by the fact that both tests
 assume independent observations. In reality, however, forecasts by a
-model may be correlated across time or another dimension (e.g.~if a
+model may be correlated across time or another dimension (e.g., if a
 forecaster has a bad day, they might perform badly across different
 targets for a given forecast date). P-values may therefore be too
 liberal in suggesting significant differences where there aren't any.
@@ -776,9 +775,9 @@ the \pkg{scoringutils} package we can directly inspect the example data:
 
 \begin{CodeChunk}
 \begin{CodeInput}
-R> library(scoringutils)
-R> library(tibble) 
-R> 
+R> library("scoringutils")
+R> library("tibble")
+R>
 R> example_quantile |>
 +   na.omit() |>
 +   glimpse()
@@ -798,6 +797,8 @@ $ model           <chr> "EuroCOVIDhub-ensemble", "EuroCOVIDhub-ensem~
 $ horizon         <dbl> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,~
 \end{CodeOutput}
 \end{CodeChunk}
+
+\nocite{tibble} \nocite{kableExtra}
 
 \hypertarget{expected-input-formats-and-data-checking}{%
 \subsection{Expected input formats and data
@@ -821,12 +822,12 @@ Format & Required columns & Example data\\
 \midrule
 \cellcolor{gray!6}{quantile-based} & \cellcolor{gray!6}{'true\_value', 'prediction', 'quantile'} & \cellcolor{gray!6}{example\_quantile}\\
 \addlinespace
-sample-based & 'true\_value', 'prediction', 'sample' & example\_integer, 
+sample-based & 'true\_value', 'prediction', 'sample' & example\_integer,
   example\_continuous\\
 \addlinespace
 \cellcolor{gray!6}{binary} & \cellcolor{gray!6}{'true\_value', 'prediction'} & \cellcolor{gray!6}{example\_binary}\\
 \addlinespace
-point-forecasts & like quantile-based, but with 
+point-forecasts & like quantile-based, but with
  NA in the 'quantile' column & example\_point\\
 \addlinespace
 \cellcolor{gray!6}{pairwise-comparisons} & \cellcolor{gray!6}{additionally a column 'model'} & \cellcolor{gray!6}{\textasciitilde{}}\\
@@ -863,9 +864,9 @@ $prediction_type
 
 The unit of a single forecast is defined by:
 $forecast_unit
-[1] "location"        "target_end_date" "target_type"    
-[4] "location_name"   "forecast_date"   "model"          
-[7] "horizon"        
+[1] "location"        "target_end_date" "target_type"
+[4] "location_name"   "forecast_date"   "model"
+[7] "horizon"
 
 Cleaned data, rows with NA values in prediction or true_value removed:
 $cleaned_data
@@ -875,7 +876,7 @@ $cleaned_data
     3:       DE      2021-05-08       Cases     106987       Germany
     4:       DE      2021-05-08       Cases     106987       Germany
     5:       DE      2021-05-08       Cases     106987       Germany
-   ---                                                              
+   ---
 20397:       IT      2021-07-24      Deaths         78         Italy
 20398:       IT      2021-07-24      Deaths         78         Italy
 20399:       IT      2021-07-24      Deaths         78         Italy
@@ -887,7 +888,7 @@ $cleaned_data
     3:    2021-05-03    0.050      90285 EuroCOVIDhub-ensemble
     4:    2021-05-03    0.100      95341 EuroCOVIDhub-ensemble
     5:    2021-05-03    0.150      99171 EuroCOVIDhub-ensemble
-   ---                                                        
+   ---
 20397:    2021-07-12    0.850        352  epiforecasts-EpiNow2
 20398:    2021-07-12    0.900        397  epiforecasts-EpiNow2
 20399:    2021-07-12    0.950        499  epiforecasts-EpiNow2
@@ -899,7 +900,7 @@ $cleaned_data
     3:       1
     4:       1
     5:       1
-   ---        
+   ---
 20397:       2
 20398:       2
 20399:       2
@@ -920,7 +921,8 @@ $unique_values
 4:         48             4            11       23       1058       3
 
 $messages
-[1] "144 values for `prediction` are NA in the data provided and the corresponding rows were removed. This may indicate a problem if unexpected."
+[1] "144 values for `prediction` are NA in the data provided and the
+corresponding rows were removed. This may indicate a problem if unexpected."
 \end{CodeOutput}
 \end{CodeChunk}
 
@@ -954,7 +956,7 @@ there are per model and target\_type, we can run
 
 \begin{CodeChunk}
 \begin{CodeInput}
-R> avail_forecasts(data = example_integer, 
+R> avail_forecasts(data = example_integer,
 +                 by = c("model", "target_type"))
 \end{CodeInput}
 \begin{CodeOutput}
@@ -975,24 +977,26 @@ following code is displayed in Figure \ref{fig:avail-forecasts-plot}.
 
 \begin{CodeChunk}
 \begin{CodeInput}
-R> library(ggplot2)
-R> 
-R> avail_forecasts(data = example_integer, 
+R> library("ggplot2")
+R>
+R> avail_forecasts(data = example_integer,
 +                 by = c("model", "target_type", "forecast_date")) |>
-+   plot_avail_forecasts(x = "forecast_date", 
-+                        show_numbers = FALSE) + 
-+   facet_wrap(~ target_type) + 
-+   labs(y = "Model", x = "Forecast date") 
++   plot_avail_forecasts(x = "forecast_date",
++                        show_numbers = FALSE) +
++   facet_wrap(~ target_type) +
++   labs(y = "Model", x = "Forecast date")
 \end{CodeInput}
 \begin{figure}[!h]
 
-{\centering \includegraphics[width=1\linewidth]{manuscript_files/figure-latex/avail-forecasts-plot-1} 
+{\centering \includegraphics[width=1\linewidth]{manuscript_files/figure-latex/avail-forecasts-plot-1}
 
 }
 
 \caption[Overview of the number of available forecasts]{Overview of the number of available forecasts.}\label{fig:avail-forecasts-plot}
 \end{figure}
 \end{CodeChunk}
+
+\nocite{ggplot2}
 
 The forecasts and observed values themselves can be visualised using the
 \code{plot\_predictions()} function and its \code{make\_na()} helper
@@ -1011,10 +1015,10 @@ data, we can call the following. The resulting plot is shown in Figure
 \begin{CodeChunk}
 \begin{CodeInput}
 R> example_quantile %>%
-+   make_na(what = "truth", 
++   make_na(what = "truth",
 +           target_end_date > "2021-07-15",
 +           target_end_date <= "2021-05-22") %>%
-+   make_na(what = "forecast", 
++   make_na(what = "forecast",
 +           model != "EuroCOVIDhub-ensemble",
 +           forecast_date != "2021-06-28") %>%
 +   plot_predictions(x = "target_end_date", by = c("target_type", "location")) +
@@ -1024,7 +1028,7 @@ R> example_quantile %>%
 \end{CodeInput}
 \begin{figure}[!h]
 
-{\centering \includegraphics[width=1\linewidth]{manuscript_files/figure-latex/forecast-visualisation-1} 
+{\centering \includegraphics[width=1\linewidth]{manuscript_files/figure-latex/forecast-visualisation-1}
 
 }
 
@@ -1101,21 +1105,21 @@ $ ae_median          <dbl> 38473.60156, 24101.07031, 27923.81250, 23~
 
 Summarised scores can then be visualised using the function
 \code{scores\_table()}. In order to display scores it is often useful to
-round the output to e.g.~two significant digits, which can be achieved
-through another call of \code{summarise\_scores()}. The output of the
-following is shown in Figure \ref{fig:score-table}:
+round the output, for example to two significant digits, which can be
+achieved through another call of \code{summarise\_scores()}. The output
+of the following is shown in Figure \ref{fig:score-table}:
 
 \begin{CodeChunk}
 \begin{CodeInput}
 R> score(example_quantile) |>
 +   summarise_scores(by = c("model", "target_type")) |>
 +   summarise_scores(fun = signif, digits = 2) |>
-+   plot_score_table(y = "model", by = "target_type") + 
++   plot_score_table(y = "model", by = "target_type") +
 +   facet_wrap(~ target_type)
 \end{CodeInput}
 \begin{figure}
 
-{\centering \includegraphics[width=1\linewidth]{manuscript_files/figure-latex/score-table-1} 
+{\centering \includegraphics[width=1\linewidth]{manuscript_files/figure-latex/score-table-1}
 
 }
 
@@ -1135,13 +1139,13 @@ The user must exercise additional caution and should usually avoid
 aggregating scores across categories which differ much in the magnitude
 of the quantity to forecast, as forecast errors usually increase with
 the order of magnitude of the forecast target. In the given example,
-looking at one score per model (i.e.~specifying
+looking at one score per model (i.e., specifying
 \code{summarise_by = c("model")}) is problematic, as overall aggregate
 scores would be dominated by case forecasts, while performance on deaths
 would have little influence. Similarly, aggregating over different
 forecast horizons is often ill-advised as the mean will be dominated by
 further ahead forecast horizons. In some instances it may be helpful to
-look at relative skill scores instead (see sections \ref{pairwisetheory}
+look at relative skill scores instead (see Sections \ref{pairwisetheory}
 and \ref{pairwisecode}).
 
 As a proxy for calibration, we are often interested in empirical
@@ -1163,7 +1167,7 @@ can then be passed to \code{score()} and \code{add\_coverage()}:
 \begin{CodeChunk}
 \begin{CodeInput}
 R> q <- c(0.01, 0.025, seq(0.05, 0.95, 0.05), 0.975, 0.99)
-R> 
+R>
 R> example_integer |>
 +   sample_to_quantile(quantiles = q) |>
 +   score() |>
@@ -1214,7 +1218,7 @@ can compute relative skill with respect to a baseline model.
 \begin{CodeChunk}
 \begin{CodeInput}
 R> score(example_quantile) |>
-+   pairwise_comparison(by = c("model", "target_type"), 
++   pairwise_comparison(by = c("model", "target_type"),
 +                       baseline = "EuroCOVIDhub-baseline") |>
 +   glimpse()
 \end{CodeInput}
@@ -1253,14 +1257,14 @@ code is shown in Figure \ref{fig:pairwise-plot}.
 \begin{CodeChunk}
 \begin{CodeInput}
 R> score(example_quantile) |>
-+   pairwise_comparison(by = c("model", "target_type"), 
++   pairwise_comparison(by = c("model", "target_type"),
 +                       baseline = "EuroCOVIDhub-baseline") |>
-+   plot_pairwise_comparison() + 
++   plot_pairwise_comparison() +
 +   facet_wrap(~ target_type)
 \end{CodeInput}
 \begin{figure}
 
-{\centering \includegraphics[width=1\linewidth]{manuscript_files/figure-latex/pairwise-plot-1} 
+{\centering \includegraphics[width=1\linewidth]{manuscript_files/figure-latex/pairwise-plot-1}
 
 }
 
@@ -1282,12 +1286,12 @@ different locations and forecast targets (output shown in Figure
 \begin{CodeInput}
 R> score(example_continuous) |>
 +   summarise_scores(by = c("model", "location", "target_type")) |>
-+   plot_heatmap(x = "location", metric = "bias") + 
-+     facet_wrap(~ target_type) 
++   plot_heatmap(x = "location", metric = "bias") +
++     facet_wrap(~ target_type)
 \end{CodeInput}
 \begin{figure}[!h]
 
-{\centering \includegraphics[width=1\linewidth]{manuscript_files/figure-latex/score-heatmap-1} 
+{\centering \includegraphics[width=1\linewidth]{manuscript_files/figure-latex/score-heatmap-1}
 
 }
 
@@ -1305,16 +1309,16 @@ using the function \code{plot\_wis()}, as shown in Figure
 \begin{CodeInput}
 R> score(example_quantile) |>
 +   summarise_scores(by = c("model", "target_type")) |>
-+   plot_wis(relative_contributions = FALSE) + 
-+   facet_wrap(~ target_type, 
-+              scales = "free_x") 
++   plot_wis(relative_contributions = FALSE) +
++   facet_wrap(~ target_type,
++              scales = "free_x")
 \end{CodeInput}
 \end{CodeChunk}
 
 \begin{CodeChunk}
 \begin{figure}[!h]
 
-{\centering \includegraphics[width=1\linewidth]{manuscript_files/figure-latex/wis-components-1} 
+{\centering \includegraphics[width=1\linewidth]{manuscript_files/figure-latex/wis-components-1}
 
 }
 
@@ -1324,7 +1328,7 @@ R> score(example_quantile) |>
 
 Special attention should be given to calibration. The most common way of
 assessing calibration (more precisely: probabilistic calibration) are
-PIT histograms, as explained in section \ref{probabilistic-calibration}.
+PIT histograms, as explained in Section \ref{probabilistic-calibration}.
 Ideally, PIT values should be uniformly distributed after the
 transformation.
 
@@ -1333,7 +1337,7 @@ We can compute PIT values in the following way:
 \begin{CodeChunk}
 \begin{CodeInput}
 R> example_continuous |>
-+   pit(by = "model") 
++   pit(by = "model")
 \end{CodeInput}
 \begin{CodeOutput}
                      model pit_value
@@ -1342,7 +1346,7 @@ R> example_continuous |>
   3: EuroCOVIDhub-baseline     0.000
   4: EuroCOVIDhub-baseline     0.000
   5: EuroCOVIDhub-baseline     0.200
- ---                                
+ ---
 883:       UMass-MechBayes     0.950
 884:       UMass-MechBayes     0.500
 885:       UMass-MechBayes     0.100
@@ -1358,12 +1362,12 @@ output of the following is shown in Figure \ref{fig:pit-plots}:
 \begin{CodeInput}
 R> example_continuous |>
 +   pit(by = c("model", "target_type")) |>
-+   plot_pit() + 
++   plot_pit() +
 +   facet_grid(target_type ~ model)
 \end{CodeInput}
 \begin{figure}[!h]
 
-{\centering \includegraphics[width=1\linewidth]{manuscript_files/figure-latex/pit-plots-1} 
+{\centering \includegraphics[width=1\linewidth]{manuscript_files/figure-latex/pit-plots-1}
 
 }
 
@@ -1372,7 +1376,7 @@ R> example_continuous |>
 \end{CodeChunk}
 
 We can also look at interval and quantile coverage plots (explained in
-more detail in section \ref{probabilistic-calibration}) using the
+more detail in Section \ref{probabilistic-calibration}) using the
 functions \code{plot\_interval\_coverage()} and
 \code{plot\_quantile\_coverage()}. These plots require that the columns
 ``range'' and ``quantile'', respectively, be present in the scores to
@@ -1384,11 +1388,11 @@ summarising scores. The output of the following is shown in Figure
 \begin{CodeInput}
 R> cov_scores <- score(example_quantile) |>
 +   summarise_scores(by = c("model", "target_type", "range", "quantile"))
-R> 
-R> plot_interval_coverage(cov_scores) + 
+R>
+R> plot_interval_coverage(cov_scores) +
 +   facet_wrap(~ target_type)
-R> 
-R> plot_quantile_coverage(cov_scores) + 
+R>
+R> plot_quantile_coverage(cov_scores) +
 +   facet_wrap(~ target_type)
 \end{CodeInput}
 \end{CodeChunk}
@@ -1396,11 +1400,11 @@ R> plot_quantile_coverage(cov_scores) +
 \begin{CodeChunk}
 \begin{figure}[!h]
 
-{\centering \includegraphics[width=1\linewidth]{manuscript_files/figure-latex/coverage-1} 
+{\centering \includegraphics[width=1\linewidth]{manuscript_files/figure-latex/coverage-1}
 
 }
 
-\caption[Interval coverage (A) and quantile coverage (B) plots]{Interval coverage (A) and quantile coverage (B) plots. Areas shaded in green indicate that the forecasts are too wide (i.e. underconfident), while areas in white indicate that the model is overconfident and generates too narrow predictions intervals.}\label{fig:coverage}
+\caption[Interval coverage (A) and quantile coverage (B) plots]{Interval coverage (A) and quantile coverage (B) plots. Areas shaded in green indicate that the forecasts are too wide (i.e., underconfident), while areas in white indicate that the model is overconfident and generates too narrow predictions intervals.}\label{fig:coverage}
 \end{figure}
 \end{CodeChunk}
 
@@ -1417,8 +1421,8 @@ plot resulting from the following code is shown in Figure
 R> correlations <- example_quantile |>
 +   score() |>
 +   summarise_scores() |>
-+   correlation() 
-R> 
++   correlation()
+R>
 R> correlations |>
 +   glimpse()
 \end{CodeInput}
@@ -1440,7 +1444,7 @@ R> correlations |>
 \end{CodeInput}
 \begin{figure}[!h]
 
-{\centering \includegraphics[width=1\linewidth]{manuscript_files/figure-latex/correlation-plot-1} 
+{\centering \includegraphics[width=1\linewidth]{manuscript_files/figure-latex/correlation-plot-1}
 
 }
 
@@ -1512,17 +1516,17 @@ Metrics}
 \begin{CodeChunk}
 
 \begin{longtable}[t]{>{\raggedright\arraybackslash}p{1.1in}>{\raggedright\arraybackslash}p{4.625in}}
-\caption{\label{tab:score-table-detailed}Detailed explanation of all the metrics,}\\
 \toprule
 Metric & Explanation\\
 \midrule
 \endfirsthead
-\caption[]{Detailed explanation of all the metrics, \textit{(continued)}}\\
 \toprule
 Metric & Explanation\\
 \midrule
 \endhead
 
+\noalign{\vskip 6mm}
+\caption{Detailed explanation of all the metrics.}\\
 \endfoot
 \bottomrule
 \endlastfoot
@@ -1623,6 +1627,7 @@ Relative skill & Relative skill scores can be used to obtain a ranking of models
   \textbf{Usage and caveats}:
   Relative skill is a helpful way to obtain a model ranking. Whether smaller or larger values are better depends on the orientation of the original score used.
   It is in principle relatively robust against biases that arise when models only forecast some of the available targets and is a reasonable way to handle missing forecasts. One possible precautionary measure to reduces issues with missing forecasts is to only compare models that have forecasted at least half of all possible targets (this ensures that there is always an overlap between models). If there is no overlap between models, the relative skill implicitly estimates how a model would have forecasted on those missing targets.\\*
+\label{tab:score-table-detailed}
 \end{longtable}
 
 \end{CodeChunk}

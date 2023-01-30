@@ -10,7 +10,8 @@ summarise_scores(
   by = NULL,
   fun = mean,
   relative_skill = FALSE,
-  metric = "auto",
+  relative_skill_metric = "auto",
+  metric = deprecated(),
   baseline = NULL,
   ...
 )
@@ -20,7 +21,8 @@ summarize_scores(
   by = NULL,
   fun = mean,
   relative_skill = FALSE,
-  metric = "auto",
+  relative_skill_metric = "auto",
+  metric = deprecated(),
   baseline = NULL,
   ...
 )
@@ -30,9 +32,14 @@ summarize_scores(
 
 \item{by}{character vector with column names to summarise scores by. Default
 is \code{NULL}, meaning that the only summary that takes is place is summarising
-over quantiles (in case of quantile-based forecasts), such that there is one
-score per forecast as defined by the unit of a single forecast (rather than
-one score for every quantile).}
+over samples or quantiles (in case of quantile-based forecasts), such that
+there is one score per forecast as defined by the \emph{unit of a single forecast}
+(rather than one score for every sample or quantile).
+The \emph{unit of a single forecast} is determined by the columns present in the
+input data that do not correspond to a metric produced by \code{\link[=score]{score()}}, which
+indicate indicate a grouping of forecasts (for example there may be one
+forecast per day, location and model). Adding additional, unrelated, columns
+may alter results in an unpredictable way.}
 
 \item{fun}{a function used for summarising scores. Default is \code{mean}.}
 
@@ -44,10 +51,13 @@ the computation of relative skill, see \code{\link[=pairwise_comparison]{pairwis
 Relative skill will be calculated for the aggregation level specified in
 \code{by}.}
 
-\item{metric}{character with the name of the metric for which
+\item{relative_skill_metric}{character with the name of the metric for which
 a relative skill shall be computed. If equal to 'auto' (the default), then
 this will be either interval score, CRPS or Brier score (depending on which
 of these is available in the input data)}
+
+\item{metric}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Deprecated in 1.1.0. Use
+\code{relative_skill_metric} instead.}
 
 \item{baseline}{character string with the name of a model. If a baseline is
 given, then a scaled relative skill with respect to the baseline will be
@@ -59,10 +69,15 @@ provided to \code{fun}. For more information see the documentation of the
 respective function.}
 }
 \description{
-Summarise scores as produced by \code{\link[=score]{score()}}-
+Summarise scores as produced by \code{\link[=score]{score()}}
 }
 \examples{
+data.table::setDTthreads(1) # only needed to avoid issues on CRAN
 library(magrittr) # pipe operator
+
+scores <- score(example_continuous)
+summarise_scores(scores)
+
 
 # summarise over samples or quantiles to get one score per forecast
 scores <- score(example_quantile)

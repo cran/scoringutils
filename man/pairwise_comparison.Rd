@@ -39,29 +39,39 @@ model against which to compare other models.}
 A ggplot2 object with a coloured table of summarised scores
 }
 \description{
-Make pairwise comparisons between models. The code for the pairwise
-comparisons is inspired by an implementation by Johannes Bracher.
+Compute relative scores between different models making pairwise
+comparisons. Pairwise comparisons are a sort of pairwise tournament where all
+combinations of two models are compared against each other based on the
+overlapping set of available forecasts common to both models.
+Internally, a ratio of the mean scores of both models is computed.
+The relative score of a model is then the geometric mean of all mean score
+ratios which involve that model. When a baseline is provided, then that
+baseline is excluded from the relative scores for individual models
+(which therefore differ slightly from relative scores without a baseline)
+and all relative scores are scaled by (i.e. divided by) the relative score of
+the baseline model.
+Usually, the function input should be unsummarised scores as
+produced by \code{\link[=score]{score()}}.
+Note that the function internally infers the \emph{unit of a single forecast} by
+determining all columns in the input that do not correspond to metrics
+computed by \code{\link[=score]{score()}}. Adding unrelated columns will change results in an
+unpredictable way.
 
+The code for the pairwise comparisons is inspired by an implementation by
+Johannes Bracher.
 The implementation of the permutation test follows the function
 \code{permutationTest} from the \code{surveillance} package by Michael Höhle,
 Andrea Riebler and Michaela Paul.
 }
 \examples{
-df <- data.frame(
-  model = rep(c("model1", "model2", "model3"), each = 10),
-  date = as.Date("2020-01-01") + rep(1:5, each = 2),
-  location = c(1, 2),
-  interval_score = (abs(rnorm(30))),
-  ae_median = (abs(rnorm(30)))
-)
+data.table::setDTthreads(1) # only needed to avoid issues on CRAN
 
-res <- pairwise_comparison(df,
-  baseline = "model1"
-)
-plot_pairwise_comparison(res)
+scores <- score(example_quantile)
+pairwise <- pairwise_comparison(scores, by = "target_type")
 
-eval <- score(example_quantile)
-pairwise_comparison(eval, by = c("model"))
+library(ggplot2)
+plot_pairwise_comparison(pairwise, type = "mean_scores_ratio") +
+  facet_wrap(~target_type)
 }
 \author{
 Nikos Bosse \email{nikosbosse@gmail.com}

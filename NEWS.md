@@ -1,11 +1,31 @@
+# scoringutils 1.1.0
+
+A minor update to the package with some bug fixes and minor changes.
+
+## Feature updates
+
+## Package updates
+
+- Removed the on attach message which warned of breaking changes in `1.0.0`.
+- Renamed the `metric` argument of `summarise_scores()` to `relative_skill_metric`. This argument is now deprecated and will be removed in a future version of the package. Please use the new argument instead.
+- Updated the documentation for `score()` and related functions to make the soft requirement for a `model` column in the input data more explicit.
+- Updated the documentation for `score()`, `pairwise_comparison()` and `summaris_scores()` to make it clearer what the unit of a single forecast is that is required for computations
+- Simplified the function `plot_pairwise_comparison()` which now only supports plotting mean score ratios or p-values and removed the hybrid option to print both at the same time. 
+
+## Bug fixes
+
+- Missing baseline forecasts in `pairwise_comparison()` now trigger an explicit and informative error message.
+- The requirements table in the getting started vignette is now correct.
+- Added support for an optional `sample` column when using a quantile forecast format. Previously this resulted in an error.
+
 # scoringutils 1.0.0
 
-Major update to the package and most package functions with lots of breaking changes. 
+Major update to the package and most package functions with lots of breaking changes.
 
 ## Feature updates
 - new and updated Readme and vignette
-- the proposed scoring workflow was reworked. Functions were changed so they 
-can easily be piped and have simplified arguments and outputs. 
+- the proposed scoring workflow was reworked. Functions were changed so they
+can easily be piped and have simplified arguments and outputs.
 
 ### new functions and function changes
 - the function `eval_forecasts()` was replaced by a function `score()` with a 
