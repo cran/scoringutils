@@ -24,7 +24,9 @@
 #' @examples
 #' library(ggplot2)
 #' library(magrittr) # pipe operator
-#' data.table::setDTthreads(1) # only needed to avoid issues on CRAN
+#' \dontshow{
+#'   data.table::setDTthreads(2) # restricts number of cores used on CRAN
+#' }
 #'
 #' scores <- score(example_quantile) %>%
 #'   summarise_scores(by = c("model", "target_type")) %>%
@@ -62,7 +64,7 @@ plot_score_table <- function(scores,
   # define which metrics are scaled using min (larger is worse) and
   # which not (metrics like bias where deviations in both directions are bad)
   metrics_zero_good <- c("bias", "coverage_deviation")
-  metrics_no_color <- c("coverage")
+  metrics_no_color <- "coverage"
 
   metrics_min_good <- setdiff(metrics, c(
     metrics_zero_good, metrics_no_color
@@ -100,8 +102,7 @@ plot_score_table <- function(scores,
   # users can then pass in a factor and keep the ordering of that column intact
   if (length(y) > 1) {
     df[, identifCol := do.call(paste, c(.SD, sep = "_")),
-       .SDcols = y[y %in% names(df)]
-    ]
+       .SDcols = y[y %in% names(df)]]
   } else {
     setnames(df, old = eval(y), new = "identifCol")
   }
@@ -365,7 +366,7 @@ plot_heatmap <- function(scores,
 #'   ) %>%
 #'   make_NA (
 #'     what = "forecast",
-#'     model != 'EuroCOVIDhub-ensemble',
+#'     model != "EuroCOVIDhub-ensemble",
 #'     forecast_date != "2021-06-07"
 #'   ) %>%
 #'   plot_predictions (
@@ -471,7 +472,7 @@ plot_predictions <- function(data,
   # it separately here to deal with the case when only the median is provided
   # (in which case ggdist::geom_lineribbon() will fail)
   if (0 %in% range) {
-    select_median <- (forecasts$range %in% 0 & forecasts$boundary == "lower")
+    select_median <- (forecasts$range == 0 & forecasts$boundary == "lower")
     median <- forecasts[select_median]
 
     if (nrow(median) > 0) {
@@ -549,7 +550,7 @@ make_NA <- function(data = NULL,
   # turn ... arguments into expressions
   args <- enexprs(...)
 
-  vars <- c()
+  vars <- NULL
   if (what %in% c("forecast", "both")) {
     vars <- c(vars, "prediction")
   }
@@ -583,7 +584,9 @@ make_na <- make_NA
 #' @importFrom data.table dcast
 #' @export
 #' @examples
-#' data.table::setDTthreads(1) # only needed to avoid issues on CRAN
+#' \dontshow{
+#'   data.table::setDTthreads(2) # restricts number of cores used on CRAN
+#' }
 #' scores <- score(example_quantile)
 #' scores <- summarise_scores(scores, by = c("model", "range"))
 #' plot_interval_coverage(scores)
@@ -599,7 +602,8 @@ plot_interval_coverage <- function(scores,
       data = data.frame(
         x = c(0, 0, 100),
         y = c(0, 100, 100),
-        g = c("o", "o", "o")
+        g = c("o", "o", "o"),
+        stringsAsFactors = TRUE
       ),
       aes(
         x = x, y = y, group = g,
@@ -658,7 +662,8 @@ plot_quantile_coverage <- function(scores,
           0, 0, 0.5,
           0.5, 1, 1
         ),
-        g = c("o", "o", "o")
+        g = c("o", "o", "o"),
+        stringsAsFactors = TRUE
       ),
       aes(
         x = x, y = y, group = g,
@@ -676,7 +681,11 @@ plot_quantile_coverage <- function(scores,
     theme_scoringutils() +
     xlab("Quantile") +
     ylab("% Obs below quantile") +
-    scale_y_continuous(labels = function(x) {paste(100 * x)}) +
+    scale_y_continuous(
+      labels = function(x) {
+        paste(100 * x)
+      }
+    ) +
     coord_cartesian(expand = FALSE)
 
   return(p2)
@@ -751,10 +760,9 @@ plot_pairwise_comparison <- function(comparison_result,
     )]
 
     high_col <- "palegreen3"
-      comparison_result[, var_of_interest := as.character(var_of_interest)]
-      comparison_result[, var_of_interest := ifelse(var_of_interest == "0",
-                                                    "< 0.001", var_of_interest
-      )]
+    comparison_result[, var_of_interest := as.character(var_of_interest)]
+    comparison_result[, var_of_interest := ifelse(var_of_interest == "0",
+                                                  "< 0.001", var_of_interest)]
   }
 
   plot <- ggplot(
@@ -770,8 +778,7 @@ plot_pairwise_comparison <- function(comparison_result,
       width = 0.97, height = 0.97
     ) +
     geom_text(aes(label = var_of_interest),
-              na.rm = TRUE
-    ) +
+              na.rm = TRUE) +
     scale_fill_gradient2(
       low = "steelblue", mid = "grey95",
       high = high_col,
@@ -832,7 +839,9 @@ plot_pairwise_comparison <- function(comparison_result,
 #' @importFrom stats density
 #' @return vector with the scoring values
 #' @examples
-#' data.table::setDTthreads(1) # only needed to avoid issues on CRAN
+#' \dontshow{
+#'   data.table::setDTthreads(2) # restricts number of cores used on CRAN
+#' }
 #'
 #' # PIT histogram in vector based format
 #' true_values <- rnorm(30, mean = 1:30)
@@ -841,11 +850,11 @@ plot_pairwise_comparison <- function(comparison_result,
 #' plot_pit(pit)
 #'
 #' # quantile-based pit
-#' pit <- pit(example_quantile, by = c("model"))
+#' pit <- pit(example_quantile,by = "model")
 #' plot_pit(pit, breaks = seq(0.1, 1, 0.1))
 #'
 #' # sample-based pit
-#' pit <- pit(example_integer, by = c("model"))
+#' pit <- pit(example_integer,by = "model")
 #' plot_pit(pit)
 #' @importFrom ggplot2 ggplot aes xlab ylab geom_histogram stat theme_light after_stat
 #' @export
@@ -862,7 +871,7 @@ plot_pit <- function(pit,
   # use breaks if explicitly given, otherwise assign based on number of bins
   if (!is.null(breaks)) {
     plot_quantiles <- breaks
-  } else if (is.null(num_bins) | num_bins == "auto") {
+  } else if (is.null(num_bins) || num_bins == "auto") {
     # automatically set number of bins
     if (type == "sample-based") {
       num_bins <- 10
@@ -917,7 +926,7 @@ plot_pit <- function(pit,
   } else {
     # non data.frame version
     hist <- ggplot(
-      data = data.frame(x = pit),
+      data = data.frame(x = pit, stringsAsFactors = TRUE),
       aes(x = x)
     ) +
       geom_histogram(aes(y = after_stat(width * density)),

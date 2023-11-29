@@ -31,7 +31,9 @@
 #' contributing a pull request.
 #'
 #' For additional help and examples, check out the [Getting Started
-#' Vignette](https://epiforecasts.io/scoringutils/articles/getting-started.html).
+#' Vignette](https://epiforecasts.io/scoringutils/articles/scoringutils.html)
+#' as well as the paper [Evaluating Forecasts with scoringutils in
+#' R](https://arxiv.org/abs/2205.07090).
 #'
 #' @param data A data.frame or data.table with the predictions and observations.
 #' For scoring using [score()], the following columns need to be present:
@@ -73,12 +75,23 @@
 #'
 #' @examples
 #' library(magrittr) # pipe operator
-#' data.table::setDTthreads(1) # only needed to avoid issues on CRAN
+#' \dontshow{
+#'   data.table::setDTthreads(2) # restricts number of cores used on CRAN
+#' }
 #'
 #' check_forecasts(example_quantile)
 #' score(example_quantile) %>%
 #'   add_coverage(by = c("model", "target_type")) %>%
 #'   summarise_scores(by = c("model", "target_type"))
+#'
+#' # set forecast unit manually (to avoid issues with scoringutils trying to
+#' # determine the forecast unit automatically), check forecasts before scoring
+#' example_quantile %>%
+#'   set_forecast_unit(
+#'     c("location", "target_end_date", "target_type", "horizon", "model")
+#'   ) %>%
+#'   check_forecasts() %>%
+#'   score()
 #'
 #' # forecast formats with different metrics
 #' \dontrun{
@@ -104,7 +117,11 @@ score <- function(data,
                   ...) {
 
   # preparations ---------------------------------------------------------------
-  check_data <- check_forecasts(data)
+  if (is_scoringutils_check(data)) {
+    check_data <- data
+  } else {
+    check_data <- check_forecasts(data)
+  }
 
   data <- check_data$cleaned_data
   prediction_type <- check_data$prediction_type

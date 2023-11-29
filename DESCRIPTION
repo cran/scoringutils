@@ -1,6 +1,6 @@
 Package: scoringutils
 Title: Utilities for Scoring and Assessing Predictions
-Version: 1.1.0
+Version: 1.2.2
 Language: en-GB
 Authors@R: c(
     person(given = "Nikos",
@@ -23,7 +23,7 @@ Authors@R: c(
            comment = c(ORCID = "0000-0002-3777-1410")), 
     person("Sebastian", "Funk", 
             email = "sebastian.funk@lshtm.ac.uk", 
-            role = c("ctb")))
+            role = c("aut")))
 Description: 
     Provides a collection of metrics and proper scoring rules 
     (Tilmann Gneiting & Adrian E Raftery (2007) 
@@ -41,7 +41,8 @@ Description:
     Scoring metrics can be used either through a convenient data.frame format, 
     or can be applied as individual functions in a vector / matrix format. 
     All functionality has been implemented with a focus on performance and is 
-    robustly tested. 
+    robustly tested. Find more information about the package in the 
+    accompanying paper (<doi:10.48550/arXiv.2205.07090>).
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
@@ -51,18 +52,19 @@ Suggests: kableExtra, knitr, magrittr, rmarkdown, testthat, vdiffr
 Config/Needs/website: r-lib/pkgdown, amirmasoudabdol/preferably
 Config/testthat/edition: 3
 RoxygenNote: 7.2.3
-URL: https://epiforecasts.io/scoringutils/,
+URL: https://doi.org/10.48550/arXiv.2205.07090,
+        https://epiforecasts.io/scoringutils/,
         https://github.com/epiforecasts/scoringutils
 BugReports: https://github.com/epiforecasts/scoringutils/issues
 VignetteBuilder: knitr
-Depends: R (>= 3.5)
+Depends: R (>= 3.6)
 NeedsCompilation: no
-Packaged: 2023-01-30 16:26:22 UTC; nikos
+Packaged: 2023-11-29 14:54:39 UTC; nikos
 Author: Nikos Bosse [aut, cre] (<https://orcid.org/0000-0002-7750-5280>),
   Sam Abbott [aut] (<https://orcid.org/0000-0001-8057-8037>),
   Hugo Gruson [aut] (<https://orcid.org/0000-0002-4094-1476>),
   Johannes Bracher [ctb] (<https://orcid.org/0000-0002-3777-1410>),
-  Sebastian Funk [ctb]
+  Sebastian Funk [aut]
 Maintainer: Nikos Bosse <nikosbosse@gmail.com>
 Repository: CRAN
-Date/Publication: 2023-01-30 17:30:02 UTC
+Date/Publication: 2023-11-29 15:50:10 UTC

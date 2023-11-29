@@ -52,7 +52,9 @@
 #' @author Johannes Bracher, \email{johannes.bracher@@kit.edu}
 #' @keywords scoring
 #' @examples
-#' data.table::setDTthreads(1) # only needed to avoid issues on CRAN
+#' \dontshow{
+#'   data.table::setDTthreads(2) # restricts number of cores used on CRAN
+#' }
 #'
 #' scores <- score(example_quantile)
 #' pairwise <- pairwise_comparison(scores, by = "target_type")
@@ -62,7 +64,7 @@
 #'   facet_wrap(~target_type)
 
 pairwise_comparison <- function(scores,
-                                by = c("model"),
+                                by = "model",
                                 metric = "auto",
                                 baseline = NULL,
                                 ...) {
@@ -93,12 +95,12 @@ pairwise_comparison <- function(scores,
   }
 
   # check that all values of the chosen metric are positive
-  if (any(sign(scores[[metric]]) < 0)) {
-    if (any(sign(scores) > 0)) {
-      msg <- paste("To compute pairwise comparisons, all values of", metric,
-                   "must have the same sign.")
-      stop(msg)
-    }
+  if (any(sign(scores[[metric]]) < 0) && any(sign(scores) > 0)) {
+    msg <- paste(
+      "To compute pairwise comparisons, all values of", metric,
+      "must have the same sign."
+    )
+    stop(msg)
   }
 
   # identify unit of single observation.
@@ -107,7 +109,10 @@ pairwise_comparison <- function(scores,
   # if by is equal to forecast_unit, then pairwise comparisons don't make sense
   if (setequal(by, forecast_unit)) {
     by <- "model"
-    message("relative skill can only be computed if `by` is different from the unit of a single forecast. `by` was set to 'model'")
+    message(
+      "relative skill can only be computed if `by` is different from the ",
+      "unit of a single forecast. `by` was set to 'model'"
+    )
   }
 
   # summarise scores over everything (e.g. quantiles, ranges or samples) in
@@ -124,7 +129,7 @@ pairwise_comparison <- function(scores,
 
   results <- lapply(split_scores,
     FUN = function(scores) {
-      out <- pairwise_comparison_one_group(
+      pairwise_comparison_one_group(
         scores = scores,
         metric = metric,
         baseline = baseline,
@@ -224,8 +229,8 @@ pairwise_comparison_one_group <- function(scores,
 
   # make result character instead of factor
   result[, `:=`(
-    "model" = as.character(model),
-    "compare_against" = as.character(compare_against)
+    model = as.character(model),
+    compare_against = as.character(compare_against)
   )]
 
   # calculate relative skill as geometric mean

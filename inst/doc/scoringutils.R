@@ -8,10 +8,12 @@ library(magrittr)
 library(data.table)
 library(ggplot2)
 library(knitr)
+# number of threads used for data.table computations, update as needed
+data.table::setDTthreads(2)
 
-## ---- echo=FALSE--------------------------------------------------------------
+## ----echo=FALSE---------------------------------------------------------------
 requirements <- data.table(
-  "Format" = c(
+  Format = c(
     "quantile-based", "sample-based", "binary", "pairwise-comparisons"
   ),
   `Required columns` = c(
@@ -23,6 +25,15 @@ requirements <- data.table(
 kable(requirements)
 
 ## -----------------------------------------------------------------------------
+colnames(example_quantile)
+
+set_forecast_unit(
+  example_quantile,
+  c("location", "target_end_date", "target_type", "horizon", "model")
+) %>%
+  colnames()
+
+## -----------------------------------------------------------------------------
 head(example_quantile)
 
 ## -----------------------------------------------------------------------------
@@ -31,45 +42,94 @@ check_forecasts(example_quantile)
 ## -----------------------------------------------------------------------------
 avail_forecasts(example_quantile, by = c("model", "target_type"))
 
-## ---- fig.width=11, fig.height=6----------------------------------------------
+## ----fig.width=11, fig.height=6-----------------------------------------------
 example_quantile %>%
   avail_forecasts(by = c("model", "forecast_date", "target_type")) %>%
   plot_avail_forecasts() +
   facet_wrap(~ target_type)
 
-## ---- fig.width = 9, fig.height = 6-------------------------------------------
+## ----fig.width = 9, fig.height = 6--------------------------------------------
 example_quantile %>%
-  make_NA(what = "truth", 
-          target_end_date >= "2021-07-15", 
-          target_end_date < "2021-05-22"
+  make_NA(
+    what = "truth",
+    target_end_date >= "2021-07-15",
+    target_end_date < "2021-05-22"
   ) %>%
-  make_NA(what = "forecast",
-          model != 'EuroCOVIDhub-ensemble', 
-          forecast_date != "2021-06-28"
+  make_NA(
+    what = "forecast",
+    model != "EuroCOVIDhub-ensemble",
+    forecast_date != "2021-06-28"
   ) %>%
   plot_predictions(
     x = "target_end_date",
     by = c("target_type", "location")
   ) +
-  facet_wrap(target_type ~ location, ncol = 4, scales = "free") 
+  facet_wrap(target_type ~ location, ncol = 4, scales = "free")
 
 ## -----------------------------------------------------------------------------
-score(example_quantile) %>%
-  head()
+scores <- example_quantile %>%
+  set_forecast_unit(
+    c("location", "target_end_date", "target_type", "location_name",
+      "forecast_date", "model", "horizon")
+  ) %>%
+  check_forecasts() %>%
+  score()
+head(scores)
 
 ## -----------------------------------------------------------------------------
 example_quantile %>%
-  score() %>%
+  set_forecast_unit(
+    c("location", "target_end_date", "target_type",
+      "forecast_date", "model", "horizon")
+  ) %>%
+  check_forecasts()
+
+## ----error=TRUE---------------------------------------------------------------
+example_quantile %>%
+  set_forecast_unit(
+    c("location", "target_end_date",
+      "forecast_date", "model", "horizon")
+  ) %>%
+  check_forecasts()
+
+## -----------------------------------------------------------------------------
+duplicates <- example_quantile %>%
+  set_forecast_unit(
+    c("location", "target_end_date",
+      "forecast_date", "model", "horizon")
+  ) %>%
+  find_duplicates()
+
+duplicates[quantile == 0.5 & model == "EuroCOVIDhub-ensemble", ] %>%
+  head()
+
+## -----------------------------------------------------------------------------
+scores <- score(example_continuous)
+all(scores == summarise_scores(scores), na.rm = TRUE)
+
+## -----------------------------------------------------------------------------
+scores <- example_quantile %>%
+  set_forecast_unit(
+    c("location", "target_end_date", "target_type",
+      "forecast_date", "model", "horizon")
+  ) %>%
+  check_forecasts() %>%
+  score()
+
+head(scores)
+
+scores %>%
+  summarise_scores() %>%
+  head()
+
+## -----------------------------------------------------------------------------
+scores %>%
   summarise_scores(by = c("model", "target_type")) %>%
   summarise_scores(fun = signif, digits = 2) %>%
   kable()
 
 ## -----------------------------------------------------------------------------
-score(example_quantile) %>%
-  summarise_scores()
-
-## -----------------------------------------------------------------------------
-score(example_point) %>% 
+suppressMessages(score(example_point)) %>%
   summarise_scores(by = "model", na.rm = TRUE)
 
 ## -----------------------------------------------------------------------------
@@ -80,37 +140,37 @@ score(example_quantile) %>%
 
 ## -----------------------------------------------------------------------------
 score(example_quantile) %>%
-  summarise_scores(by = c("model", "target_type"), 
-                   relative_skill = TRUE, 
+  summarise_scores(by = c("model", "target_type"),
+                   relative_skill = TRUE,
                    baseline = "EuroCOVIDhub-ensemble")
 
 ## -----------------------------------------------------------------------------
 score(example_integer) %>%
   summarise_scores(by = c("model", "target_type"), na.rm = TRUE) %>%
   summarise_scores(fun = signif, digits = 2) %>%
-  plot_score_table(by = "target_type") + 
+  plot_score_table(by = "target_type") +
   facet_wrap(~ target_type, nrow = 1)
 
-## ---- fig.width=11, fig.height=6----------------------------------------------
+## ----fig.width=11, fig.height=6-----------------------------------------------
 score(example_continuous) %>%
   summarise_scores(by = c("model", "location", "target_type")) %>%
-  plot_heatmap(x = "location", metric = "bias") + 
-    facet_wrap(~ target_type)
+  plot_heatmap(x = "location", metric = "bias") +
+  facet_wrap(~ target_type)
 
 ## -----------------------------------------------------------------------------
 score(example_quantile) %>%
   summarise_scores(by = c("target_type", "model")) %>%
-  plot_wis() + 
+  plot_wis() +
   facet_wrap(~ target_type, scales = "free")
 
 ## -----------------------------------------------------------------------------
 example_continuous %>%
-  pit(by = "model") 
+  pit(by = "model")
 
 ## -----------------------------------------------------------------------------
 example_continuous %>%
   pit(by = c("model", "target_type")) %>%
-  plot_pit() + 
+  plot_pit() +
   facet_grid(model ~ target_type)
 
 ## -----------------------------------------------------------------------------
@@ -143,7 +203,7 @@ example_quantile %>%
     by = "model", relative_skill = TRUE, baseline = "EuroCOVIDhub-baseline"
   )
 
-## ---- fig.width=9, fig.height=7-----------------------------------------------
+## ----fig.width=9, fig.height=7------------------------------------------------
 example_quantile %>%
   score() %>%
   pairwise_comparison(by = c("model", "target_type")) %>%

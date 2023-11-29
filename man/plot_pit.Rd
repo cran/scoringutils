@@ -32,7 +32,9 @@ Make a simple histogram of the probability integral transformed values to
 visually check whether a uniform distribution seems likely.
 }
 \examples{
-data.table::setDTthreads(1) # only needed to avoid issues on CRAN
+\dontshow{
+  data.table::setDTthreads(2) # restricts number of cores used on CRAN
+}
 
 # PIT histogram in vector based format
 true_values <- rnorm(30, mean = 1:30)
@@ -41,10 +43,10 @@ pit <- pit_sample(true_values, predictions)
 plot_pit(pit)
 
 # quantile-based pit
-pit <- pit(example_quantile, by = c("model"))
+pit <- pit(example_quantile,by = "model")
 plot_pit(pit, breaks = seq(0.1, 1, 0.1))
 
 # sample-based pit
-pit <- pit(example_integer, by = c("model"))
+pit <- pit(example_integer,by = "model")
 plot_pit(pit)
 }

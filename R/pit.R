@@ -62,7 +62,9 @@
 #' @seealso [pit()]
 #' @importFrom stats runif
 #' @examples
-#' data.table::setDTthreads(1) # only needed to avoid issues on CRAN
+#' \dontshow{
+#'   data.table::setDTthreads(2) # restricts number of cores used on CRAN
+#' }
 #'
 #' ## continuous predictions
 #' true_values <- rnorm(20, mean = 1:20)
@@ -90,7 +92,7 @@ pit_sample <- function(true_values,
   # error handling--------------------------------------------------------------
   # check al arguments are provided
   # this could be integrated into check_not_null
-  if (missing("true_values") | missing("predictions")) {
+  if (missing("true_values") || missing("predictions")) {
     stop("`true_values` or `predictions` missing in function 'pit_sample()'")
   }
   check_not_null(true_values = true_values, predictions = predictions)
@@ -125,10 +127,10 @@ pit_sample <- function(true_values,
 
   # check data type ------------------------------------------------------------
   # check whether continuous or integer
-  if (!isTRUE(all.equal(as.vector(predictions), as.integer(predictions)))) {
-    continuous_predictions <- TRUE
-  } else {
+  if (isTRUE(all.equal(as.vector(predictions), as.integer(predictions)))) {
     continuous_predictions <- FALSE
+  } else {
+    continuous_predictions <- TRUE
   }
 
   # calculate PIT-values -------------------------------------------------------
@@ -213,16 +215,16 @@ pit <- function(data,
 
   # if prediction type is not quantile, calculate PIT values based on samples
   data_wide <- data.table::dcast(data,
-    ... ~ paste("InternalSampl_", sample, sep = ""),
+    ... ~ paste0("InternalSampl_", sample),
     value.var = "prediction"
   )
 
-  pit <- data_wide[, .("pit_value" = pit_sample(
+  pit <- data_wide[, .(pit_value = pit_sample(
     true_values = true_value,
     predictions = as.matrix(.SD)
   )),
   by = by,
-  .SDcols = grepl("InternalSampl_", names(data_wide))
+  .SDcols = grepl("InternalSampl_", names(data_wide), fixed = TRUE)
   ]
 
   return(pit[])

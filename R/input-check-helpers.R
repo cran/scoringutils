@@ -60,16 +60,21 @@ check_predictions <- function(predictions,
     }
   }
 
-  if (type == "integer") {
-    if (isFALSE(all.equal(predictions, as.integer(predictions)))) {
-      warning("Prediction type should be 'integer', but some of the predictions are not integers")
-    }
+  if (type == "integer" &&
+      isFALSE(all.equal(as.vector(predictions), as.integer(predictions)))
+  ) {
+    warning(
+      "Prediction type should be 'integer', but some of the predictions are",  " not integers"
+    )
   }
 
-  if (type == "binary") {
-    if (isFALSE(all(predictions >= 0) & all(predictions <= 1))) {
-      stop("For a binary forecast, all predictions should be probabilities between 0 or 1.")
-    }
+  if (type == "binary" &&
+      isFALSE(all(predictions >= 0) && all(predictions <= 1))
+  ) {
+    stop(
+      "For a binary forecast, all predictions should be probabilities between",
+      " 0 or 1."
+    )
   }
 
   return(NULL)
@@ -91,19 +96,18 @@ check_true_values <- function(true_values,
     stop("true_values argument is missing")
   }
 
-  if (type == "integer") {
-    if (isFALSE(all.equal(true_values, as.integer(true_values)))) {
-      stop("Some of the true_values are not integers")
-    }
+  if (type == "integer" &&
+      isFALSE(all.equal(true_values, as.integer(true_values)))
+  ) {
+    stop("Some of the true_values are not integers")
   }
 
-  if (type == "binary") {
-    if (isFALSE(all(true_values %in% c(0, 1)))) {
-      stop("For a binary forecast, all true_values should be either 0 or 1.")
-    }
+  if (type == "binary" &&
+      isFALSE(all(true_values %in% c(0, 1)))
+  ) {
+    stop("For a binary forecast, all true_values should be either 0 or 1.")
   }
 }
-
 
 #' @title Check Variable is not NULL
 #'
@@ -166,12 +170,12 @@ check_equal_length <- function(...,
 
   if (length(unique(lengths)) != 1) {
     calling_function <- deparse(sys.calls()[[sys.nframe() - 1]])
-    stop(paste0(
+    stop(
       "Arguments passed to the following function call: '",
       calling_function,
       "' should have the same length (or length one). Arguments have the following lengths: ",
-      paste0(lengths, collapse = ", ")
-    ))
+      toString(lengths)
+    )
   }
   return(invisible(NULL))
 }
@@ -201,9 +205,37 @@ check_metrics <- function(metrics) {
   if (!all(metrics %in% available_metrics)) {
     msg <- paste(
       "The following metrics are not available:",
-      paste(setdiff(metrics, available_metrics), collapse = ", ")
+      toString(setdiff(metrics, available_metrics))
     )
     warning(msg)
   }
   return(metrics)
+}
+
+#' Check that quantiles are valid
+#'
+#' @description
+#' Helper function to check that input quantiles are valid.
+#' Quantiles must be in the range specified, increase monotonically,
+#' and contain no duplicates.
+#'
+#' This is used in [bias_range()] and [bias_quantile()] to
+#' provide informative errors to users.
+#'
+#' @param quantiles Numeric vector of quantiles to check
+#' @param name Character name to use in error messages
+#' @param range Numeric vector giving allowed range
+#'
+#' @return None. Function errors if quantiles are invalid.
+#'
+#' @keywords internal
+
+check_quantiles <- function(quantiles, name = "quantiles", range = c(0, 1)) {
+  if (any(quantiles < range[1]) || any(quantiles > range[2])) {
+    stop(name, " must be between ", range[1], " and ", range[2])
+  }
+
+  if (!all(diff(quantiles) > 0)) {
+    stop(name, " must be increasing")
+  }
 }

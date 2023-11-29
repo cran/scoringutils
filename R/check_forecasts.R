@@ -77,7 +77,7 @@ check_forecasts <- function(data) {
       warnings,
       paste0(
         "At least one column in the data ",
-        "(", paste(clashing_colnames, collapse = ", "), ") ",
+        "(", toString(clashing_colnames), ") ",
         "corresponds to the name of a metric that will be computed by ",
         "scoringutils. Please check `available_metrics()`"
       )
@@ -125,21 +125,17 @@ check_forecasts <- function(data) {
 
   # get information about the forecasts ----------------------------------------
   prediction_type <- get_prediction_type(data)
-  forecast_unit <- get_forecast_unit(data, prediction_type = prediction_type)
+  forecast_unit <- get_forecast_unit(data)
   target_type <- get_target_type(data)
 
-
-
   # check whether a column called 'quantile' or 'sample' is present ------------
-  if (!any(c("quantile", "sample") %in% colnames(data))) {
-    if (!target_type == "binary") {
-      errors <- c(
-        errors,
-        "This forecast does not seem to be for a binary prediction target, so we need a column called quantile or sample" # nolint
-      )
-    }
+  if (!any(c("quantile", "sample") %in% colnames(data)) &&
+        !target_type == "binary") {
+    errors <- c(
+      errors,
+      "This forecast does not seem to be for a binary prediction target, so we need a column called quantile or sample" # nolint
+    )
   }
-
 
   # check duplicate forecasts --------------------------------------------------
   # check whether there is more than one prediction for the same target, i.e.
@@ -151,8 +147,11 @@ check_forecasts <- function(data) {
   if (nrow(check_duplicates) > 0) {
     errors <- c(
       errors,
-      paste(
-        "There are instances with more than one forecast for the same target. This can't be right and needs to be resolved. Maybe you need to check the unit of a single forecast and add missing columns? Use the function find_duplicates() to identify duplicate rows."
+      paste0(
+        "There are instances with more than one forecast for the same target. ",
+        "This can't be right and needs to be resolved. Maybe you need to ",
+        "check the unit of a single forecast and add missing columns? Use ",
+        "the  function find_duplicates() to identify duplicate rows."
       )
     )
   }
@@ -163,11 +162,12 @@ check_forecasts <- function(data) {
   if (length(n) > 1) {
     warnings <- c(
       warnings,
-      paste0(
-        "Some forecasts have different numbers of rows (e.g. quantiles or samples). ", # nolint
-        "scoringutils found: ", paste(n, collapse = ", "),
-        ". This is not necessarily a problem, but make sure this is intended."
-      )
+      "Some forecasts have different numbers of rows ",
+      "(e.g. quantiles or samples). ",
+      "scoringutils found: ", toString(n),
+      ". This may be a problem (it can potentially distort scores, ",
+      "making it more difficult to compare them), ",
+      "so make sure this is intended."
     )
   }
   data[, InternalNumCheck := NULL]
@@ -177,7 +177,6 @@ check_forecasts <- function(data) {
   out[["cleaned_data"]] <- data
 
   # available unique values per model for the different columns
-  cols <- forecast_unit[forecast_unit != "model"]
   out[["unique_values"]] <-
     data[, lapply(.SD, FUN = function(x) length(unique(x))), by = "model"]
 
@@ -224,8 +223,8 @@ check_forecasts <- function(data) {
 collapse_messages <- function(type = "messages", messages) {
   paste0(
     "The following ",  type, " were produced when checking inputs:\n",
-    paste(paste0(seq_along(messages), ". "),
-          messages, collapse = "\n"))
+    paste(paste0(seq_along(messages), ". "), messages, collapse = "\n")
+  )
 }
 
 
@@ -280,7 +279,6 @@ print.scoringutils_check <- function(x, ...) {
 #' the unit of a single forecast. If missing the function tries to infer the
 #' unit of a single forecast.
 #'
-#' @param ... Additional arguments passed to [get_forecast_unit()].
 #' @return A data.frame with all rows for which a duplicate forecast was found
 #' @export
 #' @keywords check-forecasts
@@ -288,10 +286,10 @@ print.scoringutils_check <- function(x, ...) {
 #' example <- rbind(example_quantile, example_quantile[1000:1010])
 #' find_duplicates(example)
 
-find_duplicates <- function(data, forecast_unit, ...) {
+find_duplicates <- function(data, forecast_unit) {
   type <- c("sample", "quantile")[c("sample", "quantile") %in% colnames(data)]
   if (missing(forecast_unit)) {
-     forecast_unit <- get_forecast_unit(data, ...)
+    forecast_unit <- get_forecast_unit(data)
   }
   data <- as.data.table(data)
   data[, InternalDuplicateCheck := .N, by = c(forecast_unit, type)]

@@ -6,7 +6,7 @@
 \usage{
 pairwise_comparison(
   scores,
-  by = c("model"),
+  by = "model",
   metric = "auto",
   baseline = NULL,
   ...
@@ -64,7 +64,9 @@ The implementation of the permutation test follows the function
 Andrea Riebler and Michaela Paul.
 }
 \examples{
-data.table::setDTthreads(1) # only needed to avoid issues on CRAN
+\dontshow{
+  data.table::setDTthreads(2) # restricts number of cores used on CRAN
+}
 
 scores <- score(example_quantile)
 pairwise <- pairwise_comparison(scores, by = "target_type")

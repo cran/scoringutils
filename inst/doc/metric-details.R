@@ -1,4 +1,4 @@
-## ---- include = FALSE---------------------------------------------------------
+## ----include = FALSE----------------------------------------------------------
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
@@ -9,7 +9,7 @@ library(magrittr)
 library(knitr)
 library(data.table)
 
-## ---- echo = FALSE, results = "asis"------------------------------------------
+## ----echo = FALSE, results = "asis"-------------------------------------------
 data <- copy(metrics) 
 setnames(data, old = c("Discrete", "Continuous", "Binary", "Quantile"), 
          new = c("D", "C", "B", "Q"))
@@ -26,7 +26,10 @@ data$C <- replace(data$C)
 data$B <- replace(data$B)
 data$Q <- replace(data$Q)
 
-data[, 1:6] %>%
+data <- data[, 1:6] %>%
+  unique() 
+
+data %>%
   kbl(format = "html",
       escape = FALSE,
       align = c("lccccl"),
@@ -41,7 +44,7 @@ data[, 1:6] %>%
   row_spec(seq(1, nrow(data), 2), background = "Gainsboro") %>%
   kable_styling()
 
-## ---- echo = FALSE, results = "asis"------------------------------------------
+## ----echo = FALSE, results = "asis"-------------------------------------------
 
 data <- readRDS(
   system.file("metrics-overview/metrics-detailed.Rda", package = "scoringutils")

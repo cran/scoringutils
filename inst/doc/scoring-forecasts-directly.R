@@ -1,11 +1,10 @@
-## ---- include = FALSE---------------------------------------------------------
+## ----include = FALSE----------------------------------------------------------
 knitr::opts_chunk$set(
   fig.width = 7,
   collapse = TRUE,
   comment = "#>"
 )
 library(scoringutils)
-library(magrittr)
 library(data.table)
 library(ggplot2)
 

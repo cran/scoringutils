@@ -76,16 +76,28 @@ have a look at the \link{metrics} data included in the package. The column
 computed. If interested in an unsupported metric please open a \href{https://github.com/epiforecasts/scoringutils/issues}{feature request} or consider
 contributing a pull request.
 
-For additional help and examples, check out the \href{https://epiforecasts.io/scoringutils/articles/getting-started.html}{Getting Started Vignette}.
+For additional help and examples, check out the \href{https://epiforecasts.io/scoringutils/articles/scoringutils.html}{Getting Started Vignette}
+as well as the paper \href{https://arxiv.org/abs/2205.07090}{Evaluating Forecasts with scoringutils in R}.
 }
 \examples{
 library(magrittr) # pipe operator
-data.table::setDTthreads(1) # only needed to avoid issues on CRAN
+\dontshow{
+  data.table::setDTthreads(2) # restricts number of cores used on CRAN
+}
 
 check_forecasts(example_quantile)
 score(example_quantile) \%>\%
   add_coverage(by = c("model", "target_type")) \%>\%
   summarise_scores(by = c("model", "target_type"))
+
+# set forecast unit manually (to avoid issues with scoringutils trying to
+# determine the forecast unit automatically), check forecasts before scoring
+example_quantile \%>\%
+  set_forecast_unit(
+    c("location", "target_end_date", "target_type", "horizon", "model")
+  ) \%>\%
+  check_forecasts() \%>\%
+  score()
 
 # forecast formats with different metrics
 \dontrun{
