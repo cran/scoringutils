@@ -1,48 +1,48 @@
-This is BibTeX, Version 0.99d (TeX Live 2022)
+This is BibTeX, Version 0.99d (TeX Live 2024)
 Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
 The top-level auxiliary file: manuscript.aux
 The style file: jss.bst
 Database file #1: references.bib
 Database file #2: scoringutils-paper.bib
 Reallocated wiz_functions (elt_size=4) to 6000 items from 3000.
-You've used 39 entries,
+You've used 42 entries,
             3215 wiz_defined-function locations,
-            965 strings with 22741 characters,
-and the built_in function-call counts, 112769 in all, are:
-= -- 11843
-> -- 4228
-< -- 27
-+ -- 1599
-- -- 1546
-* -- 8828
-:= -- 12391
-add.period$ -- 201
-call.type$ -- 39
-change.case$ -- 676
-chr.to.int$ -- 40
-cite$ -- 39
-duplicate$ -- 11926
-empty$ -- 7454
-format.name$ -- 1650
-if$ -- 22793
-int.to.chr$ -- 4
+            973 strings with 24654 characters,
+and the built_in function-call counts, 132173 in all, are:
+= -- 13951
+> -- 5003
+< -- 25
++ -- 1886
+- -- 1834
+* -- 10418
+:= -- 14416
+add.period$ -- 199
+call.type$ -- 42
+change.case$ -- 791
+chr.to.int$ -- 43
+cite$ -- 42
+duplicate$ -- 14065
+empty$ -- 8664
+format.name$ -- 1953
+if$ -- 26660
+int.to.chr$ -- 2
 int.to.str$ -- 1
-missing$ -- 824
-newline$ -- 258
-num.names$ -- 156
-pop$ -- 6161
+missing$ -- 936
+newline$ -- 266
+num.names$ -- 168
+pop$ -- 7354
 preamble$ -- 1
-purify$ -- 671
+purify$ -- 779
 quote$ -- 0
-skip$ -- 1260
+skip$ -- 1354
 stack$ -- 0
-substring$ -- 14515
-swap$ -- 1990
-text.length$ -- 3
+substring$ -- 17336
+swap$ -- 2177
+text.length$ -- 2
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 348
+type$ -- 378
 warning$ -- 0
-while$ -- 681
+while$ -- 784
 width$ -- 0
-write$ -- 616
+write$ -- 643

@@ -1,161 +1,109 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Homebrew) (preloaded format=pdflatex 2023.6.22)  27 NOV 2023 10:59
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.10.13)  30 OCT 2024 23:11
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
 **manuscript.tex
 (./manuscript.tex
-LaTeX2e <2022-11-01> patch level 1
-L3 programming layer <2023-02-22> (./jss.cls
-(/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/tex/latex/colortbl/co
-lortbl.sty
-Package: colortbl 2022/06/20 v1.0f Color table columns (DPC)
-
-(/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/tex/latex/tools/array
-.sty
-Package: array 2022/09/04 v2.5g Tabular extension package (FMi)
-\col@sep=\dimen140
-\ar@mcellbox=\box51
-\extrarowheight=\dimen141
-\NC@list=\toks16
-\extratabsurround=\skip48
-\backup@length=\skip49
-\ar@cellbox=\box52
-)
-(/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/tex/latex/graphics/co
-lor.sty
-Package: color 2022/01/06 v1.3d Standard LaTeX Color (DPC)
-
-(/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/tex/latex/graphics-cf
-g/color.cfg
+LaTeX2e <2024-06-01> patch level 2
+L3 programming layer <2024-09-10>
+(./jss.cls (/Users/nikos/Library/TinyTeX/texmf-dist/tex/latex/colortbl/colortbl.sty
+Package: colortbl 2024/07/06 v1.0i Color table columns (DPC)
+(/Users/nikos/Library/TinyTeX/texmf-dist/tex/latex/tools/array.sty
+Package: array 2024/06/14 v2.6d Tabular extension package (FMi)
+\col@sep=\dimen141
+\ar@mcellbox=\box52
+\extrarowheight=\dimen142
+\NC@list=\toks17
+\extratabsurround=\skip49
+\backup@length=\skip50
+\ar@cellbox=\box53
+) (/Users/nikos/Library/TinyTeX/texmf-dist/tex/latex/graphics/color.sty
+Package: color 2024/01/14 v1.3d Standard LaTeX Color (DPC)
+(/Users/nikos/Library/TinyTeX/texmf-dist/tex/latex/graphics-cfg/color.cfg
 File: color.cfg 2016/01/02 v1.6 sample color configuration
 )
 Package color Info: Driver file: pdftex.def on input line 149.
-
-(/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/tex/latex/graphics-de
-f/pdftex.def
-File: pdftex.def 2022/09/22 v1.2b Graphics/color driver for pdftex
-)
-(/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/tex/latex/graphics/ma
-thcolor.ltx))
-\everycr=\toks17
-\minrowclearance=\skip50
-\rownum=\count185
-)
-(/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/tex/latex/xcolor/xcol
-or.sty
-Package: xcolor 2022/06/12 v2.14 LaTeX color extensions (UK)
-
-(/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/tex/latex/graphics-cf
-g/color.cfg
+(/Users/nikos/Library/TinyTeX/texmf-dist/tex/latex/graphics-def/pdftex.def
+File: pdftex.def 2024/04/13 v1.2c Graphics/color driver for pdftex
+) (/Users/nikos/Library/TinyTeX/texmf-dist/tex/latex/graphics/mathcolor.ltx))
+\everycr=\toks18
+\minrowclearance=\skip51
+\rownum=\count194
+) (/Users/nikos/Library/TinyTeX/texmf-dist/tex/latex/xcolor/xcolor.sty
+Package: xcolor 2024/09/29 v3.02 LaTeX color extensions (UK)
+(/Users/nikos/Library/TinyTeX/texmf-dist/tex/latex/graphics-cfg/color.cfg
 File: color.cfg 2016/01/02 v1.6 sample color configuration
 )
-Package xcolor Info: Driver file: pdftex.def on input line 227.
-LaTeX Info: Redefining \color on input line 711.
-
-(/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/tex/latex/graphics/ma
-thcolor.ltx)
-Package xcolor Info: Model `cmy' substituted by `cmy0' on input line 1353.
-Package xcolor Info: Model `hsb' substituted by `rgb' on input line 1357.
-Package xcolor Info: Model `RGB' extended on input line 1369.
-Package xcolor Info: Model `HTML' substituted by `rgb' on input line 1371.
-Package xcolor Info: Model `Hsb' substituted by `hsb' on input line 1372.
-Package xcolor Info: Model `tHsb' substituted by `hsb' on input line 1373.
-Package xcolor Info: Model `HSB' substituted by `hsb' on input line 1374.
-Package xcolor Info: Model `Gray' substituted by `gray' on input line 1375.
-Package xcolor Info: Model `wave' substituted by `hsb' on input line 1376.
-)
-(/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/tex/latex/multirow/mu
-ltirow.sty
+Package xcolor Info: Driver file: pdftex.def on input line 274.
+LaTeX Info: Redefining \color on input line 762.
+(/Users/nikos/Library/TinyTeX/texmf-dist/tex/latex/graphics/mathcolor.ltx)
+Package xcolor Info: Model `cmy' substituted by `cmy0' on input line 1349.
+Package xcolor Info: Model `hsb' substituted by `rgb' on input line 1353.
+Package xcolor Info: Model `RGB' extended on input line 1365.
+Package xcolor Info: Model `HTML' substituted by `rgb' on input line 1367.
+Package xcolor Info: Model `Hsb' substituted by `hsb' on input line 1368.
+Package xcolor Info: Model `tHsb' substituted by `hsb' on input line 1369.
+Package xcolor Info: Model `HSB' substituted by `hsb' on input line 1370.
+Package xcolor Info: Model `Gray' substituted by `gray' on input line 1371.
+Package xcolor Info: Model `wave' substituted by `hsb' on input line 1372.
+) (/Users/nikos/Library/TinyTeX/texmf-dist/tex/latex/multirow/multirow.sty
 Package: multirow 2021/03/15 v2.8 Span multiple rows of a table
-\multirow@colwidth=\skip51
-\multirow@cntb=\count186
-\multirow@dima=\skip52
-\bigstrutjot=\dimen142
+\multirow@colwidth=\skip52
+\multirow@cntb=\count195
+\multirow@dima=\skip53
+\bigstrutjot=\dimen143
 )
 Document Class: jss 2020/12/09 3.2 jss class by Achim Zeileis
-
-(/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/tex/latex/base/articl
-e.cls
-Document Class: article 2022/07/02 v1.4n Standard LaTeX document class
-
-(/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/tex/latex/base/size11
-.clo
-File: size11.clo 2022/07/02 v1.4n Standard LaTeX file (size option)
+(/Users/nikos/Library/TinyTeX/texmf-dist/tex/latex/base/article.cls
+Document Class: article 2024/02/08 v1.4n Standard LaTeX document class
+(/Users/nikos/Library/TinyTeX/texmf-dist/tex/latex/base/size11.clo
+File: size11.clo 2024/02/08 v1.4n Standard LaTeX file (size option)
 )
-\c@part=\count187
-\c@section=\count188
-\c@subsection=\count189
-\c@subsubsection=\count190
-\c@paragraph=\count191
-\c@subparagraph=\count192
-\c@figure=\count193
-\c@table=\count194
-\abovecaptionskip=\skip53
-\belowcaptionskip=\skip54
-\bibindent=\dimen143
-)
-(/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/tex/latex/graphics/gr
-aphicx.sty
+\c@part=\count196
+\c@section=\count197
+\c@subsection=\count198
+\c@subsubsection=\count199
+\c@paragraph=\count266
+\c@subparagraph=\count267
+\c@figure=\count268
+\c@table=\count269
+\abovecaptionskip=\skip54
+\belowcaptionskip=\skip55
+\bibindent=\dimen144
+) (/Users/nikos/Library/TinyTeX/texmf-dist/tex/latex/graphics/graphicx.sty
 Package: graphicx 2021/09/16 v1.2d Enhanced LaTeX Graphics (DPC,SPQR)
-
-(/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/tex/latex/graphics/ke
-yval.sty
+(/Users/nikos/Library/TinyTeX/texmf-dist/tex/latex/graphics/keyval.sty
 Package: keyval 2022/05/29 v1.15 key=value parser (DPC)
-\KV@toks@=\toks18
-)
-(/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/tex/latex/graphics/gr
-aphics.sty
-Package: graphics 2022/03/10 v1.4e Standard LaTeX Graphics (DPC,SPQR)
-
-(/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/tex/latex/graphics/tr
-ig.sty
-Package: trig 2021/08/11 v1.11 sin cos tan (DPC)
-)
-(/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/tex/latex/graphics-cf
-g/graphics.cfg
+\KV@toks@=\toks19
+) (/Users/nikos/Library/TinyTeX/texmf-dist/tex/latex/graphics/graphics.sty
+Package: graphics 2024/05/23 v1.4g Standard LaTeX Graphics (DPC,SPQR)
+(/Users/nikos/Library/TinyTeX/texmf-dist/tex/latex/graphics/trig.sty
+Package: trig 2023/12/02 v1.11 sin cos tan (DPC)
+) (/Users/nikos/Library/TinyTeX/texmf-dist/tex/latex/graphics-cfg/graphics.cfg
 File: graphics.cfg 2016/06/04 v1.11 sample graphics configuration
 )
-Package graphics Info: Driver file: pdftex.def on input line 107.
+Package graphics Info: Driver file: pdftex.def on input line 106.
 )
-\Gin@req@height=\dimen144
-\Gin@req@width=\dimen145
-) (/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/tex/latex/ae/ae.sty
+\Gin@req@height=\dimen145
+\Gin@req@width=\dimen146
+) (/Users/nikos/Library/TinyTeX/texmf-dist/tex/latex/ae/ae.sty
 Package: ae 2001/02/12 1.3 Almost European Computer Modern
-
-(/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/tex/latex/base/fonten
-c.sty
+(/Users/nikos/Library/TinyTeX/texmf-dist/tex/latex/base/fontenc.sty
 Package: fontenc 2021/04/29 v2.0v Standard LaTeX package
-))
-(/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/tex/latex/fancyvrb/fa
-ncyvrb.sty
-Package: fancyvrb 2023/01/19 4.5a verbatim text (tvz,hv)
-\FV@CodeLineNo=\count195
+)) (/Users/nikos/Library/TinyTeX/texmf-dist/tex/latex/fancyvrb/fancyvrb.sty
+Package: fancyvrb 2024/01/20 4.5c verbatim text (tvz,hv)
+\FV@CodeLineNo=\count270
 \FV@InFile=\read2
-\FV@TabBox=\box53
-\c@FancyVerbLine=\count196
-\FV@StepNumber=\count197
+\FV@TabBox=\box54
+\c@FancyVerbLine=\count271
+\FV@StepNumber=\count272
 \FV@OutFile=\write3
-)
-(/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/tex/latex/base/fonten
-c.sty
+) (/Users/nikos/Library/TinyTeX/texmf-dist/tex/latex/base/fontenc.sty
 Package: fontenc 2021/04/29 v2.0v Standard LaTeX package
-LaTeX Font Info:    Trying to load font information for T1+aer on input line 11
-2.
-
-(/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/tex/latex/ae/t1aer.fd
+LaTeX Font Info:    Trying to load font information for T1+aer on input line 116.
+(/Users/nikos/Library/TinyTeX/texmf-dist/tex/latex/ae/t1aer.fd
 File: t1aer.fd 1997/11/16 Font definitions for T1/aer.
-))
-(/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/tex/latex/upquote/upq
-uote.sty
-Package: upquote 2012/04/19 v1.3 upright-quote and grave-accent glyphs in verba
-tim
-
-(/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/tex/latex/base/textco
-mp.sty
-Package: textcomp 2020/02/02 v2.0n Standard LaTeX package
-))
-(/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/tex/latex/lm/lmodern.
-sty
+)) (/Users/nikos/Library/TinyTeX/texmf-dist/tex/latex/lm/lmodern.sty
 Package: lmodern 2015/05/01 v1.6.1 Latin Modern Fonts
 LaTeX Font Info:    Overwriting symbol font `operators' in version `normal'
 (Font)                  OT1/cmr/m/n --> OT1/lmr/m/n on input line 22.
@@ -189,138 +137,90 @@ LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `bold'
 (Font)                  OT1/cmr/bx/it --> OT1/lmr/bx/it on input line 37.
 LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `bold'
 (Font)                  OT1/cmtt/m/n --> OT1/lmtt/m/n on input line 38.
-)
-(/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/tex/latex/natbib/natb
-ib.sty
+) (/Users/nikos/Library/TinyTeX/texmf-dist/tex/latex/natbib/natbib.sty
 Package: natbib 2010/09/13 8.31b (PWD, AO)
-\bibhang=\skip55
-\bibsep=\skip56
+\bibhang=\skip56
+\bibsep=\skip57
 LaTeX Info: Redefining \cite on input line 694.
-\c@NAT@ctr=\count198
+\c@NAT@ctr=\count273
 )
-\footerskip=\skip57
-
-(/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/tex/latex/hyperref/hy
-perref.sty
-Package: hyperref 2023-02-07 v7.00v Hypertext links for LaTeX
-
-(/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/tex/generic/ltxcmds/l
-txcmds.sty
-Package: ltxcmds 2020-05-10 v1.25 LaTeX kernel commands for general use (HO)
-)
-(/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/tex/generic/iftex/ift
-ex.sty
+\footerskip=\skip58
+(/Users/nikos/Library/TinyTeX/texmf-dist/tex/latex/hyperref/hyperref.sty
+Package: hyperref 2024-07-10 v7.01j Hypertext links for LaTeX
+(/Users/nikos/Library/TinyTeX/texmf-dist/tex/generic/iftex/iftex.sty
 Package: iftex 2022/02/03 v1.0f TeX engine tests
-)
-(/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/tex/generic/pdftexcmd
-s/pdftexcmds.sty
-Package: pdftexcmds 2020-06-27 v0.33 Utility functions of pdfTeX for LuaTeX (HO
-)
-
-(/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/tex/generic/infwarerr
-/infwarerr.sty
+) (/Users/nikos/Library/TinyTeX/texmf-dist/tex/latex/kvsetkeys/kvsetkeys.sty
+Package: kvsetkeys 2022-10-05 v1.19 Key value parser (HO)
+) (/Users/nikos/Library/TinyTeX/texmf-dist/tex/generic/kvdefinekeys/kvdefinekeys.sty
+Package: kvdefinekeys 2019-12-19 v1.6 Define keys (HO)
+) (/Users/nikos/Library/TinyTeX/texmf-dist/tex/generic/pdfescape/pdfescape.sty
+Package: pdfescape 2019/12/09 v1.15 Implements pdfTeX's escape features (HO)
+(/Users/nikos/Library/TinyTeX/texmf-dist/tex/generic/ltxcmds/ltxcmds.sty
+Package: ltxcmds 2023-12-04 v1.26 LaTeX kernel commands for general use (HO)
+) (/Users/nikos/Library/TinyTeX/texmf-dist/tex/generic/pdftexcmds/pdftexcmds.sty
+Package: pdftexcmds 2020-06-27 v0.33 Utility functions of pdfTeX for LuaTeX (HO)
+(/Users/nikos/Library/TinyTeX/texmf-dist/tex/generic/infwarerr/infwarerr.sty
 Package: infwarerr 2019/12/03 v1.5 Providing info/warning/error messages (HO)
 )
 Package pdftexcmds Info: \pdf@primitive is available.
 Package pdftexcmds Info: \pdf@ifprimitive is available.
 Package pdftexcmds Info: \pdfdraftmode found.
-)
-(/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/tex/latex/kvsetkeys/k
-vsetkeys.sty
-Package: kvsetkeys 2022-10-05 v1.19 Key value parser (HO)
-)
-(/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/tex/generic/kvdefinek
-eys/kvdefinekeys.sty
-Package: kvdefinekeys 2019-12-19 v1.6 Define keys (HO)
-)
-(/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/tex/generic/pdfescape
-/pdfescape.sty
-Package: pdfescape 2019/12/09 v1.15 Implements pdfTeX's escape features (HO)
-)
-(/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/tex/latex/hycolor/hyc
-olor.sty
+)) (/Users/nikos/Library/TinyTeX/texmf-dist/tex/latex/hycolor/hycolor.sty
 Package: hycolor 2020-01-27 v1.10 Color options for hyperref/bookmark (HO)
-)
-(/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/tex/latex/letltxmacro
-/letltxmacro.sty
-Package: letltxmacro 2019/12/03 v1.6 Let assignment for LaTeX macros (HO)
-)
-(/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/tex/latex/auxhook/aux
-hook.sty
-Package: auxhook 2019-12-17 v1.6 Hooks for auxiliary files (HO)
-)
-(/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/tex/latex/hyperref/na
-meref.sty
-Package: nameref 2022-05-17 v2.50 Cross-referencing by name of section
-
-(/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/tex/latex/refcount/re
-fcount.sty
+) (/Users/nikos/Library/TinyTeX/texmf-dist/tex/latex/hyperref/nameref.sty
+Package: nameref 2023-11-26 v2.56 Cross-referencing by name of section
+(/Users/nikos/Library/TinyTeX/texmf-dist/tex/latex/refcount/refcount.sty
 Package: refcount 2019/12/15 v3.6 Data extraction from label references (HO)
-)
-(/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/tex/generic/gettitles
-tring/gettitlestring.sty
+) (/Users/nikos/Library/TinyTeX/texmf-dist/tex/generic/gettitlestring/gettitlestring.sty
 Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
-
-(/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/tex/latex/kvoptions/k
-voptions.sty
+(/Users/nikos/Library/TinyTeX/texmf-dist/tex/latex/kvoptions/kvoptions.sty
 Package: kvoptions 2022-06-15 v3.15 Key value format for package options (HO)
 ))
-\c@section@level=\count199
+\c@section@level=\count274
+) (/Users/nikos/Library/TinyTeX/texmf-dist/tex/latex/etoolbox/etoolbox.sty
+Package: etoolbox 2020/10/05 v2.5k e-TeX tools for LaTeX (JAW)
+\etb@tempcnta=\count275
+) (/Users/nikos/Library/TinyTeX/texmf-dist/tex/generic/stringenc/stringenc.sty
+Package: stringenc 2019/11/29 v1.12 Convert strings between diff. encodings (HO)
 )
-\@linkdim=\dimen146
-\Hy@linkcounter=\count266
-\Hy@pagecounter=\count267
-
-(/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/tex/latex/hyperref/pd
-1enc.def
-File: pd1enc.def 2023-02-07 v7.00v Hyperref: PDFDocEncoding definition (HO)
+\@linkdim=\dimen147
+\Hy@linkcounter=\count276
+\Hy@pagecounter=\count277
+(/Users/nikos/Library/TinyTeX/texmf-dist/tex/latex/hyperref/pd1enc.def
+File: pd1enc.def 2024-07-10 v7.01j Hyperref: PDFDocEncoding definition (HO)
 Now handling font encoding PD1 ...
 ... no UTF-8 mapping file for font encoding PD1
-)
-(/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/tex/generic/intcalc/i
-ntcalc.sty
+) (/Users/nikos/Library/TinyTeX/texmf-dist/tex/generic/intcalc/intcalc.sty
 Package: intcalc 2019/12/15 v1.3 Expandable calculations with integers (HO)
 )
-(/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/tex/generic/etexcmds/
-etexcmds.sty
-Package: etexcmds 2019/12/15 v1.7 Avoid name clashes with e-TeX commands (HO)
-)
-\Hy@SavedSpaceFactor=\count268
-
-(/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/tex/latex/hyperref/pu
-enc.def
-File: puenc.def 2023-02-07 v7.00v Hyperref: PDF Unicode definition (HO)
+\Hy@SavedSpaceFactor=\count278
+(/Users/nikos/Library/TinyTeX/texmf-dist/tex/latex/hyperref/puenc.def
+File: puenc.def 2024-07-10 v7.01j Hyperref: PDF Unicode definition (HO)
 Now handling font encoding PU ...
 ... no UTF-8 mapping file for font encoding PU
 )
-Package hyperref Info: Hyper figures OFF on input line 4177.
-Package hyperref Info: Link nesting OFF on input line 4182.
-Package hyperref Info: Hyper index ON on input line 4185.
-Package hyperref Info: Plain pages OFF on input line 4192.
-Package hyperref Info: Backreferencing OFF on input line 4197.
+Package hyperref Info: Hyper figures OFF on input line 4157.
+Package hyperref Info: Link nesting OFF on input line 4162.
+Package hyperref Info: Hyper index ON on input line 4165.
+Package hyperref Info: Plain pages OFF on input line 4172.
+Package hyperref Info: Backreferencing OFF on input line 4177.
 Package hyperref Info: Implicit mode ON; LaTeX internals redefined.
-Package hyperref Info: Bookmarks ON on input line 4425.
-\c@Hy@tempcnt=\count269
-
-(/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/tex/latex/url/url.sty
-\Urlmuskip=\muskip16
+Package hyperref Info: Bookmarks ON on input line 4424.
+\c@Hy@tempcnt=\count279
+(/Users/nikos/Library/TinyTeX/texmf-dist/tex/latex/url/url.sty
+\Urlmuskip=\muskip17
 Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
 )
 LaTeX Info: Redefining \url on input line 4763.
-\XeTeXLinkMargin=\dimen147
-
-(/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/tex/generic/bitset/bi
-tset.sty
+\XeTeXLinkMargin=\dimen148
+(/Users/nikos/Library/TinyTeX/texmf-dist/tex/generic/bitset/bitset.sty
 Package: bitset 2019/12/09 v1.3 Handle bit-vector datatype (HO)
-
-(/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/tex/generic/bigintcal
-c/bigintcalc.sty
-Package: bigintcalc 2019/12/15 v1.5 Expandable calculations on big integers (HO
-)
+(/Users/nikos/Library/TinyTeX/texmf-dist/tex/generic/bigintcalc/bigintcalc.sty
+Package: bigintcalc 2019/12/15 v1.5 Expandable calculations on big integers (HO)
 ))
-\Fld@menulength=\count270
-\Field@Width=\dimen148
-\Fld@charsize=\dimen149
+\Fld@menulength=\count280
+\Field@Width=\dimen149
+\Fld@charsize=\dimen150
 Package hyperref Info: Hyper figures OFF on input line 6042.
 Package hyperref Info: Link nesting OFF on input line 6047.
 Package hyperref Info: Hyper index ON on input line 6050.
@@ -328,50 +228,38 @@ Package hyperref Info: backreferencing OFF on input line 6057.
 Package hyperref Info: Link coloring OFF on input line 6062.
 Package hyperref Info: Link coloring with OCG OFF on input line 6067.
 Package hyperref Info: PDF/A mode OFF on input line 6072.
-
-(/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/tex/latex/base/atbegs
-hi-ltx.sty
+(/Users/nikos/Library/TinyTeX/texmf-dist/tex/latex/base/atbegshi-ltx.sty
 Package: atbegshi-ltx 2021/01/10 v1.0c Emulation of the original atbegshi
 package with kernel methods
 )
-\Hy@abspage=\count271
-\c@Item=\count272
-\c@Hfootnote=\count273
+\Hy@abspage=\count281
+\c@Item=\count282
+\c@Hfootnote=\count283
 )
 Package hyperref Info: Driver (autodetected): hpdftex.
-
-(/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/tex/latex/hyperref/hp
-dftex.def
-File: hpdftex.def 2023-02-07 v7.00v Hyperref driver for pdfTeX
-
-(/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/tex/latex/base/atvery
-end-ltx.sty
-Package: atveryend-ltx 2020/08/19 v1.0a Emulation of the original atveryend pac
-kage
+(/Users/nikos/Library/TinyTeX/texmf-dist/tex/latex/hyperref/hpdftex.def
+File: hpdftex.def 2024-07-10 v7.01j Hyperref driver for pdfTeX
+(/Users/nikos/Library/TinyTeX/texmf-dist/tex/latex/base/atveryend-ltx.sty
+Package: atveryend-ltx 2020/08/19 v1.0a Emulation of the original atveryend package
 with kernel methods
 )
-\Fld@listcount=\count274
-\c@bookmark@seq@number=\count275
-
-(/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/tex/latex/rerunfilech
-eck/rerunfilecheck.sty
+\Fld@listcount=\count284
+\c@bookmark@seq@number=\count285
+(/Users/nikos/Library/TinyTeX/texmf-dist/tex/latex/rerunfilecheck/rerunfilecheck.sty
 Package: rerunfilecheck 2022-07-10 v1.10 Rerun checks for auxiliary files (HO)
-
-(/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/tex/generic/uniquecou
-nter/uniquecounter.sty
+(/Users/nikos/Library/TinyTeX/texmf-dist/tex/generic/uniquecounter/uniquecounter.sty
 Package: uniquecounter 2019/12/15 v1.4 Provide unlimited unique counter (HO)
 )
-Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 2
-85.
+Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 285.
 )
-\Hy@SectionHShift=\skip58
+\Hy@SectionHShift=\skip59
 )
-\preXLskip=\skip59
-\preLskip=\skip60
-\preMskip=\skip61
-\preSskip=\skip62
-\postMskip=\skip63
-\postSskip=\skip64
+\preXLskip=\skip60
+\preLskip=\skip61
+\preMskip=\skip62
+\preSskip=\skip63
+\postMskip=\skip64
+\postSskip=\skip65
 
 Package hyperref Warning: Option `hyperindex' has already been used,
 (hyperref)                setting the option has no effect on input line 452.
@@ -379,843 +267,580 @@ Package hyperref Warning: Option `hyperindex' has already been used,
 Package hyperref Info: Option `colorlinks' set `true' on input line 452.
 Package hyperref Info: Option `linktocpage' set `true' on input line 452.
 Package hyperref Info: Option `plainpages' set `false' on input line 452.
-)
-(/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/tex/latex/orcidlink/o
-rcidlink.sty
-Package: orcidlink 2021/06/11 v1.0.4 Linked ORCiD logo macro package
-
-(/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/tex/latex/pgf/fronten
-dlayer/tikz.sty
-(/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/tex/latex/pgf/basicla
-yer/pgf.sty
-(/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/tex/latex/pgf/utiliti
-es/pgfrcs.sty
-(/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/tex/generic/pgf/utili
-ties/pgfutil-common.tex
-\pgfutil@everybye=\toks19
-\pgfutil@tempdima=\dimen150
-\pgfutil@tempdimb=\dimen151
-)
-(/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/tex/generic/pgf/utili
-ties/pgfutil-latex.def
-\pgfutil@abb=\box54
-)
-(/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/tex/generic/pgf/utili
-ties/pgfrcs.code.tex
-(/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/tex/generic/pgf/pgf.r
-evision.tex)
+) (/Users/nikos/Library/TinyTeX/texmf-dist/tex/latex/orcidlink/orcidlink.sty
+Package: orcidlink 2024/06/26 v1.1.0 Support ORCID's three different ID formats.
+(/Users/nikos/Library/TinyTeX/texmf-dist/tex/latex/pgf/frontendlayer/tikz.sty (/Users/nikos/Library/TinyTeX/texmf-dist/tex/latex/pgf/basiclayer/pgf.sty (/Users/nikos/Library/TinyTeX/texmf-dist/tex/latex/pgf/utilities/pgfrcs.sty (/Users/nikos/Library/TinyTeX/texmf-dist/tex/generic/pgf/utilities/pgfutil-common.tex
+\pgfutil@everybye=\toks20
+\pgfutil@tempdima=\dimen151
+\pgfutil@tempdimb=\dimen152
+) (/Users/nikos/Library/TinyTeX/texmf-dist/tex/generic/pgf/utilities/pgfutil-latex.def
+\pgfutil@abb=\box55
+) (/Users/nikos/Library/TinyTeX/texmf-dist/tex/generic/pgf/utilities/pgfrcs.code.tex (/Users/nikos/Library/TinyTeX/texmf-dist/tex/generic/pgf/pgf.revision.tex)
 Package: pgfrcs 2023-01-15 v3.1.10 (3.1.10)
 ))
 Package: pgf 2023-01-15 v3.1.10 (3.1.10)
-
-(/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/tex/latex/pgf/basicla
-yer/pgfcore.sty
-(/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/tex/latex/pgf/systeml
-ayer/pgfsys.sty
-(/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/tex/generic/pgf/syste
-mlayer/pgfsys.code.tex
+(/Users/nikos/Library/TinyTeX/texmf-dist/tex/latex/pgf/basiclayer/pgfcore.sty (/Users/nikos/Library/TinyTeX/texmf-dist/tex/latex/pgf/systemlayer/pgfsys.sty (/Users/nikos/Library/TinyTeX/texmf-dist/tex/generic/pgf/systemlayer/pgfsys.code.tex
 Package: pgfsys 2023-01-15 v3.1.10 (3.1.10)
-
-(/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/tex/generic/pgf/utili
-ties/pgfkeys.code.tex
-\pgfkeys@pathtoks=\toks20
-\pgfkeys@temptoks=\toks21
-
-(/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/tex/generic/pgf/utili
-ties/pgfkeyslibraryfiltered.code.tex
-\pgfkeys@tmptoks=\toks22
+(/Users/nikos/Library/TinyTeX/texmf-dist/tex/generic/pgf/utilities/pgfkeys.code.tex
+\pgfkeys@pathtoks=\toks21
+\pgfkeys@temptoks=\toks22
+(/Users/nikos/Library/TinyTeX/texmf-dist/tex/generic/pgf/utilities/pgfkeyslibraryfiltered.code.tex
+\pgfkeys@tmptoks=\toks23
 ))
-\pgf@x=\dimen152
-\pgf@y=\dimen153
-\pgf@xa=\dimen154
-\pgf@ya=\dimen155
-\pgf@xb=\dimen156
-\pgf@yb=\dimen157
-\pgf@xc=\dimen158
-\pgf@yc=\dimen159
-\pgf@xd=\dimen160
-\pgf@yd=\dimen161
+\pgf@x=\dimen153
+\pgf@y=\dimen154
+\pgf@xa=\dimen155
+\pgf@ya=\dimen156
+\pgf@xb=\dimen157
+\pgf@yb=\dimen158
+\pgf@xc=\dimen159
+\pgf@yc=\dimen160
+\pgf@xd=\dimen161
+\pgf@yd=\dimen162
 \w@pgf@writea=\write4
 \r@pgf@reada=\read3
-\c@pgf@counta=\count276
-\c@pgf@countb=\count277
-\c@pgf@countc=\count278
-\c@pgf@countd=\count279
-\t@pgf@toka=\toks23
-\t@pgf@tokb=\toks24
-\t@pgf@tokc=\toks25
-\pgf@sys@id@count=\count280
-
-(/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/tex/generic/pgf/syste
-mlayer/pgf.cfg
+\c@pgf@counta=\count286
+\c@pgf@countb=\count287
+\c@pgf@countc=\count288
+\c@pgf@countd=\count289
+\t@pgf@toka=\toks24
+\t@pgf@tokb=\toks25
+\t@pgf@tokc=\toks26
+\pgf@sys@id@count=\count290
+(/Users/nikos/Library/TinyTeX/texmf-dist/tex/generic/pgf/systemlayer/pgf.cfg
 File: pgf.cfg 2023-01-15 v3.1.10 (3.1.10)
 )
 Driver file for pgf: pgfsys-pdftex.def
-
-(/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/tex/generic/pgf/syste
-mlayer/pgfsys-pdftex.def
+(/Users/nikos/Library/TinyTeX/texmf-dist/tex/generic/pgf/systemlayer/pgfsys-pdftex.def
 File: pgfsys-pdftex.def 2023-01-15 v3.1.10 (3.1.10)
-
-(/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/tex/generic/pgf/syste
-mlayer/pgfsys-common-pdf.def
+(/Users/nikos/Library/TinyTeX/texmf-dist/tex/generic/pgf/systemlayer/pgfsys-common-pdf.def
 File: pgfsys-common-pdf.def 2023-01-15 v3.1.10 (3.1.10)
-)))
-(/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/tex/generic/pgf/syste
-mlayer/pgfsyssoftpath.code.tex
+))) (/Users/nikos/Library/TinyTeX/texmf-dist/tex/generic/pgf/systemlayer/pgfsyssoftpath.code.tex
 File: pgfsyssoftpath.code.tex 2023-01-15 v3.1.10 (3.1.10)
-\pgfsyssoftpath@smallbuffer@items=\count281
-\pgfsyssoftpath@bigbuffer@items=\count282
-)
-(/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/tex/generic/pgf/syste
-mlayer/pgfsysprotocol.code.tex
+\pgfsyssoftpath@smallbuffer@items=\count291
+\pgfsyssoftpath@bigbuffer@items=\count292
+) (/Users/nikos/Library/TinyTeX/texmf-dist/tex/generic/pgf/systemlayer/pgfsysprotocol.code.tex
 File: pgfsysprotocol.code.tex 2023-01-15 v3.1.10 (3.1.10)
-))
-(/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/tex/generic/pgf/basic
-layer/pgfcore.code.tex
+)) (/Users/nikos/Library/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcore.code.tex
 Package: pgfcore 2023-01-15 v3.1.10 (3.1.10)
-
-(/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/tex/generic/pgf/math/
-pgfmath.code.tex
-(/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/tex/generic/pgf/math/
-pgfmathutil.code.tex)
-(/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/tex/generic/pgf/math/
-pgfmathparser.code.tex
-\pgfmath@dimen=\dimen162
-\pgfmath@count=\count283
-\pgfmath@box=\box55
-\pgfmath@toks=\toks26
-\pgfmath@stack@operand=\toks27
-\pgfmath@stack@operation=\toks28
-)
-(/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/tex/generic/pgf/math/
-pgfmathfunctions.code.tex)
-(/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/tex/generic/pgf/math/
-pgfmathfunctions.basic.code.tex)
-(/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/tex/generic/pgf/math/
-pgfmathfunctions.trigonometric.code.tex)
-(/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/tex/generic/pgf/math/
-pgfmathfunctions.random.code.tex)
-(/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/tex/generic/pgf/math/
-pgfmathfunctions.comparison.code.tex)
-(/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/tex/generic/pgf/math/
-pgfmathfunctions.base.code.tex)
-(/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/tex/generic/pgf/math/
-pgfmathfunctions.round.code.tex)
-(/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/tex/generic/pgf/math/
-pgfmathfunctions.misc.code.tex)
-(/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/tex/generic/pgf/math/
-pgfmathfunctions.integerarithmetics.code.tex)
-(/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/tex/generic/pgf/math/
-pgfmathcalc.code.tex)
-(/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/tex/generic/pgf/math/
-pgfmathfloat.code.tex
-\c@pgfmathroundto@lastzeros=\count284
-))
-(/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/tex/generic/pgf/math/
-pgfint.code.tex)
-(/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/tex/generic/pgf/basic
-layer/pgfcorepoints.code.tex
+(/Users/nikos/Library/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmath.code.tex (/Users/nikos/Library/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmathutil.code.tex) (/Users/nikos/Library/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmathparser.code.tex
+\pgfmath@dimen=\dimen163
+\pgfmath@count=\count293
+\pgfmath@box=\box56
+\pgfmath@toks=\toks27
+\pgfmath@stack@operand=\toks28
+\pgfmath@stack@operation=\toks29
+) (/Users/nikos/Library/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.code.tex) (/Users/nikos/Library/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.basic.code.tex) (/Users/nikos/Library/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.trigonometric.code.tex) (/Users/nikos/Library/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.random.code.tex) (/Users/nikos/Library/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.comparison.code.tex) (/Users/nikos/Library/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.base.code.tex) (/Users/nikos/Library/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.round.code.tex) (/Users/nikos/Library/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.misc.code.tex) (/Users/nikos/Library/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.integerarithmetics.code.tex) (/Users/nikos/Library/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmathcalc.code.tex) (/Users/nikos/Library/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmathfloat.code.tex
+\c@pgfmathroundto@lastzeros=\count294
+)) (/Users/nikos/Library/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfint.code.tex) (/Users/nikos/Library/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepoints.code.tex
 File: pgfcorepoints.code.tex 2023-01-15 v3.1.10 (3.1.10)
-\pgf@picminx=\dimen163
-\pgf@picmaxx=\dimen164
-\pgf@picminy=\dimen165
-\pgf@picmaxy=\dimen166
-\pgf@pathminx=\dimen167
-\pgf@pathmaxx=\dimen168
-\pgf@pathminy=\dimen169
-\pgf@pathmaxy=\dimen170
-\pgf@xx=\dimen171
-\pgf@xy=\dimen172
-\pgf@yx=\dimen173
-\pgf@yy=\dimen174
-\pgf@zx=\dimen175
-\pgf@zy=\dimen176
-)
-(/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/tex/generic/pgf/basic
-layer/pgfcorepathconstruct.code.tex
+\pgf@picminx=\dimen164
+\pgf@picmaxx=\dimen165
+\pgf@picminy=\dimen166
+\pgf@picmaxy=\dimen167
+\pgf@pathminx=\dimen168
+\pgf@pathmaxx=\dimen169
+\pgf@pathminy=\dimen170
+\pgf@pathmaxy=\dimen171
+\pgf@xx=\dimen172
+\pgf@xy=\dimen173
+\pgf@yx=\dimen174
+\pgf@yy=\dimen175
+\pgf@zx=\dimen176
+\pgf@zy=\dimen177
+) (/Users/nikos/Library/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepathconstruct.code.tex
 File: pgfcorepathconstruct.code.tex 2023-01-15 v3.1.10 (3.1.10)
-\pgf@path@lastx=\dimen177
-\pgf@path@lasty=\dimen178
-)
-(/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/tex/generic/pgf/basic
-layer/pgfcorepathusage.code.tex
+\pgf@path@lastx=\dimen178
+\pgf@path@lasty=\dimen179
+) (/Users/nikos/Library/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepathusage.code.tex
 File: pgfcorepathusage.code.tex 2023-01-15 v3.1.10 (3.1.10)
-\pgf@shorten@end@additional=\dimen179
-\pgf@shorten@start@additional=\dimen180
-)
-(/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/tex/generic/pgf/basic
-layer/pgfcorescopes.code.tex
+\pgf@shorten@end@additional=\dimen180
+\pgf@shorten@start@additional=\dimen181
+) (/Users/nikos/Library/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcorescopes.code.tex
 File: pgfcorescopes.code.tex 2023-01-15 v3.1.10 (3.1.10)
-\pgfpic=\box56
-\pgf@hbox=\box57
-\pgf@layerbox@main=\box58
-\pgf@picture@serial@count=\count285
-)
-(/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/tex/generic/pgf/basic
-layer/pgfcoregraphicstate.code.tex
+\pgfpic=\box57
+\pgf@hbox=\box58
+\pgf@layerbox@main=\box59
+\pgf@picture@serial@count=\count295
+) (/Users/nikos/Library/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcoregraphicstate.code.tex
 File: pgfcoregraphicstate.code.tex 2023-01-15 v3.1.10 (3.1.10)
-\pgflinewidth=\dimen181
-)
-(/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/tex/generic/pgf/basic
-layer/pgfcoretransformations.code.tex
+\pgflinewidth=\dimen182
+) (/Users/nikos/Library/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcoretransformations.code.tex
 File: pgfcoretransformations.code.tex 2023-01-15 v3.1.10 (3.1.10)
-\pgf@pt@x=\dimen182
-\pgf@pt@y=\dimen183
-\pgf@pt@temp=\dimen184
-)
-(/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/tex/generic/pgf/basic
-layer/pgfcorequick.code.tex
+\pgf@pt@x=\dimen183
+\pgf@pt@y=\dimen184
+\pgf@pt@temp=\dimen185
+) (/Users/nikos/Library/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcorequick.code.tex
 File: pgfcorequick.code.tex 2023-01-15 v3.1.10 (3.1.10)
-)
-(/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/tex/generic/pgf/basic
-layer/pgfcoreobjects.code.tex
+) (/Users/nikos/Library/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcoreobjects.code.tex
 File: pgfcoreobjects.code.tex 2023-01-15 v3.1.10 (3.1.10)
-)
-(/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/tex/generic/pgf/basic
-layer/pgfcorepathprocessing.code.tex
+) (/Users/nikos/Library/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepathprocessing.code.tex
 File: pgfcorepathprocessing.code.tex 2023-01-15 v3.1.10 (3.1.10)
-)
-(/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/tex/generic/pgf/basic
-layer/pgfcorearrows.code.tex
+) (/Users/nikos/Library/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcorearrows.code.tex
 File: pgfcorearrows.code.tex 2023-01-15 v3.1.10 (3.1.10)
-\pgfarrowsep=\dimen185
-)
-(/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/tex/generic/pgf/basic
-layer/pgfcoreshade.code.tex
+\pgfarrowsep=\dimen186
+) (/Users/nikos/Library/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcoreshade.code.tex
 File: pgfcoreshade.code.tex 2023-01-15 v3.1.10 (3.1.10)
-\pgf@max=\dimen186
-\pgf@sys@shading@range@num=\count286
-\pgf@shadingcount=\count287
-)
-(/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/tex/generic/pgf/basic
-layer/pgfcoreimage.code.tex
+\pgf@max=\dimen187
+\pgf@sys@shading@range@num=\count296
+\pgf@shadingcount=\count297
+) (/Users/nikos/Library/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcoreimage.code.tex
 File: pgfcoreimage.code.tex 2023-01-15 v3.1.10 (3.1.10)
-)
-(/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/tex/generic/pgf/basic
-layer/pgfcoreexternal.code.tex
+) (/Users/nikos/Library/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcoreexternal.code.tex
 File: pgfcoreexternal.code.tex 2023-01-15 v3.1.10 (3.1.10)
-\pgfexternal@startupbox=\box59
-)
-(/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/tex/generic/pgf/basic
-layer/pgfcorelayers.code.tex
+\pgfexternal@startupbox=\box60
+) (/Users/nikos/Library/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcorelayers.code.tex
 File: pgfcorelayers.code.tex 2023-01-15 v3.1.10 (3.1.10)
-)
-(/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/tex/generic/pgf/basic
-layer/pgfcoretransparency.code.tex
+) (/Users/nikos/Library/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcoretransparency.code.tex
 File: pgfcoretransparency.code.tex 2023-01-15 v3.1.10 (3.1.10)
-)
-(/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/tex/generic/pgf/basic
-layer/pgfcorepatterns.code.tex
+) (/Users/nikos/Library/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepatterns.code.tex
 File: pgfcorepatterns.code.tex 2023-01-15 v3.1.10 (3.1.10)
-)
-(/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/tex/generic/pgf/basic
-layer/pgfcorerdf.code.tex
+) (/Users/nikos/Library/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcorerdf.code.tex
 File: pgfcorerdf.code.tex 2023-01-15 v3.1.10 (3.1.10)
-)))
-(/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/tex/generic/pgf/modul
-es/pgfmoduleshapes.code.tex
+))) (/Users/nikos/Library/TinyTeX/texmf-dist/tex/generic/pgf/modules/pgfmoduleshapes.code.tex
 File: pgfmoduleshapes.code.tex 2023-01-15 v3.1.10 (3.1.10)
-\pgfnodeparttextbox=\box60
-)
-(/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/tex/generic/pgf/modul
-es/pgfmoduleplot.code.tex
+\pgfnodeparttextbox=\box61
+) (/Users/nikos/Library/TinyTeX/texmf-dist/tex/generic/pgf/modules/pgfmoduleplot.code.tex
 File: pgfmoduleplot.code.tex 2023-01-15 v3.1.10 (3.1.10)
-)
-(/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/tex/latex/pgf/compati
-bility/pgfcomp-version-0-65.sty
+) (/Users/nikos/Library/TinyTeX/texmf-dist/tex/latex/pgf/compatibility/pgfcomp-version-0-65.sty
 Package: pgfcomp-version-0-65 2023-01-15 v3.1.10 (3.1.10)
-\pgf@nodesepstart=\dimen187
-\pgf@nodesepend=\dimen188
-)
-(/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/tex/latex/pgf/compati
-bility/pgfcomp-version-1-18.sty
+\pgf@nodesepstart=\dimen188
+\pgf@nodesepend=\dimen189
+) (/Users/nikos/Library/TinyTeX/texmf-dist/tex/latex/pgf/compatibility/pgfcomp-version-1-18.sty
 Package: pgfcomp-version-1-18 2023-01-15 v3.1.10 (3.1.10)
-))
-(/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/tex/latex/pgf/utiliti
-es/pgffor.sty
-(/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/tex/latex/pgf/utiliti
-es/pgfkeys.sty
-(/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/tex/generic/pgf/utili
-ties/pgfkeys.code.tex))
-(/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/tex/latex/pgf/math/pg
-fmath.sty
-(/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/tex/generic/pgf/math/
-pgfmath.code.tex))
-(/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/tex/generic/pgf/utili
-ties/pgffor.code.tex
+)) (/Users/nikos/Library/TinyTeX/texmf-dist/tex/latex/pgf/utilities/pgffor.sty (/Users/nikos/Library/TinyTeX/texmf-dist/tex/latex/pgf/utilities/pgfkeys.sty (/Users/nikos/Library/TinyTeX/texmf-dist/tex/generic/pgf/utilities/pgfkeys.code.tex)) (/Users/nikos/Library/TinyTeX/texmf-dist/tex/latex/pgf/math/pgfmath.sty (/Users/nikos/Library/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmath.code.tex)) (/Users/nikos/Library/TinyTeX/texmf-dist/tex/generic/pgf/utilities/pgffor.code.tex
 Package: pgffor 2023-01-15 v3.1.10 (3.1.10)
-\pgffor@iter=\dimen189
-\pgffor@skip=\dimen190
-\pgffor@stack=\toks29
-\pgffor@toks=\toks30
-))
-(/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/tex/generic/pgf/front
-endlayer/tikz/tikz.code.tex
+\pgffor@iter=\dimen190
+\pgffor@skip=\dimen191
+\pgffor@stack=\toks30
+\pgffor@toks=\toks31
+)) (/Users/nikos/Library/TinyTeX/texmf-dist/tex/generic/pgf/frontendlayer/tikz/tikz.code.tex
 Package: tikz 2023-01-15 v3.1.10 (3.1.10)
-
-(/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/tex/generic/pgf/libra
-ries/pgflibraryplothandlers.code.tex
+(/Users/nikos/Library/TinyTeX/texmf-dist/tex/generic/pgf/libraries/pgflibraryplothandlers.code.tex
 File: pgflibraryplothandlers.code.tex 2023-01-15 v3.1.10 (3.1.10)
-\pgf@plot@mark@count=\count288
-\pgfplotmarksize=\dimen191
+\pgf@plot@mark@count=\count298
+\pgfplotmarksize=\dimen192
 )
-\tikz@lastx=\dimen192
-\tikz@lasty=\dimen193
-\tikz@lastxsaved=\dimen194
-\tikz@lastysaved=\dimen195
-\tikz@lastmovetox=\dimen196
-\tikz@lastmovetoy=\dimen197
-\tikzleveldistance=\dimen198
-\tikzsiblingdistance=\dimen199
-\tikz@figbox=\box61
-\tikz@figbox@bg=\box62
-\tikz@tempbox=\box63
-\tikz@tempbox@bg=\box64
-\tikztreelevel=\count289
-\tikznumberofchildren=\count290
-\tikznumberofcurrentchild=\count291
-\tikz@fig@count=\count292
-
-(/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/tex/generic/pgf/modul
-es/pgfmodulematrix.code.tex
+\tikz@lastx=\dimen193
+\tikz@lasty=\dimen194
+\tikz@lastxsaved=\dimen195
+\tikz@lastysaved=\dimen196
+\tikz@lastmovetox=\dimen197
+\tikz@lastmovetoy=\dimen198
+\tikzleveldistance=\dimen199
+\tikzsiblingdistance=\dimen256
+\tikz@figbox=\box62
+\tikz@figbox@bg=\box63
+\tikz@tempbox=\box64
+\tikz@tempbox@bg=\box65
+\tikztreelevel=\count299
+\tikznumberofchildren=\count300
+\tikznumberofcurrentchild=\count301
+\tikz@fig@count=\count302
+(/Users/nikos/Library/TinyTeX/texmf-dist/tex/generic/pgf/modules/pgfmodulematrix.code.tex
 File: pgfmodulematrix.code.tex 2023-01-15 v3.1.10 (3.1.10)
-\pgfmatrixcurrentrow=\count293
-\pgfmatrixcurrentcolumn=\count294
-\pgf@matrix@numberofcolumns=\count295
+\pgfmatrixcurrentrow=\count303
+\pgfmatrixcurrentcolumn=\count304
+\pgf@matrix@numberofcolumns=\count305
 )
-\tikz@expandcount=\count296
-
-(/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/tex/generic/pgf/front
-endlayer/tikz/libraries/tikzlibrarytopaths.code.tex
+\tikz@expandcount=\count306
+(/Users/nikos/Library/TinyTeX/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tikzlibrarytopaths.code.tex
 File: tikzlibrarytopaths.code.tex 2023-01-15 v3.1.10 (3.1.10)
-)))
-(/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/tex/generic/pgf/front
-endlayer/tikz/libraries/tikzlibrarysvg.path.code.tex
+))) (/Users/nikos/Library/TinyTeX/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tikzlibrarysvg.path.code.tex
 File: tikzlibrarysvg.path.code.tex 2023-01-15 v3.1.10 (3.1.10)
-
-(/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/tex/generic/pgf/libra
-ries/pgflibrarysvg.path.code.tex
+(/Users/nikos/Library/TinyTeX/texmf-dist/tex/generic/pgf/libraries/pgflibrarysvg.path.code.tex
 File: pgflibrarysvg.path.code.tex 2023-01-15 v3.1.10 (3.1.10)
-
-(/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/tex/generic/pgf/modul
-es/pgfmoduleparser.code.tex
+(/Users/nikos/Library/TinyTeX/texmf-dist/tex/generic/pgf/modules/pgfmoduleparser.code.tex
 File: pgfmoduleparser.code.tex 2023-01-15 v3.1.10 (3.1.10)
-\pgfparserdef@arg@count=\count297
+\pgfparserdef@arg@count=\count307
 )
-\pgf@lib@svg@last@x=\dimen256
-\pgf@lib@svg@last@y=\dimen257
-\pgf@lib@svg@last@c@x=\dimen258
-\pgf@lib@svg@last@c@y=\dimen259
-\pgf@lib@svg@count=\count298
-\pgf@lib@svg@max@num=\count299
+\pgf@lib@svg@last@x=\dimen257
+\pgf@lib@svg@last@y=\dimen258
+\pgf@lib@svg@last@c@x=\dimen259
+\pgf@lib@svg@last@c@y=\dimen260
+\pgf@lib@svg@count=\count308
+\pgf@lib@svg@max@num=\count309
 ))
-\@curXheight=\skip65
-)
-(/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/tex/generic/thumbpdf/
-thumbpdf.sty
+\@curXheight=\skip66
+) (/Users/nikos/Library/TinyTeX/texmf-dist/tex/generic/thumbpdf/thumbpdf.sty
 Package: thumbpdf 2018/09/07 v3.17 Inclusion of thumbnails (HO)
 THUMBPDF: Compressed PDF objects of PDF 1.5 are not supported
-)
-(/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/tex/latex/base/inpute
-nc.sty
-Package: inputenc 2021/02/14 v1.3d Input encoding file
-\inpenc@prehook=\toks31
-\inpenc@posthook=\toks32
-)
-(/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/tex/latex/booktabs/bo
-oktabs.sty
+) (/Users/nikos/Library/TinyTeX/texmf-dist/tex/latex/base/inputenc.sty
+Package: inputenc 2024/02/08 v1.3d Input encoding file
+\inpenc@prehook=\toks32
+\inpenc@posthook=\toks33
+) (/Users/nikos/Library/TinyTeX/texmf-dist/tex/latex/booktabs/booktabs.sty
 Package: booktabs 2020/01/12 v1.61803398 Publication quality tables
-\heavyrulewidth=\dimen260
-\lightrulewidth=\dimen261
-\cmidrulewidth=\dimen262
-\belowrulesep=\dimen263
-\belowbottomsep=\dimen264
-\aboverulesep=\dimen265
-\abovetopsep=\dimen266
-\cmidrulesep=\dimen267
-\cmidrulekern=\dimen268
-\defaultaddspace=\dimen269
-\@cmidla=\count300
-\@cmidlb=\count301
-\@aboverulesep=\dimen270
-\@belowrulesep=\dimen271
-\@thisruleclass=\count302
-\@lastruleclass=\count303
-\@thisrulewidth=\dimen272
-)
-(/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/tex/latex/tools/longt
-able.sty
-Package: longtable 2021-09-01 v4.17 Multi-page Table package (DPC)
-\LTleft=\skip66
-\LTright=\skip67
-\LTpre=\skip68
-\LTpost=\skip69
-\LTchunksize=\count304
-\LTcapwidth=\dimen273
-\LT@head=\box65
-\LT@firsthead=\box66
-\LT@foot=\box67
-\LT@lastfoot=\box68
-\LT@gbox=\box69
-\LT@cols=\count305
-\LT@rows=\count306
-\c@LT@tables=\count307
-\c@LT@chunks=\count308
-\LT@p@ftn=\toks33
-)
-(/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/tex/latex/wrapfig/wra
-pfig.sty
-\wrapoverhang=\dimen274
-\WF@size=\dimen275
-\c@WF@wrappedlines=\count309
-\WF@box=\box70
-\WF@everypar=\toks34
+\heavyrulewidth=\dimen261
+\lightrulewidth=\dimen262
+\cmidrulewidth=\dimen263
+\belowrulesep=\dimen264
+\belowbottomsep=\dimen265
+\aboverulesep=\dimen266
+\abovetopsep=\dimen267
+\cmidrulesep=\dimen268
+\cmidrulekern=\dimen269
+\defaultaddspace=\dimen270
+\@cmidla=\count310
+\@cmidlb=\count311
+\@aboverulesep=\dimen271
+\@belowrulesep=\dimen272
+\@thisruleclass=\count312
+\@lastruleclass=\count313
+\@thisrulewidth=\dimen273
+) (/Users/nikos/Library/TinyTeX/texmf-dist/tex/latex/tools/longtable.sty
+Package: longtable 2024-04-26 v4.20 Multi-page Table package (DPC)
+\LTleft=\skip67
+\LTright=\skip68
+\LTpre=\skip69
+\LTpost=\skip70
+\LTchunksize=\count314
+\LTcapwidth=\dimen274
+\LT@head=\box66
+\LT@firsthead=\box67
+\LT@foot=\box68
+\LT@lastfoot=\box69
+\LT@gbox=\box70
+\LT@cols=\count315
+\LT@rows=\count316
+\c@LT@tables=\count317
+\c@LT@chunks=\count318
+\LT@p@ftn=\toks34
+) (/Users/nikos/Library/TinyTeX/texmf-dist/tex/latex/wrapfig/wrapfig.sty
+\wrapoverhang=\dimen275
+\WF@size=\dimen276
+\c@WF@wrappedlines=\count319
+\WF@box=\box71
+\WF@everypar=\toks35
 Package: wrapfig 2003/01/31  v 3.6
-)
-(/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/tex/latex/float/float
-.sty
+) (/Users/nikos/Library/TinyTeX/texmf-dist/tex/latex/float/float.sty
 Package: float 2001/11/08 v1.3d Float enhancements (AL)
-\c@float@type=\count310
-\float@exts=\toks35
-\float@box=\box71
-\@float@everytoks=\toks36
-\@floatcapt=\box72
-)
-(/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/tex/latex/pdflscape/p
-dflscape.sty
+\c@float@type=\count320
+\float@exts=\toks36
+\float@box=\box72
+\@float@everytoks=\toks37
+\@floatcapt=\box73
+) (/Users/nikos/Library/TinyTeX/texmf-dist/tex/latex/pdflscape/pdflscape.sty
 Package: pdflscape 2022-10-27 v0.13 Display of landscape pages in PDF
-
-(/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/tex/latex/pdflscape/p
-dflscape-nometadata.sty
-Package: pdflscape-nometadata 2022-10-28 v0.13 Display of landscape pages in PD
-F (HO)
-
-(/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/tex/latex/graphics/ls
-cape.sty
+(/Users/nikos/Library/TinyTeX/texmf-dist/tex/latex/pdflscape/pdflscape-nometadata.sty
+Package: pdflscape-nometadata 2022-10-28 v0.13 Display of landscape pages in PDF (HO)
+(/Users/nikos/Library/TinyTeX/texmf-dist/tex/latex/graphics/lscape.sty
 Package: lscape 2020/05/28 v3.02 Landscape Pages (DPC)
 )
 Package pdflscape Info: Auto-detected driver: pdftex on input line 81.
-))
-(/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/tex/latex/tabu/tabu.s
-ty
+)) (/Users/nikos/Library/TinyTeX/texmf-dist/tex/latex/tabu/tabu.sty
 Package: tabu 2019/01/11 v2.9 - flexible LaTeX tabulars (FC+tabu-fixed)
-
-(/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/tex/latex/varwidth/va
-rwidth.sty
+(/Users/nikos/Library/TinyTeX/texmf-dist/tex/latex/varwidth/varwidth.sty
 Package: varwidth 2009/03/30 ver 0.92;  Variable-width minipages
-\@vwid@box=\box73
-\sift@deathcycles=\count311
-\@vwid@loff=\dimen276
-\@vwid@roff=\dimen277
+\@vwid@box=\box74
+\sift@deathcycles=\count321
+\@vwid@loff=\dimen277
+\@vwid@roff=\dimen278
 )
-\c@taburow=\count312
-\tabu@nbcols=\count313
-\tabu@cnt=\count314
-\tabu@Xcol=\count315
-\tabu@alloc=\count316
-\tabu@nested=\count317
-\tabu@target=\dimen278
-\tabu@spreadtarget=\dimen279
-\tabu@naturalX=\dimen280
-\tabucolX=\dimen281
-\tabu@Xsum=\dimen282
-\extrarowdepth=\dimen283
-\abovetabulinesep=\dimen284
-\belowtabulinesep=\dimen285
-\tabustrutrule=\dimen286
-\tabu@thebody=\toks37
-\tabu@footnotes=\toks38
-\tabu@box=\box74
-\tabu@arstrutbox=\box75
-\tabu@hleads=\box76
-\tabu@vleads=\box77
-\tabu@cellskip=\skip70
-)
-(/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/tex/latex/threepartta
-ble/threeparttable.sty
+\c@taburow=\count322
+\tabu@nbcols=\count323
+\tabu@cnt=\count324
+\tabu@Xcol=\count325
+\tabu@alloc=\count326
+\tabu@nested=\count327
+\tabu@target=\dimen279
+\tabu@spreadtarget=\dimen280
+\tabu@naturalX=\dimen281
+\tabucolX=\dimen282
+\tabu@Xsum=\dimen283
+\extrarowdepth=\dimen284
+\abovetabulinesep=\dimen285
+\belowtabulinesep=\dimen286
+\tabustrutrule=\dimen287
+\tabu@thebody=\toks38
+\tabu@footnotes=\toks39
+\tabu@box=\box75
+\tabu@arstrutbox=\box76
+\tabu@hleads=\box77
+\tabu@vleads=\box78
+\tabu@cellskip=\skip71
+) (/Users/nikos/Library/TinyTeX/texmf-dist/tex/latex/threeparttable/threeparttable.sty
 Package: threeparttable 2003/06/13  v 3.0
-\@tempboxb=\box78
-)
-(/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/tex/latex/threepartta
-blex/threeparttablex.sty
+\@tempboxb=\box79
+) (/Users/nikos/Library/TinyTeX/texmf-dist/tex/latex/threeparttablex/threeparttablex.sty
 Package: threeparttablex 2013/07/23 v0.3 by daleif
-
-(/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/tex/latex/environ/env
-iron.sty
+(/Users/nikos/Library/TinyTeX/texmf-dist/tex/latex/environ/environ.sty
 Package: environ 2014/05/04 v0.3 A new way to define environments
-
-(/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/tex/latex/trimspaces/
-trimspaces.sty
+(/Users/nikos/Library/TinyTeX/texmf-dist/tex/latex/trimspaces/trimspaces.sty
 Package: trimspaces 2009/09/17 v1.1 Trim spaces around a token list
 )
-\@envbody=\toks39
+\@envbody=\toks40
 )
-\TPTL@width=\skip71
-)
-(/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/tex/generic/ulem/ulem
-.sty
-\UL@box=\box79
-\UL@hyphenbox=\box80
-\UL@skip=\skip72
-\UL@hook=\toks40
-\UL@height=\dimen287
-\UL@pe=\count318
-\UL@pixel=\dimen288
-\ULC@box=\box81
+\TPTL@width=\skip72
+) (/Users/nikos/Library/TinyTeX/texmf-dist/tex/generic/ulem/ulem.sty
+\UL@box=\box80
+\UL@hyphenbox=\box81
+\UL@skip=\skip73
+\UL@hook=\toks41
+\UL@height=\dimen288
+\UL@pe=\count328
+\UL@pixel=\dimen289
+\ULC@box=\box82
 Package: ulem 2019/11/18
-\ULdepth=\dimen289
-)
-(/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/tex/latex/makecell/ma
-kecell.sty
+\ULdepth=\dimen290
+) (/Users/nikos/Library/TinyTeX/texmf-dist/tex/latex/makecell/makecell.sty
 Package: makecell 2009/08/03 V0.1e Managing of Tab Column Heads and Cells
-\rotheadsize=\dimen290
-\c@nlinenum=\count319
-\TeXr@lab=\toks41
-)
-(/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/tex/latex/amsmath/ams
-math.sty
-Package: amsmath 2022/04/08 v2.17n AMS math features
-\@mathmargin=\skip73
+\rotheadsize=\dimen291
+\c@nlinenum=\count329
+\TeXr@lab=\toks42
+) (/Users/nikos/Library/TinyTeX/texmf-dist/tex/latex/amsmath/amsmath.sty
+Package: amsmath 2024/05/23 v2.17q AMS math features
+\@mathmargin=\skip74
 For additional information on amsmath, use the `?' option.
-
-(/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/tex/latex/amsmath/ams
-text.sty
+(/Users/nikos/Library/TinyTeX/texmf-dist/tex/latex/amsmath/amstext.sty
 Package: amstext 2021/08/26 v2.01 AMS text
-
-(/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/tex/latex/amsmath/ams
-gen.sty
+(/Users/nikos/Library/TinyTeX/texmf-dist/tex/latex/amsmath/amsgen.sty
 File: amsgen.sty 1999/11/30 v2.0 generic functions
-\@emptytoks=\toks42
-\ex@=\dimen291
-))
-(/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/tex/latex/amsmath/ams
-bsy.sty
+\@emptytoks=\toks43
+\ex@=\dimen292
+)) (/Users/nikos/Library/TinyTeX/texmf-dist/tex/latex/amsmath/amsbsy.sty
 Package: amsbsy 1999/11/29 v1.2d Bold Symbols
-\pmbraise@=\dimen292
-)
-(/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/tex/latex/amsmath/ams
-opn.sty
+\pmbraise@=\dimen293
+) (/Users/nikos/Library/TinyTeX/texmf-dist/tex/latex/amsmath/amsopn.sty
 Package: amsopn 2022/04/08 v2.04 operator names
 )
-\inf@bad=\count320
-LaTeX Info: Redefining \frac on input line 234.
-\uproot@=\count321
-\leftroot@=\count322
-LaTeX Info: Redefining \overline on input line 399.
-LaTeX Info: Redefining \colon on input line 410.
-\classnum@=\count323
-\DOTSCASE@=\count324
-LaTeX Info: Redefining \ldots on input line 496.
-LaTeX Info: Redefining \dots on input line 499.
-LaTeX Info: Redefining \cdots on input line 620.
-\Mathstrutbox@=\box82
-\strutbox@=\box83
-LaTeX Info: Redefining \big on input line 722.
-LaTeX Info: Redefining \Big on input line 723.
-LaTeX Info: Redefining \bigg on input line 724.
-LaTeX Info: Redefining \Bigg on input line 725.
-\big@size=\dimen293
-LaTeX Font Info:    Redeclaring font encoding OML on input line 743.
-LaTeX Font Info:    Redeclaring font encoding OMS on input line 744.
-\macc@depth=\count325
-LaTeX Info: Redefining \bmod on input line 905.
-LaTeX Info: Redefining \pmod on input line 910.
-LaTeX Info: Redefining \smash on input line 940.
-LaTeX Info: Redefining \relbar on input line 970.
-LaTeX Info: Redefining \Relbar on input line 971.
-\c@MaxMatrixCols=\count326
-\dotsspace@=\muskip17
-\c@parentequation=\count327
-\dspbrk@lvl=\count328
-\tag@help=\toks43
-\row@=\count329
-\column@=\count330
-\maxfields@=\count331
-\andhelp@=\toks44
-\eqnshift@=\dimen294
-\alignsep@=\dimen295
-\tagshift@=\dimen296
-\tagwidth@=\dimen297
-\totwidth@=\dimen298
-\lineht@=\dimen299
-\@envbody=\toks45
-\multlinegap=\skip74
-\multlinetaggap=\skip75
-\mathdisplay@stack=\toks46
+\inf@bad=\count330
+LaTeX Info: Redefining \frac on input line 233.
+\uproot@=\count331
+\leftroot@=\count332
+LaTeX Info: Redefining \overline on input line 398.
+LaTeX Info: Redefining \colon on input line 409.
+\classnum@=\count333
+\DOTSCASE@=\count334
+LaTeX Info: Redefining \ldots on input line 495.
+LaTeX Info: Redefining \dots on input line 498.
+LaTeX Info: Redefining \cdots on input line 619.
+\Mathstrutbox@=\box83
+\strutbox@=\box84
+LaTeX Info: Redefining \big on input line 721.
+LaTeX Info: Redefining \Big on input line 722.
+LaTeX Info: Redefining \bigg on input line 723.
+LaTeX Info: Redefining \Bigg on input line 724.
+\big@size=\dimen294
+LaTeX Font Info:    Redeclaring font encoding OML on input line 742.
+LaTeX Font Info:    Redeclaring font encoding OMS on input line 743.
+\macc@depth=\count335
+LaTeX Info: Redefining \bmod on input line 904.
+LaTeX Info: Redefining \pmod on input line 909.
+LaTeX Info: Redefining \smash on input line 939.
+LaTeX Info: Redefining \relbar on input line 969.
+LaTeX Info: Redefining \Relbar on input line 970.
+\c@MaxMatrixCols=\count336
+\dotsspace@=\muskip18
+\c@parentequation=\count337
+\dspbrk@lvl=\count338
+\tag@help=\toks44
+\row@=\count339
+\column@=\count340
+\maxfields@=\count341
+\andhelp@=\toks45
+\eqnshift@=\dimen295
+\alignsep@=\dimen296
+\tagshift@=\dimen297
+\tagwidth@=\dimen298
+\totwidth@=\dimen299
+\lineht@=\dimen300
+\@envbody=\toks46
+\multlinegap=\skip75
+\multlinetaggap=\skip76
+\mathdisplay@stack=\toks47
 LaTeX Info: Redefining \[ on input line 2953.
 LaTeX Info: Redefining \] on input line 2954.
-)
-(/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/tex/latex/amsfonts/am
-ssymb.sty
+) (/Users/nikos/Library/TinyTeX/texmf-dist/tex/latex/amsfonts/amssymb.sty
 Package: amssymb 2013/01/14 v3.01 AMS font symbols
-
-(/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/tex/latex/amsfonts/am
-sfonts.sty
+(/Users/nikos/Library/TinyTeX/texmf-dist/tex/latex/amsfonts/amsfonts.sty
 Package: amsfonts 2013/01/14 v3.01 Basic AMSFonts support
 \symAMSa=\mathgroup4
 \symAMSb=\mathgroup5
 LaTeX Font Info:    Redeclaring math symbol \hbar on input line 98.
 LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
 (Font)                  U/euf/m/n --> U/euf/b/n on input line 106.
-))
-(/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/tex/latex/caption/cap
-tion.sty
-Package: caption 2023/03/12 v3.6j Customizing captions (AR)
-
-(/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/tex/latex/caption/cap
-tion3.sty
-Package: caption3 2023/03/12 v2.4 caption3 kernel (AR)
-\caption@tempdima=\dimen300
-\captionmargin=\dimen301
-\caption@leftmargin=\dimen302
-\caption@rightmargin=\dimen303
-\caption@width=\dimen304
-\caption@indent=\dimen305
-\caption@parindent=\dimen306
-\caption@hangindent=\dimen307
+)) (/Users/nikos/Library/TinyTeX/texmf-dist/tex/latex/caption/caption.sty
+Package: caption 2023/08/05 v3.6o Customizing captions (AR)
+(/Users/nikos/Library/TinyTeX/texmf-dist/tex/latex/caption/caption3.sty
+Package: caption3 2023/07/31 v2.4d caption3 kernel (AR)
+\caption@tempdima=\dimen301
+\captionmargin=\dimen302
+\caption@leftmargin=\dimen303
+\caption@rightmargin=\dimen304
+\caption@width=\dimen305
+\caption@indent=\dimen306
+\caption@parindent=\dimen307
+\caption@hangindent=\dimen308
 Package caption Info: Standard document class detected.
 )
-\c@caption@flags=\count332
-\c@continuedfloat=\count333
+\c@caption@flags=\count342
+\c@continuedfloat=\count343
 Package caption Info: float package is loaded.
 Package caption Info: hyperref package is loaded.
 Package caption Info: longtable package is loaded.
-
-(/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/tex/latex/caption/ltc
-aption.sty
+(/Users/nikos/Library/TinyTeX/texmf-dist/tex/latex/caption/ltcaption.sty
 Package: ltcaption 2021/01/08 v1.4c longtable captions (AR)
 )
 Package caption Info: threeparttable package is loaded.
 Package caption Info: wrapfig package is loaded.
 )
-LaTeX Font Info:    Trying to load font information for T1+lmr on input line 14
-1.
-
-(/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/tex/latex/lm/t1lmr.fd
+LaTeX Font Info:    Trying to load font information for T1+lmr on input line 145.
+(/Users/nikos/Library/TinyTeX/texmf-dist/tex/latex/lm/t1lmr.fd
 File: t1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
-)
-(/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/tex/latex/l3backend/l
-3backend-pdftex.def
-File: l3backend-pdftex.def 2023-01-16 L3 backend support: PDF output (pdfTeX)
-\l__color_backend_stack_int=\count334
-\l__pdf_internal_box=\box84
+) (/Users/nikos/Library/TinyTeX/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
+File: l3backend-pdftex.def 2024-05-08 L3 backend support: PDF output (pdfTeX)
+\l__color_backend_stack_int=\count344
+\l__pdf_internal_box=\box85
 ) (./manuscript.aux)
 \openout1 = `manuscript.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 141.
-LaTeX Font Info:    ... okay on input line 141.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 141.
-LaTeX Font Info:    ... okay on input line 141.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 141.
-LaTeX Font Info:    ... okay on input line 141.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 141.
-LaTeX Font Info:    ... okay on input line 141.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 141.
-LaTeX Font Info:    ... okay on input line 141.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 141.
-LaTeX Font Info:    ... okay on input line 141.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 141.
-LaTeX Font Info:    ... okay on input line 141.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 141.
-LaTeX Font Info:    ... okay on input line 141.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 141.
-LaTeX Font Info:    ... okay on input line 141.
-
-(/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/tex/context/base/mkii
-/supp-pdf.mkii
-[Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count335
-\scratchdimen=\dimen308
-\scratchbox=\box85
-\nofMPsegments=\count336
-\nofMParguments=\count337
-\everyMPshowfont=\toks47
-\MPscratchCnt=\count338
-\MPscratchDim=\dimen309
-\MPnumerator=\count339
-\makeMPintoPDFobject=\count340
-\everyMPtoPDFconversion=\toks48
-)
-(/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/tex/latex/epstopdf-pk
-g/epstopdf-base.sty
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 145.
+LaTeX Font Info:    ... okay on input line 145.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 145.
+LaTeX Font Info:    ... okay on input line 145.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 145.
+LaTeX Font Info:    ... okay on input line 145.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 145.
+LaTeX Font Info:    ... okay on input line 145.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 145.
+LaTeX Font Info:    ... okay on input line 145.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 145.
+LaTeX Font Info:    ... okay on input line 145.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 145.
+LaTeX Font Info:    ... okay on input line 145.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 145.
+LaTeX Font Info:    ... okay on input line 145.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 145.
+LaTeX Font Info:    ... okay on input line 145.
+(/Users/nikos/Library/TinyTeX/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
 Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
-Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
-85.
-
-(/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/tex/latex/latexconfig
-/epstopdf-sys.cfg
-File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
-e
+Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 485.
+(/Users/nikos/Library/TinyTeX/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
+File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Live
 ))
-Package hyperref Info: Link coloring ON on input line 141.
+Package hyperref Info: Link coloring ON on input line 145.
 (./manuscript.out) (./manuscript.out)
 \@outlinefile=\write5
 \openout5 = `manuscript.out'.
 
-<jsslogo.jpg, id=119, 540.0175pt x 393.47pt>
-File: jsslogo.jpg Graphic file (type jpg)
-<use jsslogo.jpg>
-Package pdftex.def Info: jsslogo.jpg  used on input line 141.
-(pdftex.def)             Requested size: 89.80768pt x 65.43607pt.
-LaTeX Font Info:    Trying to load font information for T1+pzc on input line 14
-1.
-
-(/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/tex/latex/psnfss/t1pz
-c.fd
-File: t1pzc.fd 2020/03/25 font definitions for T1/pzc.
-)
-LaTeX Font Info:    Font shape `T1/pzc/m/n' in size <28> not available
-(Font)              Font shape `T1/pzc/m/it' tried instead on input line 141.
-LaTeX Font Info:    Trying to load font information for T1+lmss on input line 1
-41.
-
-(/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/tex/latex/lm/t1lmss.f
-d
+LaTeX Font Info:    Trying to load font information for T1+lmss on input line 145.
+(/Users/nikos/Library/TinyTeX/texmf-dist/tex/latex/lm/t1lmss.fd
 File: t1lmss.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
-LaTeX Font Info:    Trying to load font information for OT1+lmr on input line 1
-41.
-
-(/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/tex/latex/lm/ot1lmr.f
-d
+LaTeX Font Info:    Trying to load font information for OT1+lmr on input line 145.
+(/Users/nikos/Library/TinyTeX/texmf-dist/tex/latex/lm/ot1lmr.fd
 File: ot1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
-LaTeX Font Info:    Trying to load font information for OML+lmm on input line 1
-41.
-
-(/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/tex/latex/lm/omllmm.f
-d
+LaTeX Font Info:    Trying to load font information for OML+lmm on input line 145.
+(/Users/nikos/Library/TinyTeX/texmf-dist/tex/latex/lm/omllmm.fd
 File: omllmm.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
-LaTeX Font Info:    Trying to load font information for OMS+lmsy on input line 
-141.
-
-(/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/tex/latex/lm/omslmsy.
-fd
+LaTeX Font Info:    Trying to load font information for OMS+lmsy on input line 145.
+(/Users/nikos/Library/TinyTeX/texmf-dist/tex/latex/lm/omslmsy.fd
 File: omslmsy.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
-LaTeX Font Info:    Trying to load font information for OMX+lmex on input line 
-141.
-
-(/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/tex/latex/lm/omxlmex.
-fd
+LaTeX Font Info:    Trying to load font information for OMX+lmex on input line 145.
+(/Users/nikos/Library/TinyTeX/texmf-dist/tex/latex/lm/omxlmex.fd
 File: omxlmex.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <10.95> on input line 141.
+(Font)              <10.95> on input line 145.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <8> on input line 141.
+(Font)              <8> on input line 145.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <6> on input line 141.
-LaTeX Font Info:    Trying to load font information for U+msa on input line 141
-.
-
-(/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/tex/latex/amsfonts/um
-sa.fd
+(Font)              <6> on input line 145.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 145.
+(/Users/nikos/Library/TinyTeX/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 141
-.
-
-(/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/tex/latex/amsfonts/um
-sb.fd
+LaTeX Font Info:    Trying to load font information for U+msb on input line 145.
+(/Users/nikos/Library/TinyTeX/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: End \AtBeginDocument code.
 
-Package natbib Warning: Citation `bracherNationalSubnationalShortterm2021' on p
-age 1 undefined on input line 157.
-
-
-Underfull \vbox (badness 1062) has occurred while \output is active []
 
 [1
 
-{/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/fonts/map/pdftex/updm
-ap/pdftex.map}{/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/fonts/e
-nc/dvips/lm/lm-ec.enc}{/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist
-/fonts/enc/dvips/base/8r.enc} <./jsslogo.jpg>]
-LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 1
-97.
-
-(/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/tex/latex/lm/t1lmtt.f
-d
+{/Users/nikos/Library/TinyTeX/texmf-var/fonts/map/pdftex/updmap/pdftex.map}{/Users/nikos/Library/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc}]
+LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 213.
+(/Users/nikos/Library/TinyTeX/texmf-dist/tex/latex/lm/t1lmtt.fd
 File: t1lmtt.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
+<../../man/figures/workflow.png, id=246, 419.6478pt x 296.307pt>
+File: ../../man/figures/workflow.png Graphic file (type png)
+<use ../../man/figures/workflow.png>
+Package pdftex.def Info: ../../man/figures/workflow.png  used on input line 236.
+(pdftex.def)             Requested size: 442.65375pt x 312.56477pt.
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+
+
 Overfull \hbox (5.47499pt too wide) has occurred while \output is active
 \T1/lmr/m/n/10.95 2 []
  []
 
 [2]
 
-Package natbib Warning: Citation `bracherNationalSubnationalShortterm2021' on p
-age 3 undefined on input line 228.
+Package hyperref Warning: Difference (2) between bookmark levels is greater 
+(hyperref)                than one, level fixed on input line 245.
 
 
-LaTeX Warning: Reference `metrics' on page 3 undefined on input line 274.
-
-
-LaTeX Warning: Reference `evaluation-example' on page 3 undefined on input line
- 277.
-
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
 Overfull \hbox (5.47499pt too wide) has occurred while \output is active
 [] \T1/lmr/m/n/10.95 3
  []
 
-[3]
+[3 <../../man/figures/workflow.png>]
+LaTeX Font Info:    Trying to load font information for TS1+lmr on input line 308.
+(/Users/nikos/Library/TinyTeX/texmf-dist/tex/latex/lm/ts1lmr.fd
+File: ts1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
+)
 
-LaTeX Warning: Reference `fig:workflow-scoringutils' on page 4 undefined on inp
-ut line 295.
-
-<output/workflow.png, id=283, 397.0032pt x 204.2832pt>
-File: output/workflow.png Graphic file (type png)
-<use output/workflow.png>
-Package pdftex.def Info: output/workflow.png  used on input line 308.
-(pdftex.def)             Requested size: 442.65375pt x 227.7732pt.
 
 Overfull \hbox (5.47499pt too wide) has occurred while \output is active
 \T1/lmr/m/n/10.95 4 []
  []
 
-[4 <./output/workflow.png>]
-<output/input-score.png, id=295, 373.395pt x 293.898pt>
-File: output/input-score.png Graphic file (type png)
-<use output/input-score.png>
-Package pdftex.def Info: output/input-score.png  used on input line 354.
-(pdftex.def)             Requested size: 442.65375pt x 348.42897pt.
+[4{/Users/nikos/Library/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-ts1.enc}]
+Overfull \hbox (0.27232pt too wide) in paragraph at lines 387--400
+\T1/lmtt/m/n/10.95 example_binary\T1/lmr/m/n/10.95 , \T1/lmtt/m/n/10.95 example_nominal\T1/lmr/m/n/10.95 , \T1/lmtt/m/n/10.95 example_quantile\T1/lmr/m/n/10.95 , \T1/lmtt/m/n/10.95 example_sample_continuous\T1/lmr/m/n/10.95 , and
+ []
+
+
+
 
 Overfull \hbox (5.47499pt too wide) has occurred while \output is active
 [] \T1/lmr/m/n/10.95 5
  []
 
-[5 <./output/input-score.png>]
-<output/flowchart-create-object.png, id=304, 408.5664pt x 142.131pt>
-File: output/flowchart-create-object.png Graphic file (type png)
-<use output/flowchart-create-object.png>
-Package pdftex.def Info: output/flowchart-create-object.png  used on input line
- 383.
-(pdftex.def)             Requested size: 442.65375pt x 153.9893pt.
+[5{/Users/nikos/Library/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-mathit.enc}]
+
+LaTeX Warning: Reference `fig:flowchart-validation' on page 6 undefined on input line 449.
+
+
+
 
 Overfull \hbox (5.47499pt too wide) has occurred while \output is active
 \T1/lmr/m/n/10.95 6 []
  []
 
-[6 <./output/flowchart-create-object.png>]
-<manuscript_files/figure-latex/plot-forecast-counts-1.pdf, id=319, 495.8525pt x
- 242.9075pt>
-File: manuscript_files/figure-latex/plot-forecast-counts-1.pdf Graphic file (ty
-pe pdf)
-<use manuscript_files/figure-latex/plot-forecast-counts-1.pdf>
-Package pdftex.def Info: manuscript_files/figure-latex/plot-forecast-counts-1.p
-df  used on input line 487.
-(pdftex.def)             Requested size: 442.65375pt x 216.84673pt.
+[6]
+Overfull \hbox (21.68594pt too wide) in paragraph at lines 526--536
+[]\T1/lmr/m/n/10.95 Internally, the print method calls the func-tions \T1/lmtt/m/n/10.95 get_forecast_type() \T1/lmr/m/n/10.95 and \T1/lmtt/m/n/10.95 get_forecast_unit()\T1/lmr/m/n/10.95 .
+ []
 
-LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+Overfull \hbox (43.81924pt too wide) in paragraph at lines 526--536
+\T1/lmr/m/n/10.95 Both func-tions can also be ac-cesssed in-de-pen-dently. \T1/lmtt/m/n/10.95 get_forecast_type() \T1/lmr/m/n/10.95 and \T1/lmtt/m/n/10.95 get_forecast_unit()
+ []
+
+
 
 
 Overfull \hbox (5.47499pt too wide) has occurred while \output is active
@@ -1223,302 +848,326 @@ Overfull \hbox (5.47499pt too wide) has occurred while \output is active
  []
 
 [7]
+
+
 Overfull \hbox (5.47499pt too wide) has occurred while \output is active
 \T1/lmr/m/n/10.95 8 []
  []
 
-[8 <./manuscript_files/figure-latex/plot-forecast-counts-1.pdf>]
-<output/flowchart-score.png, id=345, 351.2322pt x 102.6234pt>
-File: output/flowchart-score.png Graphic file (type png)
-<use output/flowchart-score.png>
-Package pdftex.def Info: output/flowchart-score.png  used on input line 543.
-(pdftex.def)             Requested size: 442.65375pt x 129.33904pt.
-
-LaTeX Warning: Reference `fig:input-scoring-rules' on page 9 undefined on input
- line 574.
-
-<output/input-formats-scoring-rules.png, id=346, 290.5254pt x 310.761pt>
-File: output/input-formats-scoring-rules.png Graphic file (type png)
-<use output/input-formats-scoring-rules.png>
-Package pdftex.def Info: output/input-formats-scoring-rules.png  used on input 
-line 579.
-(pdftex.def)             Requested size: 442.65375pt x 473.52338pt.
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
+[8]
 
 
 Overfull \hbox (5.47499pt too wide) has occurred while \output is active
 [] \T1/lmr/m/n/10.95 9
  []
 
-[9 <./output/flowchart-score.png>]
+[9]
+<manuscript_files/figure-latex/plot-forecast-counts-1.pdf, id=349, 578.16pt x 264.99pt>
+File: manuscript_files/figure-latex/plot-forecast-counts-1.pdf Graphic file (type pdf)
+<use manuscript_files/figure-latex/plot-forecast-counts-1.pdf>
+Package pdftex.def Info: manuscript_files/figure-latex/plot-forecast-counts-1.pdf  used on input line 684.
+(pdftex.def)             Requested size: 442.65375pt x 202.88246pt.
+
+
+
 Overfull \hbox (10.94998pt too wide) has occurred while \output is active
 \T1/lmr/m/n/10.95 10 []
  []
 
-[10 <./output/input-formats-scoring-rules.png>]
+[10 <./manuscript_files/figure-latex/plot-forecast-counts-1.pdf>]
+<manuscript_files/figure-latex/pit-plots-1.pdf, id=377, 578.16pt x 289.08pt>
+File: manuscript_files/figure-latex/pit-plots-1.pdf Graphic file (type pdf)
+<use manuscript_files/figure-latex/pit-plots-1.pdf>
+Package pdftex.def Info: manuscript_files/figure-latex/pit-plots-1.pdf  used on input line 745.
+(pdftex.def)             Requested size: 442.65375pt x 221.32632pt.
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+
+
+
 Overfull \hbox (10.94998pt too wide) has occurred while \output is active
 [] \T1/lmr/m/n/10.95 11
  []
 
-[11]
+[11{/Users/nikos/Library/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-rm.enc}]
+
+
 Overfull \hbox (10.94998pt too wide) has occurred while \output is active
 \T1/lmr/m/n/10.95 12 []
  []
 
-[12]
-<manuscript_files/figure-latex/score-table-1.pdf, id=373, 843.15pt x 236.885pt>
+[12 <./manuscript_files/figure-latex/pit-plots-1.pdf>]
+<manuscript_files/figure-latex/coverage-1.pdf, id=407, 722.7pt x 433.62pt>
+File: manuscript_files/figure-latex/coverage-1.pdf Graphic file (type pdf)
+<use manuscript_files/figure-latex/coverage-1.pdf>
+Package pdftex.def Info: manuscript_files/figure-latex/coverage-1.pdf  used on input line 828.
+(pdftex.def)             Requested size: 442.65375pt x 265.59291pt.
 
-File: manuscript_files/figure-latex/score-table-1.pdf Graphic file (type pdf)
-<use manuscript_files/figure-latex/score-table-1.pdf>
-Package pdftex.def Info: manuscript_files/figure-latex/score-table-1.pdf  used 
-on input line 800.
-(pdftex.def)             Requested size: 442.65375pt x 124.36649pt.
+
 
 Overfull \hbox (10.94998pt too wide) has occurred while \output is active
 [] \T1/lmr/m/n/10.95 13
  []
 
-[13]
+[13 <./manuscript_files/figure-latex/coverage-1.pdf>]
+<../../man/figures/input-formats-scoring-rules.png, id=423, 408.0846pt x 479.8728pt>
+File: ../../man/figures/input-formats-scoring-rules.png Graphic file (type png)
+<use ../../man/figures/input-formats-scoring-rules.png>
+Package pdftex.def Info: ../../man/figures/input-formats-scoring-rules.png  used on input line 902.
+(pdftex.def)             Requested size: 442.65375pt x 520.54677pt.
+
+LaTeX Warning: Float too large for page by 16.34653pt on input line 907.
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+
+Overfull \hbox (0.35403pt too wide) in paragraph at lines 913--922
+\T1/lmr/m/n/10.95 when call-ing \T1/lmtt/m/n/10.95 score()\T1/lmr/m/n/10.95 . The de-fault lists can be ac-cessed by call-ing the func-tion \T1/lmtt/m/n/10.95 get_metrics()
+ []
+
+
+
+
 Overfull \hbox (10.94998pt too wide) has occurred while \output is active
 \T1/lmr/m/n/10.95 14 []
  []
 
-[14{/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/fonts/enc/dvips/lm
-/lm-mathit.enc} <./manuscript_files/figure-latex/score-table-1.pdf>]
-<manuscript_files/figure-latex/score-heatmap-1.pdf, id=400, 568.1225pt x 242.90
-75pt>
-File: manuscript_files/figure-latex/score-heatmap-1.pdf Graphic file (type pdf)
+[14]
+<../../man/figures/pairwise-illustration.png, id=439, 276.0714pt x 118.041pt>
+File: ../../man/figures/pairwise-illustration.png Graphic file (type png)
+<use ../../man/figures/pairwise-illustration.png>
+Package pdftex.def Info: ../../man/figures/pairwise-illustration.png  used on input line 991.
+(pdftex.def)             Requested size: 442.65375pt x 189.27289pt.
 
-<use manuscript_files/figure-latex/score-heatmap-1.pdf>
-Package pdftex.def Info: manuscript_files/figure-latex/score-heatmap-1.pdf  use
-d on input line 864.
-(pdftex.def)             Requested size: 442.65375pt x 189.27063pt.
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+
+
 
 Overfull \hbox (10.94998pt too wide) has occurred while \output is active
 [] \T1/lmr/m/n/10.95 15
  []
 
-[15{/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/fonts/enc/dvips/lm
-/lm-rm.enc}{/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/fonts/enc/
-dvips/lm/lm-mathsy.enc}{/opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dis
-t/fonts/enc/dvips/lm/lm-mathex.enc} <./manuscript_files/figure-latex/score-heat
-map-1.pdf>]
-<manuscript_files/figure-latex/wis-components-1.pdf, id=426, 668.4975pt x 236.8
-85pt>
-File: manuscript_files/figure-latex/wis-components-1.pdf Graphic file (type pdf
-)
-<use manuscript_files/figure-latex/wis-components-1.pdf>
-Package pdftex.def Info: manuscript_files/figure-latex/wis-components-1.pdf  us
-ed on input line 911.
-(pdftex.def)             Requested size: 442.65375pt x 156.86145pt.
-<manuscript_files/figure-latex/correlation-plot-1.pdf, id=428, 531.9875pt x 242
-.9075pt>
-File: manuscript_files/figure-latex/correlation-plot-1.pdf Graphic file (type p
-df)
-<use manuscript_files/figure-latex/correlation-plot-1.pdf>
-Package pdftex.def Info: manuscript_files/figure-latex/correlation-plot-1.pdf  
-used on input line 938.
-(pdftex.def)             Requested size: 442.65375pt x 202.12094pt.
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
+[15]
 
 
 Overfull \hbox (10.94998pt too wide) has occurred while \output is active
 \T1/lmr/m/n/10.95 16 []
  []
 
-[16 <./manuscript_files/figure-latex/wis-components-1.pdf>]
-<output/pairwise-comparisons.png, id=447, 276.0714pt x 118.041pt>
-File: output/pairwise-comparisons.png Graphic file (type png)
-<use output/pairwise-comparisons.png>
-Package pdftex.def Info: output/pairwise-comparisons.png  used on input line 97
-9.
-(pdftex.def)             Requested size: 442.65375pt x 189.27289pt.
+[16]
+<manuscript_files/figure-latex/pairwise-plot-1.pdf, id=462, 578.16pt x 264.99pt>
+File: manuscript_files/figure-latex/pairwise-plot-1.pdf Graphic file (type pdf)
+<use manuscript_files/figure-latex/pairwise-plot-1.pdf>
+Package pdftex.def Info: manuscript_files/figure-latex/pairwise-plot-1.pdf  used on input line 1089.
+(pdftex.def)             Requested size: 442.65375pt x 202.88246pt.
+<manuscript_files/figure-latex/correlation-plot-1.pdf, id=464, 578.16pt x 361.35pt>
+File: manuscript_files/figure-latex/correlation-plot-1.pdf Graphic file (type pdf)
+<use manuscript_files/figure-latex/correlation-plot-1.pdf>
+Package pdftex.def Info: manuscript_files/figure-latex/correlation-plot-1.pdf  used on input line 1117.
+(pdftex.def)             Requested size: 442.65375pt x 276.65791pt.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+
 
 
 Overfull \hbox (10.94998pt too wide) has occurred while \output is active
 [] \T1/lmr/m/n/10.95 17
  []
 
-[17 <./manuscript_files/figure-latex/correlation-plot-1.pdf>]
-<manuscript_files/figure-latex/pairwise-plot-1.pdf, id=462, 554.07pt x 235.8812
-6pt>
-File: manuscript_files/figure-latex/pairwise-plot-1.pdf Graphic file (type pdf)
+[17]
 
-<use manuscript_files/figure-latex/pairwise-plot-1.pdf>
-Package pdftex.def Info: manuscript_files/figure-latex/pairwise-plot-1.pdf  use
-d on input line 1034.
-(pdftex.def)             Requested size: 442.65375pt x 188.4497pt.
 
 Overfull \hbox (10.94998pt too wide) has occurred while \output is active
 \T1/lmr/m/n/10.95 18 []
  []
 
-[18 <./output/pairwise-comparisons.png>]
+[18]
+<manuscript_files/figure-latex/score-heatmap-1.pdf, id=483, 578.16pt x 264.99pt>
+File: manuscript_files/figure-latex/score-heatmap-1.pdf Graphic file (type pdf)
+<use manuscript_files/figure-latex/score-heatmap-1.pdf>
+Package pdftex.def Info: manuscript_files/figure-latex/score-heatmap-1.pdf  used on input line 1224.
+(pdftex.def)             Requested size: 442.65375pt x 202.88246pt.
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+<manuscript_files/figure-latex/wis-components-1.pdf, id=488, 686.565pt x 264.99pt>
+File: manuscript_files/figure-latex/wis-components-1.pdf Graphic file (type pdf)
+<use manuscript_files/figure-latex/wis-components-1.pdf>
+Package pdftex.def Info: manuscript_files/figure-latex/wis-components-1.pdf  used on input line 1257.
+(pdftex.def)             Requested size: 442.65375pt x 170.84647pt.
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+
+Package hyperref Warning: Difference (2) between bookmark levels is greater 
+(hyperref)                than one, level fixed on input line 1267.
+
+
+
+
 Overfull \hbox (10.94998pt too wide) has occurred while \output is active
 [] \T1/lmr/m/n/10.95 19
  []
 
-[19 <./manuscript_files/figure-latex/pairwise-plot-1.pdf>]
+[19]
+Underfull \vbox (badness 1286) has occurred while \output is active []
+
+
+
+
 Overfull \hbox (10.94998pt too wide) has occurred while \output is active
 \T1/lmr/m/n/10.95 20 []
  []
 
-[20]
-<manuscript_files/figure-latex/pit-plots-1.pdf, id=512, 563.10374pt x 272.01625
-pt>
-File: manuscript_files/figure-latex/pit-plots-1.pdf Graphic file (type pdf)
-<use manuscript_files/figure-latex/pit-plots-1.pdf>
-Package pdftex.def Info: manuscript_files/figure-latex/pit-plots-1.pdf  used on
- input line 1183.
-(pdftex.def)             Requested size: 442.65375pt x 213.83206pt.
-<output/calibration-diagnostic-examples.png, id=517, 831.105pt x 794.97pt>
-File: output/calibration-diagnostic-examples.png Graphic file (type png)
-<use output/calibration-diagnostic-examples.png>
-Package pdftex.def Info: output/calibration-diagnostic-examples.png  used on in
-put line 1207.
-(pdftex.def)             Requested size: 442.65375pt x 423.40637pt.
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
+[20] (./manuscript.bbl
 
 
 Overfull \hbox (10.94998pt too wide) has occurred while \output is active
 [] \T1/lmr/m/n/10.95 21
  []
 
-[21 <./manuscript_files/figure-latex/pit-plots-1.pdf>]
-Underfull \vbox (badness 10000) has occurred while \output is active []
+[21]
+Underfull \hbox (badness 1127) in paragraph at lines 76--81
+[]\T1/lmr/m/n/10.95 Epstein ES (1969).  ``A Scor-ing Sys-tem for Prob-a-bil-ity Fore-casts of Ranked Cat-e-
+ []
+
+
 
 
 Overfull \hbox (10.94998pt too wide) has occurred while \output is active
 \T1/lmr/m/n/10.95 22 []
  []
 
-[22 <./output/calibration-diagnostic-examples.png (PNG copy)>]
-<manuscript_files/figure-latex/coverage-1.pdf, id=536, 709.65125pt x 402.50375p
-t>
-File: manuscript_files/figure-latex/coverage-1.pdf Graphic file (type pdf)
-<use manuscript_files/figure-latex/coverage-1.pdf>
-Package pdftex.def Info: manuscript_files/figure-latex/coverage-1.pdf  used on 
-input line 1231.
-(pdftex.def)             Requested size: 442.65375pt x 251.07288pt.
-
-LaTeX Warning: Reference `wis' on page 23 undefined on input line 1255.
-
-
-Underfull \vbox (badness 3471) has occurred while \output is active []
+[22]
 
 
 Overfull \hbox (10.94998pt too wide) has occurred while \output is active
 [] \T1/lmr/m/n/10.95 23
  []
 
-[23 <./manuscript_files/figure-latex/coverage-1.pdf>]
+[23]
+
+
 Overfull \hbox (10.94998pt too wide) has occurred while \output is active
 \T1/lmr/m/n/10.95 24 []
  []
 
-[24]
+[24])
+
+
 Overfull \hbox (10.94998pt too wide) has occurred while \output is active
 [] \T1/lmr/m/n/10.95 25
  []
 
 [25]
+
+
 Overfull \hbox (10.94998pt too wide) has occurred while \output is active
 \T1/lmr/m/n/10.95 26 []
  []
 
-[26]
+[26 <../../man/figures/input-formats-scoring-rules.png>]
+
+
 Overfull \hbox (10.94998pt too wide) has occurred while \output is active
 [] \T1/lmr/m/n/10.95 27
  []
 
-[27]
+[27 <../../man/figures/pairwise-illustration.png> <./manuscript_files/figure-latex/pairwise-plot-1.pdf>]
+
+
 Overfull \hbox (10.94998pt too wide) has occurred while \output is active
 \T1/lmr/m/n/10.95 28 []
  []
 
-[28]
+[28 <./manuscript_files/figure-latex/correlation-plot-1.pdf> <./manuscript_files/figure-latex/score-heatmap-1.pdf>]
+
+
 Overfull \hbox (10.94998pt too wide) has occurred while \output is active
 [] \T1/lmr/m/n/10.95 29
  []
 
-[29]
+[29 <./manuscript_files/figure-latex/wis-components-1.pdf>]
+
+LaTeX Warning: Reference `fig:flowchart-validation' on page 30 undefined on input line 1401.
+
+
+
+
 Overfull \hbox (10.94998pt too wide) has occurred while \output is active
 \T1/lmr/m/n/10.95 30 []
  []
 
-[30]
+[30
+
+]
+<manuscript_files/figure-latex/calibration-plots-1.pdf, id=621, 722.7pt x 867.24pt>
+File: manuscript_files/figure-latex/calibration-plots-1.pdf Graphic file (type pdf)
+<use manuscript_files/figure-latex/calibration-plots-1.pdf>
+Package pdftex.def Info: manuscript_files/figure-latex/calibration-plots-1.pdf  used on input line 1430.
+(pdftex.def)             Requested size: 442.65375pt x 531.18585pt.
+
+LaTeX Warning: Float too large for page by 40.58562pt on input line 1435.
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+
+
+
 Overfull \hbox (10.94998pt too wide) has occurred while \output is active
 [] \T1/lmr/m/n/10.95 31
  []
 
-[31]
+[31
+
+]
+
+
 Overfull \hbox (10.94998pt too wide) has occurred while \output is active
 \T1/lmr/m/n/10.95 32 []
  []
 
-[32] (./manuscript.bbl
+[32 <./manuscript_files/figure-latex/calibration-plots-1.pdf>]
+
+
 Overfull \hbox (10.94998pt too wide) has occurred while \output is active
 [] \T1/lmr/m/n/10.95 33
  []
 
-[33]
-Underfull \hbox (badness 1127) in paragraph at lines 165--171
-[]\T1/lmr/m/n/10.95 Epstein ES (1969).  ``A Scor-ing Sys-tem for Prob-a-bil-ity
- Fore-casts of Ranked Cat-e-
- []
+[33
 
-
-Underfull \hbox (badness 5475) in paragraph at lines 174--177
-[]\T1/lmr/m/n/10.95 European Covid-19 Fore-cast Hub (2021).  ``Eu-ro-pean Covid
--19 Fore-cast Hub.''
- []
-
-
-Overfull \hbox (10.94998pt too wide) has occurred while \output is active
-\T1/lmr/m/n/10.95 34 []
- []
-
-[34]
-Overfull \hbox (10.94998pt too wide) has occurred while \output is active
-[] \T1/lmr/m/n/10.95 35
- []
-
-[35]
-Overfull \hbox (10.94998pt too wide) has occurred while \output is active
-\T1/lmr/m/n/10.95 36 []
- []
-
-[36])
-
-Package natbib Warning: There were undefined citations.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 1449--1449
+{/Users/nikos/Library/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-mathsy.enc}{/Users/nikos/Library/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-mathex.enc}]
+Underfull \hbox (badness 10000) in paragraph at lines 1463--1463
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1449--1449
+Underfull \hbox (badness 10000) in paragraph at lines 1463--1463
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1449--1449
+Underfull \hbox (badness 10000) in paragraph at lines 1463--1463
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1449--1449
+Underfull \hbox (badness 10000) in paragraph at lines 1463--1463
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1449--1449
+Underfull \hbox (badness 10000) in paragraph at lines 1463--1463
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1463--1463
 
  []
 
@@ -1526,67 +1175,45 @@ Underfull \hbox (badness 10000) in paragraph at lines 1449--1449
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
-Overfull \hbox (10.94998pt too wide) has occurred while \output is active
-[] \T1/lmr/m/n/10.95 37
- []
 
-[37]
-Underfull \hbox (badness 10000) in paragraph at lines 1449--1449
-
- []
-
-LaTeX Font Info:    Font shape `T1/pzc/m/n' in size <13> not available
-(Font)              Font shape `T1/pzc/m/it' tried instead on input line 1449.
 
 Overfull \hbox (10.94998pt too wide) has occurred while \output is active
-\T1/lmr/m/n/10.95 38 []
+\T1/lmr/m/n/10.95 34 []
  []
 
-[38] (./manuscript.aux)
+[34
+
+]
+
+
+Overfull \hbox (10.94998pt too wide) has occurred while \output is active
+[] \T1/lmr/m/n/10.95 35
+ []
+
+[35] (./manuscript.aux)
+ ***********
+LaTeX2e <2024-06-01> patch level 2
+L3 programming layer <2024-09-10>
+ ***********
 
 LaTeX Warning: There were undefined references.
 
 Package rerunfilecheck Info: File `manuscript.out' has not changed.
-(rerunfilecheck)             Checksum: 46E1BB8E45250A94C73C1AE8339CF5A1;5806.
+(rerunfilecheck)             Checksum: F5A99C6B0B5CE1D80D6AB6B011A1E38A;9332.
  ) 
 Here is how much of TeX's memory you used:
- 25439 strings out of 476025
- 491502 string characters out of 5779036
- 1897388 words of memory out of 5000000
- 45211 multiletter control sequences out of 15000+600000
- 612815 words of font info for 84 fonts, out of 8000000 for 9000
- 1141 hyphenation exceptions out of 8191
- 99i,10n,94p,2111b,626s stack positions out of 10000i,1000n,20000p,200000b,200000s
-</opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/fonts/type1/public/
-lm/lmb10.pfb></opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/fonts/ty
-pe1/public/lm/lmbo10.pfb></opt/homebrew/Cellar/texlive/20230313_2/share/texmf-d
-ist/fonts/type1/public/lm/lmbx10.pfb></opt/homebrew/Cellar/texlive/20230313_2/s
-hare/texmf-dist/fonts/type1/public/lm/lmbx12.pfb></opt/homebrew/Cellar/texlive/
-20230313_2/share/texmf-dist/fonts/type1/public/lm/lmex10.pfb></opt/homebrew/Cel
-lar/texlive/20230313_2/share/texmf-dist/fonts/type1/public/lm/lmmi10.pfb></opt/
-homebrew/Cellar/texlive/20230313_2/share/texmf-dist/fonts/type1/public/lm/lmmi6
-.pfb></opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/fonts/type1/publ
-ic/lm/lmmi8.pfb></opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/fonts
-/type1/public/lm/lmr10.pfb></opt/homebrew/Cellar/texlive/20230313_2/share/texmf
--dist/fonts/type1/public/lm/lmr8.pfb></opt/homebrew/Cellar/texlive/20230313_2/s
-hare/texmf-dist/fonts/type1/public/lm/lmri10.pfb></opt/homebrew/Cellar/texlive/
-20230313_2/share/texmf-dist/fonts/type1/public/lm/lmri12.pfb></opt/homebrew/Cel
-lar/texlive/20230313_2/share/texmf-dist/fonts/type1/public/lm/lmro10.pfb></opt/
-homebrew/Cellar/texlive/20230313_2/share/texmf-dist/fonts/type1/public/lm/lmss1
-0.pfb></opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/fonts/type1/pub
-lic/lm/lmssbx10.pfb></opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/f
-onts/type1/public/lm/lmsso10.pfb></opt/homebrew/Cellar/texlive/20230313_2/share
-/texmf-dist/fonts/type1/public/lm/lmsy10.pfb></opt/homebrew/Cellar/texlive/2023
-0313_2/share/texmf-dist/fonts/type1/public/lm/lmsy8.pfb></opt/homebrew/Cellar/t
-exlive/20230313_2/share/texmf-dist/fonts/type1/public/lm/lmtt10.pfb></opt/homeb
-rew/Cellar/texlive/20230313_2/share/texmf-dist/fonts/type1/public/lm/lmtto10.pf
-b></opt/homebrew/Cellar/texlive/20230313_2/share/texmf-dist/fonts/type1/public/
-amsfonts/symbols/msbm10.pfb></opt/homebrew/Cellar/texlive/20230313_2/share/texm
-f-dist/fonts/type1/urw/zapfchan/uzcmi8a.pfb>
-Output written on manuscript.pdf (38 pages, 1388696 bytes).
+ 25300 strings out of 475496
+ 478156 string characters out of 5775509
+ 842078 words of memory out of 5000000
+ 47308 multiletter control sequences out of 15000+600000
+ 653484 words of font info for 85 fonts, out of 8000000 for 9000
+ 36 hyphenation exceptions out of 8191
+ 99i,21n,101p,2611b,627s stack positions out of 10000i,1000n,20000p,200000b,200000s
+</Users/nikos/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmb10.pfb></Users/nikos/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmbo10.pfb></Users/nikos/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmbx10.pfb></Users/nikos/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmbx12.pfb></Users/nikos/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmex10.pfb></Users/nikos/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmmi10.pfb></Users/nikos/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmmi6.pfb></Users/nikos/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmmi8.pfb></Users/nikos/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr10.pfb></Users/nikos/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr8.pfb></Users/nikos/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr9.pfb></Users/nikos/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmri10.pfb></Users/nikos/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmri12.pfb></Users/nikos/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmro10.pfb></Users/nikos/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmss10.pfb></Users/nikos/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmssbx10.pfb></Users/nikos/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmsso10.pfb></Users/nikos/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmsy10.pfb></Users/nikos/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmtt10.pfb></Users/nikos/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmtto10.pfb>
+Output written on manuscript.pdf (35 pages, 1000303 bytes).
 PDF statistics:
- 838 PDF objects out of 1000 (max. 8388607)
- 703 compressed objects within 8 object streams
- 153 named destinations out of 1000 (max. 500000)
- 317 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 799 PDF objects out of 1000 (max. 8388607)
+ 683 compressed objects within 7 object streams
+ 152 named destinations out of 1000 (max. 500000)
+ 316 words of extra memory for PDF output out of 10000 (max. 10000000)
 

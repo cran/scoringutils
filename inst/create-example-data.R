@@ -2,7 +2,7 @@ library(data.table)
 library(dplyr)
 library(devtools)
 library(here)
-library(covidHubUtils) # devtools::install_github("reichlab/covidHubUtils") # nolint
+library(covidHubUtils) # devtools::install_github("reichlab/covidHubUtils@v0.1.8") # nolint
 library(purrr)
 library(data.table)
 library(stringr)
@@ -25,7 +25,7 @@ truth <- covidHubUtils::load_truth(hub = "ECDC") |>
   )) |>
   rename(
     target_type = target_variable,
-    true_value = value
+    observed = value
   ) |>
   select(-model)
 
@@ -70,13 +70,13 @@ prediction_data <- map_dfr(file_paths,
     ),
     horizon = as.numeric(substr(target, 1, 1))
   ) %>%
-  rename(prediction = value) %>%
+  rename(predicted = value) %>%
   filter(
     type == "quantile",
     grepl("inc", target)
   ) %>%
   select(
-    location, forecast_date, quantile, prediction,
+    location, forecast_date, quantile, predicted,
     model, target_end_date, target, target_type, horizon
   )
 
@@ -93,7 +93,8 @@ hub_data <- hub_data |>
     # quantile %in% c(seq(0.05, 0.45, 0.1), 0.5, seq(0.55, 0.95, 0.1)),
     location %in% c("DE", "GB", "FR", "IT")
   ) |>
-  select(-target)
+  select(-target) |>
+  rename(quantile_level = quantile)
 
 truth <- truth |>
   filter(
@@ -105,6 +106,8 @@ truth <- truth |>
 
 # save example data with forecasts only
 example_quantile_forecasts_only <- hub_data
+example_quantile_forecasts_only[, quantile_level := round(quantile_level, 3)]
+
 usethis::use_data(example_quantile_forecasts_only, overwrite = TRUE)
 
 example_truth_only <- truth
@@ -113,13 +116,14 @@ usethis::use_data(example_truth_only, overwrite = TRUE)
 # merge forecast data and truth data and save
 example_quantile <- merge_pred_and_obs(hub_data, truth)
 data.table::setDT(example_quantile)
-# make model a character instead of a factor
+example_quantile <- as_forecast_quantile(example_quantile)
 usethis::use_data(example_quantile, overwrite = TRUE)
 
 
 # create data with point forecasts ---------------------------------------------
 example_point <- data.table::copy(example_quantile)
-example_point[quantile == 0.5, quantile := NA_real_]
+example_point <- example_point[quantile %in% c(NA, 0.5)][, quantile_level := NULL]
+example_point <- as_forecast_point(example_point)
 usethis::use_data(example_point, overwrite = TRUE)
 
 
@@ -164,14 +168,14 @@ get_samples <- function(values, quantiles, n_samples = 1000) {
 # calculate samples
 setDT(example_quantile)
 n_samples <- 40
-example_continuous <- example_quantile[, .(
-  prediction = get_samples(
-    prediction,
+example_sample_continuous <- example_quantile[, .(
+  predicted = get_samples(
+    predicted,
     quantile,
     n_samples = n_samples
   ),
-  sample = 1:n_samples,
-  true_value = unique(true_value)
+  sample_id = 1:n_samples,
+  observed = unique(observed)
 ),
 by = c(
   "location", "location_name",
@@ -180,18 +184,17 @@ by = c(
 )
 ]
 # remove unnecessary rows where no predictions are available
-example_continuous[is.na(prediction), sample := NA]
-example_continuous <- unique(example_continuous)
-usethis::use_data(example_continuous, overwrite = TRUE)
+example_sample_continuous[is.na(predicted), sample_id := NA]
+example_sample_continuous <- unique(example_sample_continuous)
+example_sample_continuous <- as_forecast_sample(example_sample_continuous)
+usethis::use_data(example_sample_continuous, overwrite = TRUE)
 
 
 # get integer sample data ------------------------------------------------------
-example_integer <- data.table::copy(example_continuous)
-example_integer <- example_integer[, prediction := round(prediction)]
-usethis::use_data(example_integer, overwrite = TRUE)
-
-
-
+example_sample_discrete <- data.table::copy(example_sample_continuous)
+example_sample_discrete <- example_sample_discrete[, predicted := round(predicted)]
+example_sample_discrete <- as_forecast_sample(example_sample_discrete)
+usethis::use_data(example_sample_discrete, overwrite = TRUE)
 
 
 # get binary example data ------------------------------------------------------
@@ -200,7 +203,7 @@ usethis::use_data(example_integer, overwrite = TRUE)
 # observed value was below or above that mean prediction.
 # Take this as a way to create example data, not as sound statistical practice
 
-example_binary <- data.table::copy(example_continuous)
+example_binary <- data.table::copy(example_sample_continuous)
 
 # store grouping variable
 by <- c(
@@ -209,22 +212,67 @@ by <- c(
 )
 
 # calculate mean value
-example_binary[, mean_val := mean(prediction),
+example_binary[, mean_val := mean(predicted),
   by = by
 ]
 
 # calculate binary prediction as percentage above mean
-example_binary[, prediction := mean(prediction > mean_val),
+example_binary[, predicted := mean(predicted > mean_val),
   by = by
 ]
 
 # calculate true value as whether or not observed was above mean
-example_binary[, true_value := true_value > mean_val]
+example_binary[, observed := observed > mean_val]
 
 # delete unnecessary columns and take unique values
 example_binary[, `:=`(
-  sample = NULL, mean_val = NULL,
-  true_value = as.numeric(true_value)
+  sample_id = NULL, mean_val = NULL,
+  observed = factor(as.numeric(observed))
 )]
 example_binary <- unique(example_binary)
+example_binary <- as_forecast_binary(example_binary)
 usethis::use_data(example_binary, overwrite = TRUE)
+
+
+# get nominal example data ------------------------------------------------------
+# construct a nominal prediction by splitting the forecast into "low", "high",
+# and "medium". Again, this is only an illustrative example.
+
+example_nominal <- data.table::copy(example_sample_continuous)
+
+# store grouping variable
+by_vars <- c(
+  "location", "location_name", "target_end_date",
+  "target_type", "forecast_date", "horizon"
+)
+
+# generate low, medium, and high bounds and predicted label
+example_nominal[, low_bound := quantile(predicted, 0.25, na.rm = TRUE), by = by_vars]
+example_nominal[, high_bound := quantile(predicted, 0.75, na.rm = TRUE), by = by_vars]
+
+example_nominal[, low := predicted < low_bound]
+example_nominal[, medium := (predicted >= low_bound & predicted <= high_bound)]
+example_nominal[, high := (predicted > high_bound)]
+
+example_nominal[, observed := ifelse(
+  observed < low_bound, "low",
+  ifelse(observed >= low_bound & observed <= high_bound,
+         "medium", "high"))]
+
+example_nominal <- example_nominal[
+  , .(low = mean(low),
+      medium = mean(medium),
+      high = mean(high)),
+  by = c(by_vars, "model", "observed")
+]
+example_nominal <- melt(
+  example_nominal, measure.vars = c("low", "high", "medium"),
+  value.name = "predicted", variable.name = "predicted_label"
+)
+
+example_nominal[, `:=`(
+  observed = factor(observed, levels = c("low", "medium", "high")),
+  predicted_label = factor(predicted_label, levels = c("low", "medium", "high"))
+)]
+example_nominal <- as_forecast_nominal(example_nominal)
+usethis::use_data(example_nominal, overwrite = TRUE)

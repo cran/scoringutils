@@ -2,41 +2,60 @@
 % Please edit documentation in R/pairwise-comparisons.R
 \name{pairwise_comparison_one_group}
 \alias{pairwise_comparison_one_group}
-\title{Do Pairwise Comparison for one Set of Forecasts}
+\title{Do pairwise comparison for one set of forecasts}
 \usage{
-pairwise_comparison_one_group(scores, metric, baseline, by, ...)
+pairwise_comparison_one_group(
+  scores,
+  metric,
+  baseline,
+  compare = "model",
+  by,
+  ...
+)
 }
 \arguments{
-\item{scores}{A data.table of scores as produced by \code{\link[=score]{score()}}.}
+\item{scores}{An object of class \code{scores} (a data.table with
+scores and an additional attribute \code{metrics} as produced by \code{\link[=score]{score()}}).}
 
-\item{metric}{A character vector of length one with the metric to do the
-comparison on. The default is "auto", meaning that either "interval_score",
-"crps", or "brier_score" will be selected where available.
-See \code{\link[=available_metrics]{available_metrics()}} for available metrics.}
+\item{metric}{A string with the name of the metric for which
+a relative skill shall be computed. By default this is either "crps",
+"wis" or "brier_score" if any of these are available.}
 
-\item{baseline}{character vector of length one that denotes the baseline
-model against which to compare other models.}
+\item{baseline}{A string with the name of a model. If a baseline is
+given, then a scaled relative skill with respect to the baseline will be
+returned. By default (\code{NULL}), relative skill will not be scaled with
+respect to a baseline model.}
 
-\item{by}{character vector with names of columns present in the input
-data.frame. \code{by} determines how pairwise comparisons will be computed.
-You will get a relative skill score for every grouping level determined in
-\code{by}. If, for example, \code{by = c("model", "location")}. Then you will get a
-separate relative skill score for every model in every location. Internally,
-the data.frame will be split according \code{by} (but removing "model" before
-splitting) and the pairwise comparisons will be computed separately for the
-split data.frames.}
+\item{compare}{Character vector with a single colum name that defines the
+elements for the pairwise comparison. For example, if this is set to
+"model" (the default), then elements of the "model" column will be
+compared.}
 
-\item{...}{additional arguments for the comparison between two models. See
-\code{\link[=compare_two_models]{compare_two_models()}} for more information.}
+\item{by}{Character vector with column names that define further grouping
+levels for the pairwise comparisons. By default this is \code{NULL} and there
+will be one relative skill score per distinct entry of the column selected
+in \code{compare}. If further columns are given here, for example, \code{by = "location"} with \code{compare = "model"}, then one separate relative skill
+score is calculated for every model in every location.}
+
+\item{...}{Additional arguments for the comparison between two models. See
+\code{\link[=compare_forecasts]{compare_forecasts()}} for more information.}
+}
+\value{
+A data.table with the results of pairwise comparisons
+containing the mean score ratios (\code{mean_scores_ratio}),
+unadjusted (\code{pval}) and adjusted (\code{adj_pval}) p-values, and relative skill
+values of each model (\code{..._relative_skill}). If a baseline model is given
+then the scaled relative skill is reported as well
+(\code{..._scaled_relative_skill}).
 }
 \description{
 This function does the pairwise comparison for one set of forecasts, but
-multiple models involved. It gets called from \code{\link[=pairwise_comparison]{pairwise_comparison()}}.
-\code{\link[=pairwise_comparison]{pairwise_comparison()}} splits the data into arbitrary subgroups specified
-by the user (e.g. if pairwise comparison should be done separately for
-different forecast targets) and then the actual pairwise comparison for that
-subgroup is managed from \code{\link[=pairwise_comparison_one_group]{pairwise_comparison_one_group()}}. In order to
+multiple models involved. It gets called from \code{\link[=get_pairwise_comparisons]{get_pairwise_comparisons()}}.
+\code{\link[=get_pairwise_comparisons]{get_pairwise_comparisons()}} splits the data into arbitrary subgroups
+specified by the user (e.g. if pairwise comparison should be done separately
+for different forecast targets) and then the actual pairwise comparison for
+that subgroup is managed from \code{\link[=pairwise_comparison_one_group]{pairwise_comparison_one_group()}}. In order to
 actually do the comparison between two models over a subset of common
-forecasts it calls \code{\link[=compare_two_models]{compare_two_models()}}.
+forecasts it calls \code{\link[=compare_forecasts]{compare_forecasts()}}.
 }
 \keyword{internal}

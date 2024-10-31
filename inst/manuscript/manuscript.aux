@@ -1,25 +1,11 @@
 \relax 
-\providecommand\hyper@newdestlabel[2]{}
 \bibstyle{jss}
-\providecommand\HyperFirstAtBeginDocument{\AtBeginDocument}
-\HyperFirstAtBeginDocument{\ifx\hyper@anchor\@undefined
-\global\let\oldcontentsline\contentsline
-\gdef\contentsline#1#2#3#4{\oldcontentsline{#1}{#2}{#3}}
-\global\let\oldnewlabel\newlabel
-\gdef\newlabel#1#2{\newlabelxx{#1}#2}
-\gdef\newlabelxx#1#2#3#4#5#6{\oldnewlabel{#1}{{#2}{#3}}}
-\AtEndDocument{\ifx\hyper@anchor\@undefined
-\let\contentsline\oldcontentsline
-\let\newlabel\oldnewlabel
-\fi}
-\fi}
-\global\let\hyper@last\relax 
-\gdef\HyperFirstAtBeginDocument#1{#1}
+\providecommand\hyper@newdestlabel[2]{}
 \providecommand\HyField@AuxAddToFields[1]{}
 \providecommand\HyField@AuxAddToCoFields[2]{}
 \citation{timmermannForecastingMethodsFinance2018,elliottForecastingEconomicsFinance2016}
 \citation{gneitingWeatherForecastingEnsemble2005,kukkonenReviewOperationalRegionalscale2012}
-\citation{reichCollaborativeMultiyearMultimodel2019,funkShorttermForecastsInform2020,cramerEvaluationIndividualEnsemble2021,bracherShorttermForecastingCOVID192021,europeancovid-19forecasthubEuropeanCovid19Forecast2021}
+\citation{reichCollaborativeMultiyearMultimodel2019,funkShorttermForecastsInform2020,cramerEvaluationIndividualEnsemble2021,bracherNationalSubnationalShortterm2022,sherrattPredictivePerformanceMultimodel2022}
 \citation{goodRationalDecisions1952}
 \citation{epsteinScoringSystemProbability1969,murphyNoteRankedProbability1971a,mathesonScoringRulesContinuous1976}
 \citation{gneitingProbabilisticForecastsCalibration2007}
@@ -28,170 +14,132 @@
 \citation{bracherEvaluatingEpidemicForecasts2021}
 \newlabel{introduction}{{1}{1}{}{section.1}{}}
 \citation{R}
-\citation{scoringRules}
-\citation{topmodels}
 \citation{tscount}
+\citation{topmodels}
+\citation{GLMMadaptive}
+\citation{cvGEE}
+\citation{fabletools}
+\citation{scoringRules}
 \citation{Metrics}
 \citation{MLmetrics}
-\citation{cramerEvaluationIndividualEnsemble2021,bracherShorttermForecastingCOVID192021,europeancovid-19forecasthubEuropeanCovid19Forecast2021,bracherNationalSubnationalShortterm2021}
-\citation{europeancovid-19forecasthubEuropeanCovid19Forecast2021}
-\citation{gneitingStrictlyProperScoring2007}
-\citation{cramerCOVID19ForecastHub2020,cramerEvaluationIndividualEnsemble2021,bracherShorttermForecastingCOVID192021,bracherNationalSubnationalShortterm2021,europeancovid-19forecasthubEuropeanCovid19Forecast2021}
+\citation{verification}
+\citation{SpecsVerification}
+\citation{surveillance}
+\citation{predtools}
+\citation{probably}
+\citation{scoring}
+\citation{yardstick}
+\citation{tidymodels}
 \citation{gneitingProbabilisticForecastsCalibration2007}
-\citation{gneitingProbabilisticForecastsCalibration2007}
-\citation{gneitingProbabilisticForecastsCalibration2007}
-\citation{gneitingProbabilisticForecastsCalibration2007}
-\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Forecast and forecast target types. Forecasts can be probabilistic in nature, or a point forecast only. Depending on the type of the target (discrete, continuous or binary) different representations of the predictive distribution are possible.\relax }}{3}{table.caption.1}\protected@file@percent }
+\citation{reichCollaborativeMultiyearMultimodel2019,cramerCOVID19ForecastHub2020,sherrattPredictivePerformanceMultimodel2022,bracherNationalSubnationalShortterm2022}
+\citation{bosseScoringEpidemiologicalForecasts2023}
+\citation{data.table}
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Illustration of the suggested workflow for evaluating forecasts with {\fontseries  {m}\fontseries  {b}\selectfont  scoringutils}. A: Workflow for working with forecasts in a \bgroup \catcode `\_12\relax \catcode `\~12\relax \catcode `\$12\relax {\normalfont  \ttfamily  \hyphenchar \font =-1 data.table}\egroup -based format. The left side shows the core workflow of the package: 1) validating and processing inputs, 2) scoring forecasts and 3) summarising scores. The right side shows additional functionality that is available at the different stages of the evaluation process. The part in blue is covered by Section \ref {sec:inputs} and includes all functions related to processing and validating inputs as well as obtaining additional information about the forecasts. The part in green is covered by Section \ref {sec:scoring} and includes all functions related to scoring forecasts and obtaining additional information about the scores. The part in red is covered by Section \ref {sec:summarising} and includes all functions related to summarising scores and additional visualisations based on summarised scores. B: An alternative workflow, allowing users to call scoring rules directly with vectors/matrices as inputs.}}{3}{figure.caption.1}\protected@file@percent }
 \providecommand*\caption@xref[2]{\@setref\relax\@undefined{#1}}
-\newlabel{tab:forecast-types}{{1}{3}{Forecast and forecast target types. Forecasts can be probabilistic in nature, or a point forecast only. Depending on the type of the target (discrete, continuous or binary) different representations of the predictive distribution are possible.\relax }{table.caption.1}{}}
-\newlabel{forecast-types-and-forecast-formats}{{1.1}{3}{}{subsection.1.1}{}}
-\newlabel{the-forecasting-paradigm}{{1.2}{3}{}{subsection.1.2}{}}
-\citation{gneitingStrictlyProperScoring2007}
-\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Schematic illustration of sharpness (A, B) and calibration (C, D, E)}}{4}{figure.caption.2}\protected@file@percent }
-\newlabel{fig:forecast-paradigm}{{1}{4}{Schematic illustration of sharpness (A, B) and calibration (C, D, E)}{figure.caption.2}{}}
-\newlabel{metrics}{{2}{4}{}{section.2}{}}
-\gdef \LT@i {\LT@entry 
-    {1}{94.51282pt}\LT@entry 
-    {1}{19.15776pt}\LT@entry 
-    {1}{19.15776pt}\LT@entry 
-    {1}{19.15776pt}\LT@entry 
-    {1}{19.15776pt}\LT@entry 
-    {1}{276.6107pt}}
-\newlabel{tab:metrics-summary}{{2}{5}{}{table.2}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces Summary table of scores available in {\fontseries  {m}\fontseries  {b}\selectfont  scoringutils}. This table (including corresponding function names) can be accessed by calling \bgroup \catcode `\_12\relax \catcode `\~12\relax \catcode `\$12\relax {\normalfont  \ttfamily  \hyphenchar \font =-1 scoringutils::metrics}\egroup  in \textsf  {R}. Not all metrics are implemented for all types of forecasts and forecasting formats, as indicated by tickmarks, '-', or '$\sim $' (depends). D (discrete forecasts based on predictive samples), C (continuous, sample-based forecasts), B (binary), and Q (any forecasts in a quantile-based format) refer to different forecast formats. While the distinction is not clear-cut (e.g., binary is a special case of discrete), it is useful in the context of the package as available functions and functionality may differ. For a more detailed description of the terms used in this table see the corresponding paper sections (e.g., for 'global' and 'local' see Section \ref  {localglobal}). For mathematical definitions of the metrics see Table \ref  {tab:score-table-detailed}.\relax }}{5}{table.2}\protected@file@percent }
+\newlabel{fig:workflow-scoringutils}{{1}{3}{Illustration of the suggested workflow for evaluating forecasts with \pkg {scoringutils}. A: Workflow for working with forecasts in a \code {data.table}-based format. The left side shows the core workflow of the package: 1) validating and processing inputs, 2) scoring forecasts and 3) summarising scores. The right side shows additional functionality that is available at the different stages of the evaluation process. The part in blue is covered by Section \ref {sec:inputs} and includes all functions related to processing and validating inputs as well as obtaining additional information about the forecasts. The part in green is covered by Section \ref {sec:scoring} and includes all functions related to scoring forecasts and obtaining additional information about the scores. The part in red is covered by Section \ref {sec:summarising} and includes all functions related to summarising scores and additional visualisations based on summarised scores. B: An alternative workflow, allowing users to call scoring rules directly with vectors/matrices as inputs}{figure.caption.1}{}}
+\newlabel{paper-outline-and-package-workflow}{{1.0.1}{3}{}{subsubsection.1.0.1}{}}
+\citation{sherrattPredictivePerformanceMultimodel2022}
+\newlabel{sec:inputs}{{2}{4}{}{section.2}{}}
+\newlabel{input-formats-and-types-of-forecasts}{{2.1}{4}{}{subsection.2.1}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Formatting requirements for data inputs. For binary forecasts, the column \texttt  {observed} must be of type factor with two levels and the column \texttt  {predicted} must be a numeric between 0 and 1. For nominal forecasts, the observed value must be a factor with $N$ levels (where $N$ is the number of possible outcomes) and a column \texttt  {predicted\_label} must denote the outcome for which a probability was made. For all other forecast types, both \texttt  {observed} and \texttt  {predicted} must be of type numeric. Forecasts in a sample-based format require an additional numeric column \texttt  {sample\_id} and forecasts in a quantile-based format require an additional numeric column \texttt  {quantile\_level} with values between 0 and 1.}}{5}{table.caption.2}\protected@file@percent }
+\newlabel{tab:input-score}{{1}{5}{Formatting requirements for data inputs. For binary forecasts, the column \texttt {observed} must be of type factor with two levels and the column \texttt {predicted} must be a numeric between 0 and 1. For nominal forecasts, the observed value must be a factor with $N$ levels (where $N$ is the number of possible outcomes) and a column \texttt {predicted\_label} must denote the outcome for which a probability was made. For all other forecast types, both \texttt {observed} and \texttt {predicted} must be of type numeric. Forecasts in a sample-based format require an additional numeric column \texttt {sample\_id} and forecasts in a quantile-based format require an additional numeric column \texttt {quantile\_level} with values between 0 and 1}{table.caption.2}{}}
+\newlabel{the-unit-of-a-single-forecast}{{2.1.1}{6}{}{subsubsection.2.1.1}{}}
+\newlabel{sec:validation}{{2.2}{6}{}{subsection.2.2}{}}
+\newlabel{diagnostic-helper-functions}{{2.3}{7}{}{subsection.2.3}{}}
+\citation{bosseScoringEpidemiologicalForecasts2023}
+\newlabel{transforming-forecasts}{{2.4}{8}{}{subsection.2.4}{}}
+\newlabel{additional-functionality-related-to-forecast-objects}{{2.5}{9}{}{subsection.2.5}{}}
 \citation{gneitingProbabilisticForecastsCalibration2007}
+\newlabel{displaying-the-number-of-forecasts-available}{{2.5.1}{10}{}{subsubsection.2.5.1}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Visualistion of forecast counts for the example data}}{10}{figure.caption.3}\protected@file@percent }
+\newlabel{fig:plot-forecast-counts}{{2}{10}{Visualistion of forecast counts for the example data}{figure.caption.3}{}}
+\newlabel{probabilistic-calibration-and-pit-histograms}{{2.5.2}{10}{}{subsubsection.2.5.2}{}}
 \citation{dawidPresentPositionPotential1984}
 \citation{angusProbabilityIntegralTransform1994}
+\citation{czadoPredictiveModelAssessment2009}
+\citation{funkAssessingPerformanceRealtime2019}
+\citation{funkAssessingPerformanceRealtime2019}
 \citation{gneitingProbabilisticForecastsCalibration2007,hamillInterpretationRankHistograms2001a}
-\newlabel{assessing-calibration}{{2.1}{6}{}{subsection.2.1}{}}
-\newlabel{probabilistic-calibration}{{2.1.1}{6}{}{subsubsection.2.1.1}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces A}}{7}{figure.caption.3}\protected@file@percent }
-\newlabel{fig:calibration-plots}{{2}{7}{A}{figure.caption.3}{}}
-\citation{funkAssessingPerformanceRealtime2019}
-\citation{gneitingProbabilisticForecastsCalibration2007}
-\citation{funkAssessingPerformanceRealtime2019}
-\citation{epsteinScoringSystemProbability1969,murphyNoteRankedProbability1971a,mathesonScoringRulesContinuous1976,gneitingStrictlyProperScoring2007}
-\citation{goodRationalDecisions1952}
-\citation{dawidCoherentDispersionCriteria1999}
-\citation{winklerScoringRulesEvaluation1996}
-\citation{jordanEvaluatingProbabilisticForecasts2019}
-\newlabel{bias}{{2.1.2}{8}{}{subsubsection.2.1.2}{}}
-\newlabel{assessing-sharpness}{{2.2}{8}{}{subsection.2.2}{}}
-\newlabel{proper-scoring-rules}{{2.3}{8}{}{subsection.2.3}{}}
-\newlabel{proper-scoring-rules-for-sample-based-forecasts-crps-log-score-and-dss}{{2.3.1}{8}{}{subsubsection.2.3.1}{}}
-\citation{jordanEvaluatingProbabilisticForecasts2019}
-\citation{jordanEvaluatingProbabilisticForecasts2019}
-\citation{macheteContrastingProbabilisticScoring2012}
-\citation{winklerScoringRulesEvaluation1996}
-\citation{gelmanUnderstandingPredictiveInformation2014}
-\newlabel{estimation-details-and-the-number-of-samples-required-for-accurate-scoring}{{2.3.1}{9}{Estimation details and the number of samples required for accurate scoring}{section*.4}{}}
-\@writefile{toc}{\contentsline {paragraph}{Estimation details and the number of samples required for accurate scoring}{9}{section*.4}\protected@file@percent }
-\newlabel{overconfidence-underconfidence-and-outliers}{{2.3.1}{9}{Overconfidence, underconfidence and outliers}{section*.6}{}}
-\@writefile{toc}{\contentsline {paragraph}{Overconfidence, underconfidence and outliers}{9}{section*.6}\protected@file@percent }
-\newlabel{localglobal}{{2.3.1}{9}{Sensitivity to distance - local vs. global scores}{section*.7}{}}
-\@writefile{toc}{\contentsline {paragraph}{Sensitivity to distance - local vs. global scores}{9}{section*.7}\protected@file@percent }
-\newlabel{sensitivity-to-the-order-of-magnitude-of-the-forecast-quantity}{{2.3.1}{9}{Sensitivity to the order of magnitude of the forecast quantity}{section*.9}{}}
-\@writefile{toc}{\contentsline {paragraph}{Sensitivity to the order of magnitude of the forecast quantity}{9}{section*.9}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Top}}{10}{figure.caption.5}\protected@file@percent }
-\newlabel{fig:score-convergence}{{3}{10}{Top}{figure.caption.5}{}}
-\citation{bracherEvaluatingEpidemicForecasts2021}
-\citation{brierVERIFICATIONFORECASTSEXPRESSED1950}
-\citation{epsteinScoringSystemProbability1969,murphyNoteRankedProbability1971a}
-\citation{macheteContrastingProbabilisticScoring2012}
-\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Probabilities assigned by two hypothetical forecasters, A and B, to the possible number of goals in a football match}}{11}{figure.caption.8}\protected@file@percent }
-\newlabel{fig:score-locality}{{4}{11}{Probabilities assigned by two hypothetical forecasters, A and B, to the possible number of goals in a football match}{figure.caption.8}{}}
-\newlabel{wis}{{2.3.2}{11}{Sensitivity to the order of magnitude of the forecast quantity}{subsubsection.2.3.2}{}}
-\newlabel{proper-scoring-rules-for-binary-outcomes-bs-and-log-score}{{2.3.3}{11}{Sensitivity to the order of magnitude of the forecast quantity}{subsubsection.2.3.3}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces Scores depend on the variability of the data and therefore implicitly on the order of magnitude of the observed value}}{12}{figure.caption.10}\protected@file@percent }
-\newlabel{fig:score-scale}{{5}{12}{Scores depend on the variability of the data and therefore implicitly on the order of magnitude of the observed value}{figure.caption.10}{}}
+\newlabel{probabilistic-calibration-and-coverage-plots}{{2.5.3}{11}{}{subsubsection.2.5.3}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces PIT histograms of all models stratified by forecast target}}{12}{figure.caption.4}\protected@file@percent }
+\newlabel{fig:pit-plots}{{3}{12}{PIT histograms of all models stratified by forecast target}{figure.caption.4}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Interval coverage (A) and quantile coverage (B) plots}}{13}{figure.caption.5}\protected@file@percent }
+\newlabel{fig:coverage}{{4}{13}{Interval coverage (A) and quantile coverage (B) plots}{figure.caption.5}{}}
+\newlabel{sec:scoring}{{3}{13}{}{section.3}{}}
+\newlabel{score-and-working-with-scoring-rules}{{3.1}{13}{}{subsection.3.1}{}}
+\newlabel{composing-a-custom-list-of-metrics-and-scoring-rules}{{3.1.1}{14}{}{subsubsection.3.1.1}{}}
 \citation{cramerEvaluationIndividualEnsemble2021}
+\newlabel{pairwisetheory}{{3.2}{15}{}{subsection.3.2}{}}
 \citation{mannTestWhetherOne1947}
-\newlabel{pairwisetheory}{{2.4}{13}{Sensitivity to the order of magnitude of the forecast quantity}{subsection.2.4}{}}
-\newlabel{evaluation-example}{{3}{13}{Sensitivity to the order of magnitude of the forecast quantity}{section.3}{}}
-\citation{europeancovid-19forecasthubEuropeanCovid19Forecast2021}
-\citation{tibble}
-\citation{kableExtra}
-\newlabel{example-data}{{3.1}{14}{Sensitivity to the order of magnitude of the forecast quantity}{subsection.3.1}{}}
-\newlabel{expected-input-formats-and-data-checking}{{3.2}{14}{Sensitivity to the order of magnitude of the forecast quantity}{subsection.3.2}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {3}{\ignorespaces Overview of the columns required for different input formats.\relax }}{15}{table.caption.11}\protected@file@percent }
-\newlabel{tab:column-requirements}{{3}{15}{Overview of the columns required for different input formats.\relax }{table.caption.11}{}}
-\citation{ggplot2}
-\newlabel{visualising-forecast-data}{{3.3}{17}{Sensitivity to the order of magnitude of the forecast quantity}{subsection.3.3}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces Overview of the number of available forecasts}}{18}{figure.caption.12}\protected@file@percent }
-\newlabel{fig:avail-forecasts-plot}{{6}{18}{Overview of the number of available forecasts}{figure.caption.12}{}}
-\newlabel{scoring}{{3.4}{18}{Sensitivity to the order of magnitude of the forecast quantity}{subsection.3.4}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces Short-term forecasts for COVID-19 cases and deaths made by the EuroCOVIDhub-ensemble model on June 28 2021}}{19}{figure.caption.13}\protected@file@percent }
-\newlabel{fig:forecast-visualisation}{{7}{19}{Short-term forecasts for COVID-19 cases and deaths made by the EuroCOVIDhub-ensemble model on June 28 2021}{figure.caption.13}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {8}{\ignorespaces Coloured table to visualise the computed scores}}{20}{figure.caption.14}\protected@file@percent }
-\newlabel{fig:score-table}{{8}{20}{Coloured table to visualise the computed scores}{figure.caption.14}{}}
-\newlabel{pairwisecode}{{3.5}{21}{Sensitivity to the order of magnitude of the forecast quantity}{subsection.3.5}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {9}{\ignorespaces Ratios of mean scores based on overlapping forecast sets}}{23}{figure.caption.15}\protected@file@percent }
-\newlabel{fig:pairwise-plot}{{9}{23}{Ratios of mean scores based on overlapping forecast sets}{figure.caption.15}{}}
-\newlabel{model-diagnostics}{{3.6}{24}{Sensitivity to the order of magnitude of the forecast quantity}{subsection.3.6}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {10}{\ignorespaces Heatmap of bias values for different models across different locations and forecast targets}}{24}{figure.caption.16}\protected@file@percent }
-\newlabel{fig:score-heatmap}{{10}{24}{Heatmap of bias values for different models across different locations and forecast targets}{figure.caption.16}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {11}{\ignorespaces Decomposition of the weighted interval score (WIS) into dispersion, overprediction and underprediction}}{25}{figure.caption.17}\protected@file@percent }
-\newlabel{fig:wis-components}{{11}{25}{Decomposition of the weighted interval score (WIS) into dispersion, overprediction and underprediction}{figure.caption.17}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {12}{\ignorespaces PIT histograms of all models stratified by forecast target}}{26}{figure.caption.18}\protected@file@percent }
-\newlabel{fig:pit-plots}{{12}{26}{PIT histograms of all models stratified by forecast target}{figure.caption.18}{}}
-\citation{gneitingStrictlyProperScoring2007,joseCharacterizationSphericalScoring2009,macheteContrastingProbabilisticScoring2012}
-\@writefile{lof}{\contentsline {figure}{\numberline {13}{\ignorespaces Interval coverage (A) and quantile coverage (B) plots}}{27}{figure.caption.19}\protected@file@percent }
-\newlabel{fig:coverage}{{13}{27}{Interval coverage (A) and quantile coverage (B) plots}{figure.caption.19}{}}
-\newlabel{summary-and-discussion}{{3.7}{27}{Sensitivity to the order of magnitude of the forecast quantity}{subsection.3.7}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {14}{\ignorespaces Correlation between different scores}}{28}{figure.caption.20}\protected@file@percent }
-\newlabel{fig:correlation-plot}{{14}{28}{Correlation between different scores}{figure.caption.20}{}}
-\newlabel{acknowledgments}{{3.8}{28}{Sensitivity to the order of magnitude of the forecast quantity}{subsection.3.8}{}}
-\gdef \LT@ii {\LT@entry 
-    {1}{91.49744pt}\LT@entry 
-    {1}{346.24875pt}}
-\newlabel{appendix-detailed-information-on-metrics}{{3.8}{29}{Sensitivity to the order of magnitude of the forecast quantity}{subsection.3.8}{}}
-\@writefile{toc}{\contentsline {section}{(APPENDIX) Detailed Information on Metrics}{29}{subsection.3.8}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {4}{\ignorespaces Detailed explanation of all the metrics.\relax }}{29}{table.4}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {4}{\ignorespaces Detailed explanation of all the metrics.\relax }}{30}{table.4}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {4}{\ignorespaces Detailed explanation of all the metrics.\relax }}{31}{table.4}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {4}{\ignorespaces Detailed explanation of all the metrics.\relax }}{32}{table.4}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {4}{\ignorespaces Detailed explanation of all the metrics.\relax }}{33}{table.4}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {4}{\ignorespaces Detailed explanation of all the metrics.\relax }}{34}{table.4}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {4}{\ignorespaces Detailed explanation of all the metrics.\relax }}{35}{table.4}\protected@file@percent }
-\newlabel{tab:score-table-detailed}{{4}{36}{Sensitivity to the order of magnitude of the forecast quantity}{table.4}{}}
+\newlabel{additional-functionality-related-to-scores-objects}{{3.3}{16}{}{subsection.3.3}{}}
+\newlabel{displaying-mean-score-ratios-from-pairwise-comparisons}{{3.3.1}{16}{}{subsubsection.3.3.1}{}}
+\newlabel{correlations-between-scores}{{3.3.2}{17}{}{subsubsection.3.3.2}{}}
+\newlabel{sec:summarising}{{4}{17}{}{section.4}{}}
+\newlabel{summarising-scores}{{4.1}{17}{}{subsection.4.1}{}}
+\citation{gneitingStrictlyProperScoring2007}
+\newlabel{additional-functionality-for-summarised-scores}{{4.2}{18}{}{subsection.4.2}{}}
+\newlabel{heatmaps}{{4.2.1}{18}{}{subsubsection.4.2.1}{}}
+\citation{bracherEvaluatingEpidemicForecasts2021}
+\newlabel{weighted-interval-score-decomposition}{{4.2.2}{19}{}{subsubsection.4.2.2}{}}
+\newlabel{sec:discussion}{{5}{19}{}{section.5}{}}
+\newlabel{summary}{{5.0.1}{19}{}{subsubsection.5.0.1}{}}
+\newlabel{acknowledgments}{{6}{20}{}{section.6}{}}
 \bibdata{references.bib,scoringutils-paper.bib}
 \bibcite{angusProbabilityIntegralTransform1994}{{1}{1994}{{Angus}}{{}}}
-\bibcite{bracherEvaluatingEpidemicForecasts2021}{{2}{2021{a}}{{Bracher \emph  {et~al.}}}{{Bracher, Ray, Gneiting, and Reich}}}
-\bibcite{bracherShorttermForecastingCOVID192021}{{3}{2021{b}}{{Bracher \emph  {et~al.}}}{{Bracher, Wolffram, Deuschel, G{\"o}rgen, Ketterer, Ullrich, Abbott, Barbarossa, Bertsimas, Bhatia, Bodych, Bosse, Burgard, Castro, Fairchild, Fuhrmann, Funk, Gogolewski, Gu, Heyder, Hotz, Kheifetz, Kirsten, Krueger, Krymova, Li, Meinke, Michaud, Niedzielewski, O{\.z}a{\'n}ski, Rakowski, Scholz, Soni, Srivastava, Zieli{\'n}ski, Zou, Gneiting, and Schienle}}}
-\bibcite{bracherNationalSubnationalShortterm2021}{{4}{2021{c}}{{Bracher \emph  {et~al.}}}{{Bracher, Wolffram, Deuschel, G{\"o}rgen, Ketterer, Ullrich, Abbott, Barbarossa, Bertsimas, Bhatia, Bodych, Bosse, Burgard, Fiedler, Fuhrmann, Funk, Gambin, Gogolewski, Heyder, Hotz, Kheifetz, Kirsten, Krueger, Krymova, Leith{\"a}user, Li, Meinke, Miasojedow, Mohring, Nouvellet, Nowosielski, Ozanski, Radwan, Rakowski, Scholz, Soni, Srivastava, Gneiting, and Schienle}}}
-\bibcite{brierVERIFICATIONFORECASTSEXPRESSED1950}{{5}{1950}{{Brier}}{{}}}
-\bibcite{cramerEvaluationIndividualEnsemble2021}{{6}{2021}{{Cramer \emph  {et~al.}}}{{Cramer, Ray, Lopez, Bracher, Brennen, Rivadeneira, Gerding, Gneiting, House, Huang, Jayawardena, Kanji, Khandelwal, Le, M{\"u}hlemann, Niemi, Shah, Stark, Wang, Wattanachit, Zorn, Gu, Jain, Bannur, Deva, Kulkarni, Merugu, Raval, Shingi, Tiwari, White, Woody, Dahan, Fox, Gaither, Lachmann, Meyers, Scott, Tec, Srivastava, George, Cegan, Dettwiller, England, Farthing, Hunter, Lafferty, Linkov, Mayo, Parno, Rowland, Trump, Corsetti, Baer, Eisenberg, Falb, Huang, Martin, McCauley, Myers, Schwarz, Sheldon, Gibson, Yu, Gao, Ma, Wu, Yan, Jin, Wang, Chen, Guo, Zhao, Gu, Chen, Wang, Xu, Zhang, Zou, Biegel, Lega, Snyder, Wilson, McConnell, Walraven, Shi, Ban, Hong, Kong, Turtle, {Ben-Nun}, Riley, Riley, Koyluoglu, DesRoches, Hamory, Kyriakides, Leis, Milliken, Moloney, Morgan, Ozcan, Schrader, Shakhnovich, Siegel, Spatz, Stiefeling, Wilkinson, Wong, Gao, Bian, Cao, Ferres, Li, Liu, Xie, Zhang, Zheng, Vespignani, Chinazzi, Davis, Mu, y~Piontti, Xiong, Zheng, Baek, Farias, Georgescu, Levi, Sinha, Wilde, Penna, Celi, Sundar, Cavany, Espa{\~n}a, Moore, Oidtman, Perkins, Osthus, Castro, Fairchild, Michaud, Karlen, Lee, Dent, Grantz, Kaminsky, Kaminsky, Keegan, Lauer, Lemaitre, Lessler, Meredith, {Perez-Saez}, Shah, Smith, Truelove, Wills, Kinsey, Obrecht, Tallaksen, Burant, Wang, Gao, Gu, Kim, Li, Wang, Wang, Yu, Reiner, Barber, Gaikedu, Hay, Lim, Murray, Pigott, Prakash, Adhikari, Cui, Rodr{\'i}guez, Tabassum, Xie, Keskinocak, Asplund, Baxter, Oruc, Serban, Arik, Dusenberry, Epshteyn, Kanal, Le, Li, Pfister, Sava, Sinha, Tsai, Yoder, Yoon, Zhang, Abbott, Bosse, Funk, Hellewel, Meakin, Munday, Sherratt, Zhou, Kalantari, Yamana, Pei, Shaman, Ayer, Adee, Chhatwal, Dalgic, Ladd, Linas, Mueller, Xiao, Li, Bertsimas, Lami, Soni, Bouardi, Wang, Wang, Xie, Zeng, Green, Bien, Hu, Jahja, Narasimhan, Rajanala, Rumack, Simon, Tibshirani, Tibshirani, Ventura, Wasserman, O'Dea, Drake, Pagano, Walker, Slayton, Johansson, Biggerstaff, and Reich}}}
-\bibcite{cramerCOVID19ForecastHub2020}{{7}{2020}{{Cramer \emph  {et~al.}}}{{Cramer, Reich, Wang, Niemi, Hannan, House, Gu, Xie, Horstman, {aniruddhadiga}, Walraven, {starkari}, Li, Gibson, Castro, Karlen, Wattanachit, {jinghuichen}, {zyt9lsb}, {aagarwal1996}, Woody, Ray, Xu, Biegel, GuidoEspana, X, Bracher, Lee, {har96}, and {leyouz}}}}
+\bibcite{bosseScoringEpidemiologicalForecasts2023}{{2}{2023}{{Bosse \emph  {et~al.}}}{{Bosse, Abbott, Cori, van Leeuwen, Bracher, and Funk}}}
+\bibcite{bracherEvaluatingEpidemicForecasts2021}{{3}{2021}{{Bracher \emph  {et~al.}}}{{Bracher, Ray, Gneiting, and Reich}}}
+\bibcite{bracherNationalSubnationalShortterm2022}{{4}{2022}{{Bracher \emph  {et~al.}}}{{Bracher, Wolffram, Deuschel, G{\"o}rgen, Ketterer, Ullrich, Abbott, Barbarossa, Bertsimas, Bhatia, Bodych, Bosse, Burgard, Castro, Fairchild, Fiedler, Fuhrmann, Funk, Gambin, Gogolewski, Heyder, Hotz, Kheifetz, Kirsten, Krueger, Krymova, Leith{\"a}user, Li, Meinke, Miasojedow, Michaud, Mohring, Nouvellet, Nowosielski, Ozanski, Radwan, Rakowski, Scholz, Soni, Srivastava, Gneiting, and Schienle}}}
+\bibcite{cramerEvaluationIndividualEnsemble2021}{{5}{2021}{{Cramer \emph  {et~al.}}}{{Cramer, Ray, Lopez, Bracher, Brennen, Rivadeneira, Gerding, Gneiting, House, Huang, Jayawardena, Kanji, Khandelwal, Le, M{\"u}hlemann, Niemi, Shah, Stark, Wang, Wattanachit, Zorn, Gu, Jain, Bannur, Deva, Kulkarni, Merugu, Raval, Shingi, Tiwari, White, Woody, Dahan, Fox, Gaither, Lachmann, Meyers, Scott, Tec, Srivastava, George, Cegan, Dettwiller, England, Farthing, Hunter, Lafferty, Linkov, Mayo, Parno, Rowland, Trump, Corsetti, Baer, Eisenberg, Falb, Huang, Martin, McCauley, Myers, Schwarz, Sheldon, Gibson, Yu, Gao, Ma, Wu, Yan, Jin, Wang, Chen, Guo, Zhao, Gu, Chen, Wang, Xu, Zhang, Zou, Biegel, Lega, Snyder, Wilson, McConnell, Walraven, Shi, Ban, Hong, Kong, Turtle, {Ben-Nun}, Riley, Riley, Koyluoglu, DesRoches, Hamory, Kyriakides, Leis, Milliken, Moloney, Morgan, Ozcan, Schrader, Shakhnovich, Siegel, Spatz, Stiefeling, Wilkinson, Wong, Gao, Bian, Cao, Ferres, Li, Liu, Xie, Zhang, Zheng, Vespignani, Chinazzi, Davis, Mu, y~Piontti, Xiong, Zheng, Baek, Farias, Georgescu, Levi, Sinha, Wilde, Penna, Celi, Sundar, Cavany, Espa{\~n}a, Moore, Oidtman, Perkins, Osthus, Castro, Fairchild, Michaud, Karlen, Lee, Dent, Grantz, Kaminsky, Kaminsky, Keegan, Lauer, Lemaitre, Lessler, Meredith, {Perez-Saez}, Shah, Smith, Truelove, Wills, Kinsey, Obrecht, Tallaksen, Burant, Wang, Gao, Gu, Kim, Li, Wang, Wang, Yu, Reiner, Barber, Gaikedu, Hay, Lim, Murray, Pigott, Prakash, Adhikari, Cui, Rodr{\'i}guez, Tabassum, Xie, Keskinocak, Asplund, Baxter, Oruc, Serban, Arik, Dusenberry, Epshteyn, Kanal, Le, Li, Pfister, Sava, Sinha, Tsai, Yoder, Yoon, Zhang, Abbott, Bosse, Funk, Hellewel, Meakin, Munday, Sherratt, Zhou, Kalantari, Yamana, Pei, Shaman, Ayer, Adee, Chhatwal, Dalgic, Ladd, Linas, Mueller, Xiao, Li, Bertsimas, Lami, Soni, Bouardi, Wang, Wang, Xie, Zeng, Green, Bien, Hu, Jahja, Narasimhan, Rajanala, Rumack, Simon, Tibshirani, Tibshirani, Ventura, Wasserman, O'Dea, Drake, Pagano, Walker, Slayton, Johansson, Biggerstaff, and Reich}}}
+\bibcite{cramerCOVID19ForecastHub2020}{{6}{2020}{{Cramer \emph  {et~al.}}}{{Cramer, Reich, Wang, Niemi, Hannan, House, Gu, Xie, Horstman, {aniruddhadiga}, Walraven, {starkari}, Li, Gibson, Castro, Karlen, Wattanachit, {jinghuichen}, {zyt9lsb}, {aagarwal1996}, Woody, Ray, Xu, Biegel, GuidoEspana, X, Bracher, Lee, {har96}, and {leyouz}}}}
+\bibcite{czadoPredictiveModelAssessment2009}{{7}{2009}{{Czado \emph  {et~al.}}}{{Czado, Gneiting, and Held}}}
 \bibcite{dawidPresentPositionPotential1984}{{8}{1984}{{Dawid}}{{}}}
-\bibcite{dawidCoherentDispersionCriteria1999}{{9}{1999}{{Dawid and Sebastiani}}{{}}}
+\bibcite{data.table}{{9}{2023}{{Dowle and Srinivasan}}{{}}}
 \bibcite{elliottForecastingEconomicsFinance2016}{{10}{2016}{{Elliott and Timmermann}}{{}}}
 \bibcite{epsteinScoringSystemProbability1969}{{11}{1969}{{Epstein}}{{}}}
-\bibcite{europeancovid-19forecasthubEuropeanCovid19Forecast2021}{{12}{2021}{{European Covid-19 Forecast Hub}}{{}}}
-\bibcite{funkShorttermForecastsInform2020}{{13}{2020}{{Funk \emph  {et~al.}}}{{Funk, Abbott, Atkins, Baguelin, Baillie, Birrell, Blake, Bosse, Burton, Carruthers, Davies, Angelis, Dyson, Edmunds, Eggo, Ferguson, Gaythorpe, Gorsich, {Guyver-Fletcher}, Hellewell, Hill, Holmes, House, Jewell, Jit, Jombart, Joshi, Keeling, Kendall, Knock, Kucharski, Lythgoe, Meakin, Munday, Openshaw, Overton, Pagani, Pearson, {Perez-Guzman}, Pellis, Scarabel, Semple, Sherratt, Tang, Tildesley, Leeuwen, Whittles, Group, Team, and Investigators}}}
-\bibcite{funkAssessingPerformanceRealtime2019}{{14}{2019}{{Funk \emph  {et~al.}}}{{Funk, Camacho, Kucharski, Lowe, Eggo, and Edmunds}}}
-\bibcite{gelmanUnderstandingPredictiveInformation2014}{{15}{2014}{{Gelman \emph  {et~al.}}}{{Gelman, Hwang, and Vehtari}}}
-\bibcite{gneitingProbabilisticForecastsCalibration2007}{{16}{2007}{{Gneiting \emph  {et~al.}}}{{Gneiting, Balabdaoui, and Raftery}}}
-\bibcite{gneitingWeatherForecastingEnsemble2005}{{17}{2005}{{Gneiting and Raftery}}{{}}}
-\bibcite{gneitingStrictlyProperScoring2007}{{18}{2007}{{Gneiting and Raftery}}{{}}}
-\bibcite{goodRationalDecisions1952}{{19}{1952}{{Good}}{{}}}
-\bibcite{hamillInterpretationRankHistograms2001a}{{20}{2001}{{Hamill}}{{}}}
-\bibcite{Metrics}{{21}{2018}{{Hamner and Frasco}}{{}}}
-\bibcite{scoringRules}{{22}{2019{a}}{{Jordan \emph  {et~al.}}}{{Jordan, Kr\"uger, and Lerch}}}
-\bibcite{jordanEvaluatingProbabilisticForecasts2019}{{23}{2019{b}}{{Jordan \emph  {et~al.}}}{{Jordan, Kr{\"u}ger, and Lerch}}}
-\bibcite{joseCharacterizationSphericalScoring2009}{{24}{2009}{{Jose}}{{}}}
-\bibcite{kukkonenReviewOperationalRegionalscale2012}{{25}{2012}{{Kukkonen \emph  {et~al.}}}{{Kukkonen, Olsson, Schultz, Baklanov, Klein, Miranda, Monteiro, Hirtl, Tarvainen, Boy, Peuch, Poupkou, Kioutsioukis, Finardi, Sofiev, Sokhi, Lehtinen, Karatzas, San~Jos{\'e}, Astitha, Kallos, Schaap, Reimer, Jakobs, and Eben}}}
+\bibcite{funkShorttermForecastsInform2020}{{12}{2020}{{Funk \emph  {et~al.}}}{{Funk, Abbott, Atkins, Baguelin, Baillie, Birrell, Blake, Bosse, Burton, Carruthers, Davies, Angelis, Dyson, Edmunds, Eggo, Ferguson, Gaythorpe, Gorsich, {Guyver-Fletcher}, Hellewell, Hill, Holmes, House, Jewell, Jit, Jombart, Joshi, Keeling, Kendall, Knock, Kucharski, Lythgoe, Meakin, Munday, Openshaw, Overton, Pagani, Pearson, {Perez-Guzman}, Pellis, Scarabel, Semple, Sherratt, Tang, Tildesley, {van Leeuwen}, Whittles, Group, Team, and Investigators}}}
+\bibcite{funkAssessingPerformanceRealtime2019}{{13}{2019}{{Funk \emph  {et~al.}}}{{Funk, Camacho, Kucharski, Lowe, Eggo, and Edmunds}}}
+\bibcite{gneitingProbabilisticForecastsCalibration2007}{{14}{2007}{{Gneiting \emph  {et~al.}}}{{Gneiting, Balabdaoui, and Raftery}}}
+\bibcite{gneitingWeatherForecastingEnsemble2005}{{15}{2005}{{Gneiting and Raftery}}{{}}}
+\bibcite{gneitingStrictlyProperScoring2007}{{16}{2007}{{Gneiting and Raftery}}{{}}}
+\bibcite{goodRationalDecisions1952}{{17}{1952}{{Good}}{{}}}
+\bibcite{hamillInterpretationRankHistograms2001a}{{18}{2001}{{Hamill}}{{}}}
+\bibcite{Metrics}{{19}{2018}{{Hamner and Frasco}}{{}}}
+\bibcite{scoringRules}{{20}{2019}{{Jordan \emph  {et~al.}}}{{Jordan, Kr\"uger, and Lerch}}}
+\bibcite{yardstick}{{21}{2023{a}}{{Kuhn \emph  {et~al.}}}{{Kuhn, Vaughan, and Hvitfeldt}}}
+\bibcite{probably}{{22}{2023{b}}{{Kuhn \emph  {et~al.}}}{{Kuhn, Vaughan, and Ruiz}}}
+\bibcite{tidymodels}{{23}{2020}{{Kuhn and Wickham}}{{}}}
+\bibcite{kukkonenReviewOperationalRegionalscale2012}{{24}{2012}{{Kukkonen \emph  {et~al.}}}{{Kukkonen, Olsson, Schultz, Baklanov, Klein, Miranda, Monteiro, Hirtl, Tarvainen, Boy, Peuch, Poupkou, Kioutsioukis, Finardi, Sofiev, Sokhi, Lehtinen, Karatzas, San~Jos{\'e}, Astitha, Kallos, Schaap, Reimer, Jakobs, and Eben}}}
+\bibcite{verification}{{25}{2015}{{Laboratory}}{{}}}
 \bibcite{tscount}{{26}{2017}{{Liboschik \emph  {et~al.}}}{{Liboschik, Fokianos, and Fried}}}
-\bibcite{macheteContrastingProbabilisticScoring2012}{{27}{2012}{{Machete}}{{}}}
-\bibcite{mannTestWhetherOne1947}{{28}{1947}{{Mann and Whitney}}{{}}}
-\bibcite{mathesonScoringRulesContinuous1976}{{29}{1976}{{Matheson and Winkler}}{{}}}
-\bibcite{murphyNoteRankedProbability1971a}{{30}{1971}{{Murphy}}{{}}}
-\bibcite{tibble}{{31}{2022}{{Müller and Wickham}}{{}}}
-\bibcite{R}{{32}{2021}{{R Core Team}}{{}}}
-\bibcite{reichCollaborativeMultiyearMultimodel2019}{{33}{2019}{{Reich \emph  {et~al.}}}{{Reich, Brooks, Fox, Kandula, McGowan, Moore, Osthus, Ray, Tushar, Yamana, Biggerstaff, Johansson, Rosenfeld, and Shaman}}}
-\bibcite{timmermannForecastingMethodsFinance2018}{{34}{2018}{{Timmermann}}{{}}}
-\bibcite{ggplot2}{{35}{2016}{{Wickham}}{{}}}
-\bibcite{winklerScoringRulesEvaluation1996}{{36}{1996}{{Winkler \emph  {et~al.}}}{{Winkler, Mu{\~n}oz, Cervera, Bernardo, Blattenberger, Kadane, Lindley, Murphy, Oliver, and {R{\'i}os-Insua}}}}
-\bibcite{MLmetrics}{{37}{2016}{{Yan}}{{}}}
-\bibcite{topmodels}{{38}{2022}{{Zeileis and Lang}}{{}}}
-\bibcite{kableExtra}{{39}{2021}{{Zhu}}{{}}}
-\gdef \@abspage@last{42}
+\bibcite{mannTestWhetherOne1947}{{27}{1947}{{Mann and Whitney}}{{}}}
+\bibcite{mathesonScoringRulesContinuous1976}{{28}{1976}{{Matheson and Winkler}}{{}}}
+\bibcite{scoring}{{29}{2013}{{Merkle and Steyvers}}{{}}}
+\bibcite{surveillance}{{30}{2017}{{Meyer \emph  {et~al.}}}{{Meyer, Held, and Höhle}}}
+\bibcite{murphyNoteRankedProbability1971a}{{31}{1971}{{Murphy}}{{}}}
+\bibcite{fabletools}{{32}{2023}{{O'Hara-Wild \emph  {et~al.}}}{{O'Hara-Wild, Hyndman, and Wang}}}
+\bibcite{R}{{33}{2021}{{R Core Team}}{{}}}
+\bibcite{reichCollaborativeMultiyearMultimodel2019}{{34}{2019}{{Reich \emph  {et~al.}}}{{Reich, Brooks, Fox, Kandula, McGowan, Moore, Osthus, Ray, Tushar, Yamana, Biggerstaff, Johansson, Rosenfeld, and Shaman}}}
+\bibcite{cvGEE}{{35}{2019}{{Rizopoulos}}{{}}}
+\bibcite{GLMMadaptive}{{36}{2023}{{Rizopoulos}}{{}}}
+\bibcite{predtools}{{37}{2023}{{Sadatsafavi \emph  {et~al.}}}{{Sadatsafavi, Safari, and Lee}}}
+\bibcite{sherrattPredictivePerformanceMultimodel2022}{{38}{2022}{{Sherratt \emph  {et~al.}}}{{Sherratt, Gruson, Grah, Johnson, Niehus, Prasse, Sandman, Deuschel, Wolffram, Abbott, Ullrich, Gibson, Ray, Reich, Sheldon, Wang, Wattanachit, Wang, Trnka, Obozinski, Sun, Thanou, Pottier, Krymova, Barbarossa, Leith{\"a}user, Mohring, Schneider, Wlazlo, Fuhrmann, Lange, Rodiah, Baccam, Gurung, Stage, Suchoski, Budzinski, Walraven, Villanueva, Tucek, {\v S}m{\'i}d, Zaj{\'i}cek, P{\'e}rez, Reina, Bosse, Meakin, Di~Loro, Maruotti, Eclerov{\'a}, Kraus, Kraus, Pribylova, Dimitris, Li, Saksham, Dehning, Mohr, Priesemann, Redlarski, Bejar, Ardenghi, Parolini, Ziarelli, Bock, Heyder, Hotz, E., {Guzman-Merino}, Aznarte, Mori{\~n}a, Alonso, {\'A}lvarez, L{\'o}pez, Prats, Burgard, Rodloff, Zimmermann, Kuhlmann, Zibert, Pennoni, Divino, Catal{\`a}, Lovison, Giudici, Tarantino, Bartolucci, Jona, Mingione, Farcomeni, Srivastava, {Montero-Manso}, Adiga, Hurt, Lewis, Marathe, Porebski, Venkatramanan, Bartczuk, Dreger, Gambin, Gogolewski, {Gruziel-Slomka}, Krupa, Moszynski, Niedzielewski, Nowosielski, Radwan, Rakowski, Semeniuk, Szczurek, Zielinski, Kisielewski, Pabjan, Holger, Kheifetz, Scholz, Bodych, Filinski, Idzikowski, Krueger, Ozanski, Bracher, and Funk}}}
+\bibcite{SpecsVerification}{{39}{2020}{{Siegert}}{{}}}
+\bibcite{timmermannForecastingMethodsFinance2018}{{40}{2018}{{Timmermann}}{{}}}
+\bibcite{MLmetrics}{{41}{2016}{{Yan}}{{}}}
+\bibcite{topmodels}{{42}{2022}{{Zeileis and Lang}}{{}}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces Overview of the inputs and outputs of the metrics and scoring rules exported by {\fontseries  {m}\fontseries  {b}\selectfont  scoringutils}. Dots indicate scalar values, while bars indicate vectors (comprised of values that belong together). Several bars (vectors) can be grouped into a matrix with rows representing the individual forecasts. All scoring functions used within \bgroup \catcode `\_12\relax \catcode `\~12\relax \catcode `\$12\relax {\normalfont  \ttfamily  \hyphenchar \font =-1 score()}\egroup  must accept the same input formats as the functions here. However, functions used within \bgroup \catcode `\_12\relax \catcode `\~12\relax \catcode `\$12\relax {\normalfont  \ttfamily  \hyphenchar \font =-1 score()}\egroup  do not necessarily have to have the same argument names (see Section \ref {sec:scoring}). Input formats directly correspond to the required columns for the different forecast types (see Table \ref {tab:input-score}). The only exception is the forecast type 'sample': Inputs require a column \bgroup \catcode `\_12\relax \catcode `\~12\relax \catcode `\$12\relax {\normalfont  \ttfamily  \hyphenchar \font =-1 sample\_id}\egroup  in \bgroup \catcode `\_12\relax \catcode `\~12\relax \catcode `\$12\relax {\normalfont  \ttfamily  \hyphenchar \font =-1 score()}\egroup , but no corresponding argument is necessary when calling scoring rules directly on vectors or matrices.}}{26}{figure.caption.6}\protected@file@percent }
+\newlabel{fig:input-scoring-rules}{{5}{26}{Overview of the inputs and outputs of the metrics and scoring rules exported by \pkg {scoringutils}. Dots indicate scalar values, while bars indicate vectors (comprised of values that belong together). Several bars (vectors) can be grouped into a matrix with rows representing the individual forecasts. All scoring functions used within \fct {score} must accept the same input formats as the functions here. However, functions used within \fct {score} do not necessarily have to have the same argument names (see Section \ref {sec:scoring}). Input formats directly correspond to the required columns for the different forecast types (see Table \ref {tab:input-score}). The only exception is the forecast type 'sample': Inputs require a column \code {sample\_id} in \fct {score}, but no corresponding argument is necessary when calling scoring rules directly on vectors or matrices}{figure.caption.6}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces Illustration of the computation of relative skill scores through pairwise comparisons of three different forecast models, M1-M3}}{27}{figure.caption.7}\protected@file@percent }
+\newlabel{fig:pairwise-comparison}{{6}{27}{Illustration of the computation of relative skill scores through pairwise comparisons of three different forecast models, M1-M3}{figure.caption.7}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces Ratios of mean weighted interval scores based on overlapping forecast sets}}{27}{figure.caption.8}\protected@file@percent }
+\newlabel{fig:pairwise-plot}{{7}{27}{Ratios of mean weighted interval scores based on overlapping forecast sets}{figure.caption.8}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {8}{\ignorespaces Plot of correlations between different scores}}{28}{figure.caption.9}\protected@file@percent }
+\newlabel{fig:correlation-plot}{{8}{28}{Plot of correlations between different scores}{figure.caption.9}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {9}{\ignorespaces Heatmap of bias values for different models across different locations and forecast targets}}{28}{figure.caption.10}\protected@file@percent }
+\newlabel{fig:score-heatmap}{{9}{28}{Heatmap of bias values for different models across different locations and forecast targets}{figure.caption.10}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {10}{\ignorespaces Decomposition of the weighted interval score (WIS) into dispersion, overprediction and underprediction}}{29}{figure.caption.11}\protected@file@percent }
+\newlabel{fig:wis-components}{{10}{29}{Decomposition of the weighted interval score (WIS) into dispersion, overprediction and underprediction}{figure.caption.11}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {B.11}{\ignorespaces A}}{32}{figure.caption.12}\protected@file@percent }
+\newlabel{fig:calibration-plots}{{B.11}{32}{A}{figure.caption.12}{}}
+\newlabel{sec:wis}{{C}{33}{}{appendix.C}{}}
+\gdef \@abspage@last{35}

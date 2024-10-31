@@ -5,121 +5,59 @@
 \alias{summarize_scores}
 \title{Summarise scores as produced by \code{\link[=score]{score()}}}
 \usage{
-summarise_scores(
-  scores,
-  by = NULL,
-  across = NULL,
-  fun = mean,
-  relative_skill = FALSE,
-  relative_skill_metric = "auto",
-  metric = deprecated(),
-  baseline = NULL,
-  ...
-)
+summarise_scores(scores, by = "model", fun = mean, ...)
 
-summarize_scores(
-  scores,
-  by = NULL,
-  across = NULL,
-  fun = mean,
-  relative_skill = FALSE,
-  relative_skill_metric = "auto",
-  metric = deprecated(),
-  baseline = NULL,
-  ...
-)
+summarize_scores(scores, by = "model", fun = mean, ...)
 }
 \arguments{
-\item{scores}{A data.table of scores as produced by \code{\link[=score]{score()}}.}
+\item{scores}{An object of class \code{scores} (a data.table with
+scores and an additional attribute \code{metrics} as produced by \code{\link[=score]{score()}}).}
 
-\item{by}{character vector with column names to summarise scores by. Default
-is \code{NULL}, meaning that the only summary that takes is place is summarising
-over samples or quantiles (in case of quantile-based forecasts), such that
-there is one score per forecast as defined by the \emph{unit of a single forecast}
-(rather than one score for every sample or quantile).
-The \emph{unit of a single forecast} is determined by the columns present in the
-input data that do not correspond to a metric produced by \code{\link[=score]{score()}}, which
-indicate indicate a grouping of forecasts (for example there may be one
-forecast per day, location and model). Adding additional, unrelated, columns
-may alter results in an unpredictable way.}
+\item{by}{Character vector with column names to summarise scores by. Default
+is "model", i.e. scores are summarised by the "model" column.}
 
-\item{across}{character vector with column names from the vector of variables
-that define the \emph{unit of a single forecast} (see above) to summarise scores
-across (meaning that the specified columns will be dropped). This is an
-alternative to specifying \code{by} directly. If \code{NULL} (default), then \code{by} will
-be used or inferred internally if also not specified. Only  one of \code{across}
-and \code{by}  may be used at a time.}
+\item{fun}{A function used for summarising scores. Default is \code{\link[=mean]{mean()}}.}
 
-\item{fun}{a function used for summarising scores. Default is \code{mean}.}
-
-\item{relative_skill}{logical, whether or not to compute relative
-performance between models based on pairwise comparisons.
-If \code{TRUE} (default is \code{FALSE}), then a column called
-'model' must be present in the input data. For more information on
-the computation of relative skill, see \code{\link[=pairwise_comparison]{pairwise_comparison()}}.
-Relative skill will be calculated for the aggregation level specified in
-\code{by}.}
-
-\item{relative_skill_metric}{character with the name of the metric for which
-a relative skill shall be computed. If equal to 'auto' (the default), then
-this will be either interval score, CRPS or Brier score (depending on which
-of these is available in the input data)}
-
-\item{metric}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Deprecated in 1.1.0. Use
-\code{relative_skill_metric} instead.}
-
-\item{baseline}{character string with the name of a model. If a baseline is
-given, then a scaled relative skill with respect to the baseline will be
-returned. By default (\code{NULL}), relative skill will not be scaled with
-respect to a baseline model.}
-
-\item{...}{additional parameters that can be passed to the summary function
+\item{...}{Additional parameters that can be passed to the summary function
 provided to \code{fun}. For more information see the documentation of the
 respective function.}
 }
+\value{
+A data.table with summarised scores. Scores are summarised according
+to the names of the columns of the original data specified in \code{by}
+using the \code{fun} passed to \code{summarise_scores()}.
+}
 \description{
-Summarise scores as produced by \code{\link[=score]{score()}}
+Summarise scores as produced by \code{\link[=score]{score()}}.
+
+\code{summarise_scores} relies on a way to identify the names of the scores and
+distinguish them from columns that denote the unit of a single forecast.
+Internally, this is done via a stored attribute, \code{metrics} that stores
+the names of the scores. This means, however, that you need to be careful
+with renaming scores after they have been produced by \code{\link[=score]{score()}}. If you
+do, you also have to manually update the attribute by calling
+\code{attr(scores, "metrics") <- new_names}.
 }
 \examples{
 \dontshow{
   data.table::setDTthreads(2) # restricts number of cores used on CRAN
 }
 library(magrittr) # pipe operator
-
-scores <- score(example_continuous)
-summarise_scores(scores)
-
-
-# summarise over samples or quantiles to get one score per forecast
-scores <- score(example_quantile)
-summarise_scores(scores)
+scores <- example_sample_continuous \%>\%
+ as_forecast_sample() \%>\%
+ score()
 
 # get scores by model
-summarise_scores(scores,by = "model")
+summarise_scores(scores, by = "model")
 
 # get scores by model and target type
 summarise_scores(scores, by = c("model", "target_type"))
-
-# Get scores summarised across horizon, forecast date, and target end date
-summarise_scores(
- scores, across = c("horizon", "forecast_date", "target_end_date")
-)
 
 # get standard deviation
 summarise_scores(scores, by = "model", fun = sd)
 
 # round digits
-summarise_scores(scores,by = "model") \%>\%
+summarise_scores(scores, by = "model") \%>\%
   summarise_scores(fun = signif, digits = 2)
-
-# get quantiles of scores
-# make sure to aggregate over ranges first
-summarise_scores(scores,
-  by = "model", fun = quantile,
-  probs = c(0.25, 0.5, 0.75)
-)
-
-# get ranges
-# summarise_scores(scores, by = "range")
 }
 \keyword{scoring}

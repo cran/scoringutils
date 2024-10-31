@@ -8,67 +8,56 @@ scoringutils: Utilities for Scoring and Assessing Predictions
 [![CRAN_Release_Badge](https://www.r-pkg.org/badges/version-ago/scoringutils)](https://CRAN.R-project.org/package=scoringutils)
 ![GitHub R package
 version](https://img.shields.io/github/r-package/v/epiforecasts/scoringutils)
-[![metacran
-downloads](http://cranlogs.r-pkg.org/badges/grand-total/scoringutils)](https://cran.r-project.org/package=scoringutils)
+[![metacrandownloads](http://cranlogs.r-pkg.org/badges/grand-total/scoringutils)](https://cran.r-project.org/package=scoringutils)
 <!-- badges: end -->
 
-The `scoringutils` package provides a collection of metrics and proper
-scoring rules and aims to make it simple to score probabilistic
-forecasts against the true observed values.
+**Note**: [This documentation](https://epiforecasts.io/scoringutils/)
+refers to the stable version of `scoringutils`. You can also view the
+[documentation of the development
+version](https://epiforecasts.io/scoringutils/dev/).
 
-You can find additional information and examples in the papers
-[Evaluating Forecasts with scoringutils in
-R](https://arxiv.org/abs/2205.07090) [Scoring epidemiological forecasts
-on transformed
-scales](https://www.medrxiv.org/content/10.1101/2023.01.23.23284722v1)
-as well as the Vignettes ([Getting
-started](https://epiforecasts.io/scoringutils/articles/scoringutils.html),
+The `scoringutils` package facilitates the process of evaluating
+forecasts in R, using a convenient and flexible `data.table`-based
+framework. It provides broad functionality to check the input data and
+diagnose issues, to visualise forecasts and missing data, to transform
+data before scoring, to handle missing forecasts, to aggregate scores,
+and to visualise the results of the evaluation. The package is easily
+extendable, meaning that users can supply their own scoring rules or
+extend existing classes to handle new types of forecasts.
+
+The package underwent a major re-write. The most comprehensive
+documentation for the updated package is the [revised
+version](https://drive.google.com/file/d/1URaMsXmHJ1twpLpMl1sl2HW4lPuUycoj/view?usp=drive_link)
+of our [original](https://doi.org/10.48550/arXiv.2205.07090)
+`scoringutils` paper.
+
+Another good starting point are the vignettes
+<!-- vignettes on [Getting started](https://epiforecasts.io/scoringutils/articles/scoringutils.html),  -->
 [Details on the metrics
 implemented](https://epiforecasts.io/scoringutils/articles/metric-details.html)
 and [Scoring forecasts
-directly](https://epiforecasts.io/scoringutils/articles/scoring-forecasts-directly.html)).
+directly](https://epiforecasts.io/scoringutils/articles/scoring-forecasts-directly.html).
 
-The `scoringutils` package offers convenient automated forecast
-evaluation through the function `score()`. The function operates on
-data.frames (it uses `data.table` internally for speed and efficiency)
-and can easily be integrated in a workflow based on `dplyr` or
-`data.table`. It also provides experienced users with a set of reliable
-lower-level scoring metrics operating on vectors/matrices they can build
-upon in other applications. In addition it implements a wide range of
-flexible plots designed to cover many use cases.
+<!-- > Nikos I. Bosse, Hugo Gruson, Anne Cori, Edwin van Leeuwen, Sebastian Funk and Sam Abbott (2022). _`Evaluating Forecasts with scoringutils in R`_. arXiv:2205.07090 <https://doi.org/10.48550/arXiv.2205.07090> -->
 
-Where available `scoringutils` depends on functionality from
-`scoringRules` which provides a comprehensive collection of proper
-scoring rules for predictive probability distributions represented as
-sample or parametric distributions. For some forecast types, such as
-quantile forecasts, `scoringutils` also implements additional metrics
-for evaluating forecasts. On top of providing an interface to the proper
-scoring rules implemented in `scoringRules` and natively, `scoringutils`
-also offers utilities for summarising and visualising forecasts and
-scores, and to obtain relative scores between models which may be useful
-for non-overlapping forecasts and forecasts across scales.
+For further details on the specific issue of transforming forecasts for
+scoring see:
 
-Predictions can be handled in various formats: `scoringutils` can handle
-probabilistic forecasts in either a sample based or a quantile based
-format. For more detail on the expected input formats please see below.
-True values can be integer, continuous or binary, and appropriate scores
-for each of these value types are selected automatically.
+> Nikos I. Bosse, Sam Abbott, Anne Cori, Edwin van Leeuwen, Johannes
+> Bracher\* and Sebastian Funk\* (\*: equal contribution) (2023).
+> *`Scoring epidemiological forecasts on transformed scales`*, PLoS
+> Comput Biol 19(8): e1011393
+> <https://doi.org/10.1371/journal.pcbi.1011393>
 
 ## Installation
 
-Install the CRAN version of this package using:
+Install the CRAN version of this package using
 
 ``` r
 install.packages("scoringutils")
 ```
 
-Install the stable development version of the package with:
-
-``` r
-install.packages("scoringutils", repos = "https://epiforecasts.r-universe.dev")
-```
-
-Install the unstable development from GitHub using the following,
+Install the unstable development version from GitHub using
 
 ``` r
 remotes::install_github("epiforecasts/scoringutils", dependencies = TRUE)
@@ -76,128 +65,144 @@ remotes::install_github("epiforecasts/scoringutils", dependencies = TRUE)
 
 ## Quick start
 
-In this quick start guide we explore some of the functionality of the
-`scoringutils` package using quantile forecasts from the [ECDC
-forecasting hub](https://covid19forecasthub.eu/) as an example. For more
-detailed documentation please see the package vignettes, and individual
-function documentation.
+### Forecast types
 
-### Plotting forecasts
+`scoringutils` currently supports scoring the following forecast types:
 
-As a first step to evaluating the forecasts we visualise them. For the
-purposes of this example here we make use of `plot_predictions()` to
-filter the available forecasts for a single model, and forecast date.
+- `binary`: a probability for a binary (yes/no) outcome variable.
+- `point`: a forecast for a continuous or discrete outcome variable that
+  is represented by a single number.
+- `quantile`: a probabilistic forecast for a continuous or discrete
+  outcome variable, with the forecast distribution represented by a set
+  of predictive quantiles.
+- `sample`: a probabilistic forecast for a continuous or discrete
+  outcome variable, with the forecast represented by a finite set of
+  samples drawn from the predictive distribution.
+- `nominal` categorical forecast with unordered outcome possibilities
+  (generalisation of binary forecasts to multiple outcomes)
+
+### Input formats and input validation
+
+The expected input format is generally a `data.frame` (or similar) with
+required columns `observed`, and `predicted` that holds the forecasts
+and observed values. Exact requirements depend on the forecast type. For
+more information, have a look at the
+[paper](https://drive.google.com/file/d/1URaMsXmHJ1twpLpMl1sl2HW4lPuUycoj/view?usp=drive_link),
+call `?as_forecast_binary`, `?as_forecast_quantile` etc., or have a look
+at the example data provided in the package (`example_binary`,
+`example_point`, `example_quantile`, `example_sample_continuous`,
+`example_sample_discrete`, `example_nominal`).
+
+Before scoring, input data needs to be validated and transformed into a
+forecast object using one of the `as_forecast_<type>()` functions.
 
 ``` r
-example_quantile %>%
-  make_NA(what = "truth", 
-          target_end_date >= "2021-07-15", 
-          target_end_date < "2021-05-22"
-  ) %>%
-  make_NA(what = "forecast",
-          model != "EuroCOVIDhub-ensemble", 
-          forecast_date != "2021-06-28"
-  ) %>%
-  plot_predictions(
-    x = "target_end_date",
-    by = c("target_type", "location")
-  ) +
-  facet_wrap(target_type ~ location, ncol = 4, scales = "free") 
+forecast_quantile <- example_quantile |>
+  as_forecast_quantile(
+    forecast_unit = c(
+      "location", "forecast_date", "target_end_date", "target_type", "model", "horizon"
+    )
+  )
+#> ℹ Some rows containing NA values may be removed. This is fine if not
+#>   unexpected.
+
+print(forecast_quantile, 2)
+#> Forecast type: quantile
+#> Forecast unit:
+#> location, forecast_date, target_end_date, target_type, model, and horizon
+#> 
+#> Key: <location, target_end_date, target_type>
+#>        observed quantile_level predicted location forecast_date target_end_date
+#>           <num>          <num>     <int>   <char>        <Date>          <Date>
+#>     1:   127300             NA        NA       DE          <NA>      2021-01-02
+#>     2:     4534             NA        NA       DE          <NA>      2021-01-02
+#>    ---                                                                         
+#> 20544:       78          0.975       611       IT    2021-07-12      2021-07-24
+#> 20545:       78          0.990       719       IT    2021-07-12      2021-07-24
+#>        target_type                model horizon
+#>             <char>               <char>   <num>
+#>     1:       Cases                 <NA>      NA
+#>     2:      Deaths                 <NA>      NA
+#>    ---                                         
+#> 20544:      Deaths epiforecasts-EpiNow2       2
+#> 20545:      Deaths epiforecasts-EpiNow2       2
 ```
 
-![](man/figures/unnamed-chunk-4-1.png)<!-- -->
+### The forecast unit
+
+For quantile-based and sample-based forecasts, a single prediction is
+represented by a set of several quantiles (or samples) from the
+predictive distribution, i.e. several rows in the input data.
+`scoringutils` therefore needs to group rows together that form a single
+forecast. `scoringutils` uses all other existing columns in the input
+data to achieve this - the values in all other columns should uniquely
+identify a single forecast. Additional columns unrelated to the forecast
+unit can mess this up. The `forecast_unit` argument in
+`as_forecast_<type>()` makes sure that only those columns are retained
+which are relevant for defining the unit of a single forecast.
 
 ### Scoring forecasts
 
-Forecasts can be easily and quickly scored using the `score()` function.
-`score()` automatically tries to determine the `forecast_unit`, i.e. the
-set of columns that uniquely defines a single forecast, by taking all
-column names of the data into account. However, it is recommended to set
-the forecast unit manually using `set_forecast_unit()` as this may help
-to avoid errors, especially when scoringutils is used in automated
-pipelines. The function `set_forecast_unit()` will simply drop unneeded
-columns. To verify everything is in order, the function
-`check_forecasts()` should be used. The result of that check can then
-passed directly into `score()`. `score()` returns unsummarised scores,
-which in most cases is not what the user wants. Here we make use of
-additional functions from `scoringutils` to add empirical
-coverage-levels (`add_coverage()`), and scores relative to a baseline
-model (here chosen to be the EuroCOVIDhub-ensemble model). See the
-getting started vignette for more details. Finally we summarise these
-scores by model and target type.
+Forecasts can be scored by calling `score()` on a validated forecast
+object.
 
 ``` r
-example_quantile %>%
-  set_forecast_unit(c("location", "target_end_date", "target_type", "horizon", "model")) %>%
-  check_forecasts() %>%
-  score() %>%
-  add_coverage(ranges = c(50, 90), by = c("model", "target_type")) %>%
-  summarise_scores(
-    by = c("model", "target_type"),
-    relative_skill = TRUE,
-    baseline = "EuroCOVIDhub-ensemble"
-  ) %>%
-  summarise_scores(
-    fun = signif, 
-    digits = 2
-  ) %>%
-  kable()
-#> The following messages were produced when checking inputs:
-#> 1.  144 values for `prediction` are NA in the data provided and the corresponding rows were removed. This may indicate a problem if unexpected.
+scores <- forecast_quantile |> 
+  score()
 ```
 
-| model                 | target_type | interval_score | dispersion | underprediction | overprediction | coverage_deviation |    bias | ae_median | coverage_50 | coverage_90 | relative_skill | scaled_rel_skill |
-|:----------------------|:------------|---------------:|-----------:|----------------:|---------------:|-------------------:|--------:|----------:|------------:|------------:|---------------:|-----------------:|
-| EuroCOVIDhub-baseline | Cases       |          28000 |       4100 |         10000.0 |        14000.0 |             -0.110 |  0.0980 |     38000 |        0.33 |        0.82 |           1.30 |              1.6 |
-| EuroCOVIDhub-baseline | Deaths      |            160 |         91 |             2.1 |           66.0 |              0.120 |  0.3400 |       230 |        0.66 |        1.00 |           2.30 |              3.8 |
-| EuroCOVIDhub-ensemble | Cases       |          18000 |       3700 |          4200.0 |        10000.0 |             -0.098 | -0.0560 |     24000 |        0.39 |        0.80 |           0.82 |              1.0 |
-| EuroCOVIDhub-ensemble | Deaths      |             41 |         30 |             4.1 |            7.1 |              0.200 |  0.0730 |        53 |        0.88 |        1.00 |           0.60 |              1.0 |
-| UMass-MechBayes       | Deaths      |             53 |         27 |            17.0 |            9.0 |             -0.023 | -0.0220 |        78 |        0.46 |        0.88 |           0.75 |              1.3 |
-| epiforecasts-EpiNow2  | Cases       |          21000 |       5700 |          3300.0 |        12000.0 |             -0.067 | -0.0790 |     28000 |        0.47 |        0.79 |           0.95 |              1.2 |
-| epiforecasts-EpiNow2  | Deaths      |             67 |         32 |            16.0 |           19.0 |             -0.043 | -0.0051 |       100 |        0.42 |        0.91 |           0.98 |              1.6 |
+`score()` takes an additional argument, `metrics`, with a list of
+scoring rules. Every forecast type has a default list of metrics. You
+can easily add your own scoring functions, as long as they conform with
+the format for that forecast type. See the
+[paper](https://drive.google.com/file/d/1URaMsXmHJ1twpLpMl1sl2HW4lPuUycoj/view?usp=drive_link)
+for more information.
 
-`scoringutils` contains additional functionality to transform forecasts,
-to summarise scores at different levels, to visualise them, and to
-explore the forecasts themselves. See the package vignettes and function
-documentation for more information.
-
-You may want to score forecasts based on transformations of the original
-data in order to obtain a more complete evaluation (see [this
-paper](https://www.medrxiv.org/content/10.1101/2023.01.23.23284722v1)
-for more information). This can be done using the function
-`transform_forecasts()`. In the following example, we truncate values at
-0 and use the function `log_shift()` to add 1 to all values before
-applying the natural logarithm.
+You can summarise scores using the function `summarise_scores()`. The
+`by` argument is used to specify the desired level of summary. `fun`
+let’s you specify any summary function, although it is recommended to
+stick to the mean as a primary summary function, as other functions can
+lead to improper scores.
 
 ``` r
-example_quantile %>%
- .[, true_value := ifelse(true_value < 0, 0, true_value)] %>%
-  transform_forecasts(append = TRUE, fun = log_shift, offset = 1) %>%
-  score %>%
-  summarise_scores(by = c("model", "target_type", "scale")) %>%
-  head()
-#> The following messages were produced when checking inputs:
-#> 1.  288 values for `prediction` are NA in the data provided and the corresponding rows were removed. This may indicate a problem if unexpected.
-#>                    model target_type   scale interval_score   dispersion
-#> 1: EuroCOVIDhub-baseline       Cases     log   1.169972e+00    0.4373146
-#> 2: EuroCOVIDhub-baseline       Cases natural   2.209046e+04 4102.5009443
-#> 3: EuroCOVIDhub-ensemble       Cases     log   5.500974e-01    0.1011850
-#> 4: EuroCOVIDhub-ensemble       Cases natural   1.155071e+04 3663.5245788
-#> 5:  epiforecasts-EpiNow2       Cases     log   6.005778e-01    0.1066329
-#> 6:  epiforecasts-EpiNow2       Cases natural   1.443844e+04 5664.3779484
-#>    underprediction overprediction coverage_deviation        bias    ae_median
-#> 1:    3.521964e-01      0.3804607        -0.10940217  0.09726562 1.185905e+00
-#> 2:    1.028497e+04   7702.9836957        -0.10940217  0.09726562 3.208048e+04
-#> 3:    1.356563e-01      0.3132561        -0.09785326 -0.05640625 7.410484e-01
-#> 4:    4.237177e+03   3650.0047554        -0.09785326 -0.05640625 1.770795e+04
-#> 5:    1.858699e-01      0.3080750        -0.06660326 -0.07890625 7.656591e-01
-#> 6:    3.260356e+03   5513.7058424        -0.06660326 -0.07890625 2.153070e+04
+scores |> 
+  summarise_scores(by = c("model", "target_type")) |>
+  summarise_scores(by = c("model", "target_type"), fun = signif, digits = 3)
+#>                    model target_type     wis overprediction underprediction
+#>                   <char>      <char>   <num>          <num>           <num>
+#> 1: EuroCOVIDhub-ensemble       Cases 17900.0       10000.00          4240.0
+#> 2: EuroCOVIDhub-baseline       Cases 28500.0       14100.00         10300.0
+#> 3:  epiforecasts-EpiNow2       Cases 20800.0       11900.00          3260.0
+#> 4: EuroCOVIDhub-ensemble      Deaths    41.4           7.14             4.1
+#> 5: EuroCOVIDhub-baseline      Deaths   159.0          65.90             2.1
+#> 6:       UMass-MechBayes      Deaths    52.7           8.98            16.8
+#> 7:  epiforecasts-EpiNow2      Deaths    66.6          18.90            15.9
+#>    dispersion     bias interval_coverage_50 interval_coverage_90 ae_median
+#>         <num>    <num>                <num>                <num>     <num>
+#> 1:     3660.0 -0.05640                0.391                0.805   24100.0
+#> 2:     4100.0  0.09800                0.328                0.820   38500.0
+#> 3:     5660.0 -0.07890                0.469                0.789   27900.0
+#> 4:       30.2  0.07270                0.875                1.000      53.1
+#> 5:       91.4  0.33900                0.664                1.000     233.0
+#> 6:       26.9 -0.02230                0.461                0.875      78.5
+#> 7:       31.9 -0.00513                0.420                0.908     105.0
 ```
+
+## Package workflow
+
+The following depicts the suggested workflow for evaluating forecasts
+with `scoringutils` (sections refer to the paper). Please find more
+information in the
+[paper](https://drive.google.com/file/d/1URaMsXmHJ1twpLpMl1sl2HW4lPuUycoj/view?usp=drive_link),
+the function documentation and the vignettes.
+
+![](./man/figures/workflow.png)
 
 ## Citation
 
-If using `scoringutils` in your work please consider citing it using the
-output of `citation("scoringutils")`:
+If you are using `scoringutils` in your work please consider citing it
+using the output of `citation("scoringutils")` (or
+`print(citation("scoringutils"), bibtex = TRUE)`):
 
     #> To cite scoringutils in publications use the following. If you use the
     #> CRPS, DSS, or Log Score, please also cite scoringRules.
@@ -238,3 +243,56 @@ Please note that the `scoringutils` project is released with a
 [Contributor Code of
 Conduct](https://epiforecasts.io/scoringutils/CODE_OF_CONDUCT.html). By
 contributing to this project, you agree to abide by its terms.
+
+## Funding
+
+The development of `scoringutils` was funded via the Health Protection
+Research Unit (grant code NIHR200908) and the Wellcome Trust (grant:
+210758/Z/18/Z). This work has also been supported by the US National
+Institutes of General Medical Sciences (R35GM119582). The content is
+solely the responsibility of the authors and does not necessarily
+represent the official views of NIGMS, or the National Institutes of
+Health.
+
+## Contributors
+
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- prettier-ignore-start -->
+<!-- markdownlint-disable -->
+
+All contributions to this project are gratefully acknowledged using the
+[`allcontributors` package](https://github.com/ropensci/allcontributors)
+following the [all-contributors](https://allcontributors.org)
+specification. Contributions of any kind are welcome!
+
+### Code
+
+<a href="https://github.com/epiforecasts/scoringutils/commits?author=nikosbosse">nikosbosse</a>,
+<a href="https://github.com/epiforecasts/scoringutils/commits?author=seabbs">seabbs</a>,
+<a href="https://github.com/epiforecasts/scoringutils/commits?author=jamesmbaazam">jamesmbaazam</a>,
+<a href="https://github.com/epiforecasts/scoringutils/commits?author=Bisaloo">Bisaloo</a>,
+<a href="https://github.com/epiforecasts/scoringutils/commits?author=sbfnk">sbfnk</a>,
+<a href="https://github.com/epiforecasts/scoringutils/commits?author=actions-user">actions-user</a>,
+<a href="https://github.com/epiforecasts/scoringutils/commits?author=toshiakiasakura">toshiakiasakura</a>,
+<a href="https://github.com/epiforecasts/scoringutils/commits?author=MichaelChirico">MichaelChirico</a>,
+<a href="https://github.com/epiforecasts/scoringutils/commits?author=nickreich">nickreich</a>,
+<a href="https://github.com/epiforecasts/scoringutils/commits?author=jhellewell14">jhellewell14</a>,
+<a href="https://github.com/epiforecasts/scoringutils/commits?author=damonbayer">damonbayer</a>
+
+### Issue Authors
+
+<a href="https://github.com/epiforecasts/scoringutils/issues?q=is%3Aissue+author%3ADavideMagno">DavideMagno</a>,
+<a href="https://github.com/epiforecasts/scoringutils/issues?q=is%3Aissue+author%3Ambojan">mbojan</a>,
+<a href="https://github.com/epiforecasts/scoringutils/issues?q=is%3Aissue+author%3Adshemetov">dshemetov</a>,
+<a href="https://github.com/epiforecasts/scoringutils/issues?q=is%3Aissue+author%3Aelray1">elray1</a>
+
+### Issue Contributors
+
+<a href="https://github.com/epiforecasts/scoringutils/issues?q=is%3Aissue+commenter%3Ajbracher">jbracher</a>,
+<a href="https://github.com/epiforecasts/scoringutils/issues?q=is%3Aissue+commenter%3Adylanhmorris">dylanhmorris</a>,
+<a href="https://github.com/epiforecasts/scoringutils/issues?q=is%3Aissue+commenter%3Ajonathonmellor">jonathonmellor</a>,
+<a href="https://github.com/epiforecasts/scoringutils/issues?q=is%3Aissue+commenter%3Akathsherratt">kathsherratt</a>
+
+<!-- markdownlint-enable -->
+<!-- prettier-ignore-end -->
+<!-- ALL-CONTRIBUTORS-LIST:END -->
