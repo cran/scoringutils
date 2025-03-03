@@ -304,30 +304,20 @@ crps_sample <- function(observed, predicted, separate_results = FALSE, ...) {
   )
 
   if (separate_results) {
+    if (is.null(dim(predicted))) {
+      ## if `predicted` is a vector convert to matrix
+      dim(predicted) <- c(1, length(predicted))
+    }
     medians <- apply(predicted, 1, median)
     dispersion <- scoringRules::crps_sample(
       y = medians,
       dat = predicted,
       ...
     )
-    overprediction <- rep(0, length(observed))
-    underprediction <- rep(0, length(observed))
+    difference <- crps - dispersion
 
-    overprediction[observed < medians] <- scoringRules::crps_sample(
-      y = observed[observed < medians],
-      dat = predicted[observed < medians, , drop = FALSE],
-      ...
-    )
-    underprediction[observed > medians] <- scoringRules::crps_sample(
-      y = observed[observed > medians],
-      dat = predicted[observed > medians, , drop = FALSE],
-      ...
-    )
-
-    overprediction[overprediction > 0] <-
-      overprediction[overprediction > 0] - dispersion[overprediction > 0]
-    underprediction[underprediction > 0] <-
-      underprediction[underprediction > 0] - dispersion[underprediction > 0]
+    overprediction <- fcase(observed < medians, difference, default = 0)
+    underprediction <- fcase(observed > medians, difference, default = 0)
 
     return(list(
       crps = crps,

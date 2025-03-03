@@ -11,188 +11,188 @@ library(ggplot2)
 library(magrittr)
 library(magrittr) #pipe operator
 
-## ----eval=!require("ggdist", quietly = TRUE)----------------------------------
-#  #" @title Plot Predictions vs True Values
-#  #"
-#  #" @description
-#  #" Make a plot of observed and predicted values
-#  #"
-#  #" @param data a data.frame that follows the same specifications outlined in
-#  #" [score()]. To customise your plotting, you can filter your data using the
-#  #" function [make_NA()].
-#  #" @param by character vector with column names that denote categories by which
-#  #" the plot should be stratified. If for example you want to have a facetted
-#  #" plot, this should be a character vector with the columns used in facetting
-#  #" (note that the facetting still needs to be done outside of the function call)
-#  #" @param x character vector of length one that denotes the name of the variable
-#  #" @param interval_range numeric vector indicating the interval ranges to plot.
-#  #" If 0 is included in `interval_range`, the median prediction will be shown.
-#  #" @return ggplot object with a plot of true vs predicted values
-#  #" @importFrom ggplot2 ggplot scale_colour_manual scale_fill_manual theme_light
-#  #" @importFrom ggplot2 facet_wrap facet_grid aes geom_line .data geom_point
-#  #" @importFrom data.table dcast
-#  #" @importFrom ggdist geom_lineribbon
-#  #" @export
-#  #" @examples
-#  #" library(ggplot2)
-#  #" library(magrittr)
-#  #"
-#  #" example_sample_continuous %>%
-#  #"   make_NA (
-#  #"     what = "truth",
-#  #"     target_end_date >= "2021-07-22",
-#  #"     target_end_date < "2021-05-01"
-#  #"   ) %>%
-#  #"   make_NA (
-#  #"     what = "forecast",
-#  #"     model != "EuroCOVIDhub-ensemble",
-#  #"     forecast_date != "2021-06-07"
-#  #"   ) %>%
-#  #"   plot_predictions (
-#  #"     x = "target_end_date",
-#  #"     by = c("target_type", "location"),
-#  #"     interval_range = c(0, 50, 90, 95)
-#  #"   ) +
-#  #"   facet_wrap(~ location + target_type, scales = "free_y") +
-#  #"   aes(fill = model, color = model)
-#  #"
-#  #" example_sample_continuous %>%
-#  #"   make_NA (
-#  #"     what = "truth",
-#  #"     target_end_date >= "2021-07-22",
-#  #"     target_end_date < "2021-05-01"
-#  #"   ) %>%
-#  #"   make_NA (
-#  #"     what = "forecast",
-#  #"     forecast_date != "2021-06-07"
-#  #"   ) %>%
-#  #"   plot_predictions (
-#  #"     x = "target_end_date",
-#  #"     by = c("target_type", "location"),
-#  #"     interval_range = 0
-#  #"   ) +
-#  #"   facet_wrap(~ location + target_type, scales = "free_y") +
-#  #"   aes(fill = model, color = model)
-#  
-#  
-#  library(ggdist)
-#  plot_predictions <- function(data,
-#                               by = NULL,
-#                               x = "date",
-#                               interval_range = c(0, 50, 90)) {
-#  
-#    # split truth data and forecasts in order to apply different filtering
-#    truth_data <- data.table::as.data.table(data)[!is.na(observed)]
-#    forecasts <- data.table::as.data.table(data)[!is.na(predicted)]
-#  
-#    del_cols <-
-#      colnames(truth_data)[!(colnames(truth_data) %in% c(by, "observed", x))]
-#  
-#    truth_data <- unique(suppressWarnings(truth_data[, eval(del_cols) := NULL]))
-#  
-#    # find out what type of predictions we have. convert sample based to
-#    # interval range data
-#  
-#    if ("quantile_level" %in% colnames(data)) {
-#      forecasts <- scoringutils:::quantile_to_interval(
-#        forecasts,
-#        keep_quantile_col = FALSE
-#      )
-#    } else if ("sample_id" %in% colnames(data)) {
-#      # using a scoringutils internal function
-#      forecasts <- scoringutils:::sample_to_interval_long(
-#        as_forecast_sample(forecasts),
-#        interval_range = interval_range,
-#        keep_quantile_col = FALSE
-#      )
-#    }
-#  
-#    # select appropriate boundaries and pivot wider
-#    select <- forecasts$interval_range %in% setdiff(interval_range, 0)
-#    intervals <- forecasts[select, ]
-#  
-#    # delete quantile column in intervals if present. This is important for
-#    # pivoting
-#    if ("quantile_level" %in% names(intervals)) {
-#      intervals[, quantile_level := NULL]
-#    }
-#  
-#    plot <- ggplot(data = data, aes(x = .data[[x]])) +
-#      theme_scoringutils() +
-#      ylab("True and predicted values")
-#  
-#    if (nrow(intervals) != 0) {
-#      # pivot wider and convert range to a factor
-#      intervals <- data.table::dcast(intervals, ... ~ boundary,
-#                                     value.var = "predicted")
-#  
-#      # only plot interval ranges if there are interval ranges to plot
-#      plot <- plot +
-#        ggdist::geom_lineribbon(
-#          data = intervals,
-#          aes(
-#            ymin = lower, ymax = upper,
-#            # We use the fill_ramp aesthetic for this instead of the default fill
-#            # because we want to keep fill to be able to use it for other
-#            # variables
-#            fill_ramp = factor(
-#              interval_range,
-#              levels = sort(unique(interval_range), decreasing = TRUE)
-#            )
-#          ),
-#          lwd = 0.4
-#        ) +
-#        ggdist::scale_fill_ramp_discrete(
-#          name = "interval_range",
-#          # range argument was added to make sure that the line for the median
-#          # and the ribbon don"t have the same opacity, making the line
-#          # invisible
-#          range = c(0.15, 0.75)
-#        )
-#    }
-#  
-#    # We could treat this step as part of ggdist::geom_lineribbon() but we treat
-#    # it separately here to deal with the case when only the median is provided
-#    # (in which case ggdist::geom_lineribbon() will fail)
-#    if (0 %in% interval_range) {
-#      select_median <-
-#        forecasts$interval_range == 0 & forecasts$boundary == "lower"
-#      median <- forecasts[select_median]
-#  
-#      if (nrow(median) > 0) {
-#        plot <- plot +
-#          geom_line(
-#            data = median,
-#            mapping = aes(y = predicted),
-#            lwd = 0.4
-#          )
-#      }
-#    }
-#  
-#    # add observed values
-#    if (nrow(truth_data) > 0) {
-#      plot <- plot +
-#        geom_point(
-#          data = truth_data,
-#          show.legend = FALSE,
-#          inherit.aes = FALSE,
-#          aes(x = .data[[x]], y = observed),
-#          color = "black",
-#          size = 0.5
-#        ) +
-#        geom_line(
-#          data = truth_data,
-#          inherit.aes = FALSE,
-#          show.legend = FALSE,
-#          aes(x = .data[[x]], y = observed),
-#          linetype = 1,
-#          color = "grey40",
-#          lwd = 0.2
-#        )
-#    }
-#  
-#    return(plot)
-#  }
+## ----eval=require("ggdist", quietly = TRUE)-----------------------------------
+#" @title Plot Predictions vs True Values
+#"
+#" @description
+#" Make a plot of observed and predicted values
+#"
+#" @param data a data.frame that follows the same specifications outlined in
+#" [score()]. To customise your plotting, you can filter your data using the
+#" function [make_NA()].
+#" @param by character vector with column names that denote categories by which
+#" the plot should be stratified. If for example you want to have a facetted
+#" plot, this should be a character vector with the columns used in facetting
+#" (note that the facetting still needs to be done outside of the function call)
+#" @param x character vector of length one that denotes the name of the variable
+#" @param interval_range numeric vector indicating the interval ranges to plot.
+#" If 0 is included in `interval_range`, the median prediction will be shown.
+#" @return ggplot object with a plot of true vs predicted values
+#" @importFrom ggplot2 ggplot scale_colour_manual scale_fill_manual theme_light
+#" @importFrom ggplot2 facet_wrap facet_grid aes geom_line .data geom_point
+#" @importFrom data.table dcast
+#" @importFrom ggdist geom_lineribbon
+#" @export
+#" @examples
+#" library(ggplot2)
+#" library(magrittr)
+#"
+#" example_sample_continuous %>%
+#"   make_NA (
+#"     what = "truth",
+#"     target_end_date >= "2021-07-22",
+#"     target_end_date < "2021-05-01"
+#"   ) %>%
+#"   make_NA (
+#"     what = "forecast",
+#"     model != "EuroCOVIDhub-ensemble",
+#"     forecast_date != "2021-06-07"
+#"   ) %>%
+#"   plot_predictions (
+#"     x = "target_end_date",
+#"     by = c("target_type", "location"),
+#"     interval_range = c(0, 50, 90, 95)
+#"   ) +
+#"   facet_wrap(~ location + target_type, scales = "free_y") +
+#"   aes(fill = model, color = model)
+#"
+#" example_sample_continuous %>%
+#"   make_NA (
+#"     what = "truth",
+#"     target_end_date >= "2021-07-22",
+#"     target_end_date < "2021-05-01"
+#"   ) %>%
+#"   make_NA (
+#"     what = "forecast",
+#"     forecast_date != "2021-06-07"
+#"   ) %>%
+#"   plot_predictions (
+#"     x = "target_end_date",
+#"     by = c("target_type", "location"),
+#"     interval_range = 0
+#"   ) +
+#"   facet_wrap(~ location + target_type, scales = "free_y") +
+#"   aes(fill = model, color = model)
+
+
+library(ggdist)
+plot_predictions <- function(data,
+                             by = NULL,
+                             x = "date",
+                             interval_range = c(0, 50, 90)) {
+
+  # split truth data and forecasts in order to apply different filtering
+  truth_data <- data.table::as.data.table(data)[!is.na(observed)]
+  forecasts <- data.table::as.data.table(data)[!is.na(predicted)]
+
+  del_cols <-
+    colnames(truth_data)[!(colnames(truth_data) %in% c(by, "observed", x))]
+
+  truth_data <- unique(suppressWarnings(truth_data[, eval(del_cols) := NULL]))
+
+  # find out what type of predictions we have. convert sample based to
+  # interval range data
+
+  if ("quantile_level" %in% colnames(data)) {
+    forecasts <- scoringutils:::quantile_to_interval(
+      forecasts,
+      keep_quantile_col = FALSE
+    )
+  } else if ("sample_id" %in% colnames(data)) {
+    # using a scoringutils internal function
+    forecasts <- scoringutils:::sample_to_interval_long(
+      as_forecast_sample(forecasts),
+      interval_range = interval_range,
+      keep_quantile_col = FALSE
+    )
+  }
+
+  # select appropriate boundaries and pivot wider
+  select <- forecasts$interval_range %in% setdiff(interval_range, 0)
+  intervals <- forecasts[select, ]
+
+  # delete quantile column in intervals if present. This is important for
+  # pivoting
+  if ("quantile_level" %in% names(intervals)) {
+    intervals[, quantile_level := NULL]
+  }
+
+  plot <- ggplot(data = data, aes(x = .data[[x]])) +
+    theme_scoringutils() +
+    ylab("True and predicted values")
+
+  if (nrow(intervals) != 0) {
+    # pivot wider and convert range to a factor
+    intervals <- data.table::dcast(intervals, ... ~ boundary,
+                                   value.var = "predicted")
+
+    # only plot interval ranges if there are interval ranges to plot
+    plot <- plot +
+      ggdist::geom_lineribbon(
+        data = intervals,
+        aes(
+          ymin = lower, ymax = upper,
+          # We use the fill_ramp aesthetic for this instead of the default fill
+          # because we want to keep fill to be able to use it for other
+          # variables
+          fill_ramp = factor(
+            interval_range,
+            levels = sort(unique(interval_range), decreasing = TRUE)
+          )
+        ),
+        lwd = 0.4
+      ) +
+      ggdist::scale_fill_ramp_discrete(
+        name = "interval_range",
+        # range argument was added to make sure that the line for the median
+        # and the ribbon don"t have the same opacity, making the line
+        # invisible
+        range = c(0.15, 0.75)
+      )
+  }
+
+  # We could treat this step as part of ggdist::geom_lineribbon() but we treat
+  # it separately here to deal with the case when only the median is provided
+  # (in which case ggdist::geom_lineribbon() will fail)
+  if (0 %in% interval_range) {
+    select_median <-
+      forecasts$interval_range == 0 & forecasts$boundary == "lower"
+    median <- forecasts[select_median]
+
+    if (nrow(median) > 0) {
+      plot <- plot +
+        geom_line(
+          data = median,
+          mapping = aes(y = predicted),
+          lwd = 0.4
+        )
+    }
+  }
+
+  # add observed values
+  if (nrow(truth_data) > 0) {
+    plot <- plot +
+      geom_point(
+        data = truth_data,
+        show.legend = FALSE,
+        inherit.aes = FALSE,
+        aes(x = .data[[x]], y = observed),
+        color = "black",
+        size = 0.5
+      ) +
+      geom_line(
+        data = truth_data,
+        inherit.aes = FALSE,
+        show.legend = FALSE,
+        aes(x = .data[[x]], y = observed),
+        linetype = 1,
+        color = "grey40",
+        lwd = 0.2
+      )
+  }
+
+  return(plot)
+}
 
 ## -----------------------------------------------------------------------------
 #" @title Make Rows NA in Data for Plotting
@@ -247,63 +247,63 @@ make_NA <- function(data = NULL,
   return(data[])
 }
 
-## ----eval=!require("ggdist", quietly = TRUE)----------------------------------
-#  median_forecasts <- example_quantile[quantile_level == 0.5]
-#  median_forecasts %>%
-#    make_NA(what = "truth",
-#            target_end_date <= "2021-05-01",
-#            target_end_date > "2021-07-22") %>%
-#    make_NA(what = "forecast",
-#            model != "EuroCOVIDhub-ensemble",
-#            forecast_date != "2021-06-07") %>%
-#    plot_predictions(
-#      by = c("location", "target_type"),
-#      x = "target_end_date"
-#    ) +
-#    facet_wrap(location ~ target_type, scales = "free_y")
+## ----eval=require("ggdist", quietly = TRUE)-----------------------------------
+median_forecasts <- example_quantile[quantile_level == 0.5]
+median_forecasts %>%
+  make_NA(what = "truth",
+          target_end_date <= "2021-05-01",
+          target_end_date > "2021-07-22") %>%
+  make_NA(what = "forecast",
+          model != "EuroCOVIDhub-ensemble",
+          forecast_date != "2021-06-07") %>%
+  plot_predictions(
+    by = c("location", "target_type"),
+    x = "target_end_date"
+  ) +
+  facet_wrap(location ~ target_type, scales = "free_y")
 
-## ----eval=!require("ggdist", quiet = TRUE)------------------------------------
-#  example_quantile %>%
-#    make_NA(what = "truth",
-#            target_end_date <= "2021-05-01",
-#            target_end_date > "2021-07-22") %>%
-#    make_NA(what = "forecast",
-#            model != "EuroCOVIDhub-ensemble",
-#            forecast_date != "2021-06-07") %>%
-#    plot_predictions(
-#      by = c("location", "target_type"),
-#      x = "target_end_date",
-#      interval_range = c(0, 10, 20, 30, 40, 50, 60)
-#    ) +
-#    facet_wrap(location ~ target_type, scales = "free_y")
+## ----eval=require("ggdist", quiet = TRUE)-------------------------------------
+example_quantile %>%
+  make_NA(what = "truth",
+          target_end_date <= "2021-05-01",
+          target_end_date > "2021-07-22") %>%
+  make_NA(what = "forecast",
+          model != "EuroCOVIDhub-ensemble",
+          forecast_date != "2021-06-07") %>%
+  plot_predictions(
+    by = c("location", "target_type"),
+    x = "target_end_date",
+    interval_range = c(0, 10, 20, 30, 40, 50, 60)
+  ) +
+  facet_wrap(location ~ target_type, scales = "free_y")
 
-## ----eval=!require("ggdist", quietly = TRUE)----------------------------------
-#  example_sample_continuous %>%
-#    make_NA(what = "truth",
-#            target_end_date <= "2021-05-01",
-#            target_end_date > "2021-07-22") %>%
-#    make_NA(what = "forecast",
-#            model != "EuroCOVIDhub-ensemble",
-#            forecast_date != "2021-06-07") %>%
-#    plot_predictions(
-#      by = c("location", "target_type"),
-#      x = "target_end_date",
-#      interval_range = c(0, 50, 90, 95)
-#    ) +
-#    facet_wrap(location ~ target_type, scales = "free_y")
+## ----eval=require("ggdist", quietly = TRUE)-----------------------------------
+example_sample_continuous %>%
+  make_NA(what = "truth",
+          target_end_date <= "2021-05-01",
+          target_end_date > "2021-07-22") %>%
+  make_NA(what = "forecast",
+          model != "EuroCOVIDhub-ensemble",
+          forecast_date != "2021-06-07") %>%
+  plot_predictions(
+    by = c("location", "target_type"),
+    x = "target_end_date",
+    interval_range = c(0, 50, 90, 95)
+  ) +
+  facet_wrap(location ~ target_type, scales = "free_y")
 
-## ----eval=!require("ggdist", quietly = TRUE)----------------------------------
-#  example_quantile %>%
-#    make_NA(what = "truth",
-#            target_end_date > "2021-07-15",
-#            target_end_date <= "2021-05-22") %>%
-#    make_NA(what = "forecast",
-#            !(model %in% c("EuroCOVIDhub-ensemble", "EuroCOVIDhub-baseline")),
-#            forecast_date != "2021-06-28") %>%
-#    plot_predictions(x = "target_end_date", by = c("target_type", "location")) +
-#    aes(colour = model, fill = model) +
-#    facet_wrap(target_type ~ location, ncol = 4, scales = "free_y") +
-#    labs(x = "Target end date")
+## ----eval=require("ggdist", quietly = TRUE)-----------------------------------
+example_quantile %>%
+  make_NA(what = "truth",
+          target_end_date > "2021-07-15",
+          target_end_date <= "2021-05-22") %>%
+  make_NA(what = "forecast",
+          !(model %in% c("EuroCOVIDhub-ensemble", "EuroCOVIDhub-baseline")),
+          forecast_date != "2021-06-28") %>%
+  plot_predictions(x = "target_end_date", by = c("target_type", "location")) +
+  aes(colour = model, fill = model) +
+  facet_wrap(target_type ~ location, ncol = 4, scales = "free_y") +
+  labs(x = "Target end date")
 
 ## -----------------------------------------------------------------------------
 #" @title Plot Metrics by Range of the Prediction Interval

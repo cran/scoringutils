@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.10.13)  30 OCT 2024 23:11
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.10.13)  1 NOV 2024 12:38
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -769,10 +769,10 @@ LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 21
 (/Users/nikos/Library/TinyTeX/texmf-dist/tex/latex/lm/t1lmtt.fd
 File: t1lmtt.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
-<../../man/figures/workflow.png, id=246, 419.6478pt x 296.307pt>
-File: ../../man/figures/workflow.png Graphic file (type png)
-<use ../../man/figures/workflow.png>
-Package pdftex.def Info: ../../man/figures/workflow.png  used on input line 236.
+<figures/workflow.png, id=246, 419.6478pt x 296.307pt>
+File: figures/workflow.png Graphic file (type png)
+<use figures/workflow.png>
+Package pdftex.def Info: figures/workflow.png  used on input line 236.
 (pdftex.def)             Requested size: 442.65375pt x 312.56477pt.
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
@@ -796,7 +796,7 @@ Overfull \hbox (5.47499pt too wide) has occurred while \output is active
 [] \T1/lmr/m/n/10.95 3
  []
 
-[3 <../../man/figures/workflow.png>]
+[3 <./figures/workflow.png>]
 LaTeX Font Info:    Trying to load font information for TS1+lmr on input line 308.
 (/Users/nikos/Library/TinyTeX/texmf-dist/tex/latex/lm/ts1lmr.fd
 File: ts1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
@@ -821,26 +821,12 @@ Overfull \hbox (5.47499pt too wide) has occurred while \output is active
 
 [5{/Users/nikos/Library/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-mathit.enc}]
 
-LaTeX Warning: Reference `fig:flowchart-validation' on page 6 undefined on input line 449.
-
-
-
 
 Overfull \hbox (5.47499pt too wide) has occurred while \output is active
 \T1/lmr/m/n/10.95 6 []
  []
 
 [6]
-Overfull \hbox (21.68594pt too wide) in paragraph at lines 526--536
-[]\T1/lmr/m/n/10.95 Internally, the print method calls the func-tions \T1/lmtt/m/n/10.95 get_forecast_type() \T1/lmr/m/n/10.95 and \T1/lmtt/m/n/10.95 get_forecast_unit()\T1/lmr/m/n/10.95 .
- []
-
-
-Overfull \hbox (43.81924pt too wide) in paragraph at lines 526--536
-\T1/lmr/m/n/10.95 Both func-tions can also be ac-cesssed in-de-pen-dently. \T1/lmtt/m/n/10.95 get_forecast_type() \T1/lmr/m/n/10.95 and \T1/lmtt/m/n/10.95 get_forecast_unit()
- []
-
-
 
 
 Overfull \hbox (5.47499pt too wide) has occurred while \output is active
@@ -848,6 +834,11 @@ Overfull \hbox (5.47499pt too wide) has occurred while \output is active
  []
 
 [7]
+Overfull \hbox (1.20552pt too wide) in paragraph at lines 536--543
+\T1/lmr/m/n/10.95 func-tions can also be called in-de-pen-dently. \T1/lmtt/m/n/10.95 get_forecast_type() \T1/lmr/m/n/10.95 and \T1/lmtt/m/n/10.95 get_forecast_unit()
+ []
+
+
 
 
 Overfull \hbox (5.47499pt too wide) has occurred while \output is active
@@ -862,11 +853,14 @@ Overfull \hbox (5.47499pt too wide) has occurred while \output is active
  []
 
 [9]
-<manuscript_files/figure-latex/plot-forecast-counts-1.pdf, id=349, 578.16pt x 264.99pt>
+<manuscript_files/figure-latex/plot-forecast-counts-1.pdf, id=348, 578.16pt x 264.99pt>
 File: manuscript_files/figure-latex/plot-forecast-counts-1.pdf Graphic file (type pdf)
 <use manuscript_files/figure-latex/plot-forecast-counts-1.pdf>
-Package pdftex.def Info: manuscript_files/figure-latex/plot-forecast-counts-1.pdf  used on input line 684.
+Package pdftex.def Info: manuscript_files/figure-latex/plot-forecast-counts-1.pdf  used on input line 705.
 (pdftex.def)             Requested size: 442.65375pt x 202.88246pt.
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
 
 
 
@@ -874,11 +868,11 @@ Overfull \hbox (10.94998pt too wide) has occurred while \output is active
 \T1/lmr/m/n/10.95 10 []
  []
 
-[10 <./manuscript_files/figure-latex/plot-forecast-counts-1.pdf>]
-<manuscript_files/figure-latex/pit-plots-1.pdf, id=377, 578.16pt x 289.08pt>
+[10]
+<manuscript_files/figure-latex/pit-plots-1.pdf, id=371, 578.16pt x 289.08pt>
 File: manuscript_files/figure-latex/pit-plots-1.pdf Graphic file (type pdf)
 <use manuscript_files/figure-latex/pit-plots-1.pdf>
-Package pdftex.def Info: manuscript_files/figure-latex/pit-plots-1.pdf  used on input line 745.
+Package pdftex.def Info: manuscript_files/figure-latex/pit-plots-1.pdf  used on input line 764.
 (pdftex.def)             Requested size: 442.65375pt x 221.32632pt.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
@@ -890,7 +884,7 @@ Overfull \hbox (10.94998pt too wide) has occurred while \output is active
 [] \T1/lmr/m/n/10.95 11
  []
 
-[11{/Users/nikos/Library/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-rm.enc}]
+[11{/Users/nikos/Library/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-rm.enc} <./manuscript_files/figure-latex/plot-forecast-counts-1.pdf>]
 
 
 Overfull \hbox (10.94998pt too wide) has occurred while \output is active
@@ -898,11 +892,14 @@ Overfull \hbox (10.94998pt too wide) has occurred while \output is active
  []
 
 [12 <./manuscript_files/figure-latex/pit-plots-1.pdf>]
-<manuscript_files/figure-latex/coverage-1.pdf, id=407, 722.7pt x 433.62pt>
+<manuscript_files/figure-latex/coverage-1.pdf, id=405, 722.7pt x 433.62pt>
 File: manuscript_files/figure-latex/coverage-1.pdf Graphic file (type pdf)
 <use manuscript_files/figure-latex/coverage-1.pdf>
-Package pdftex.def Info: manuscript_files/figure-latex/coverage-1.pdf  used on input line 828.
+Package pdftex.def Info: manuscript_files/figure-latex/coverage-1.pdf  used on input line 870.
 (pdftex.def)             Requested size: 442.65375pt x 265.59291pt.
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
 
 
 
@@ -910,38 +907,29 @@ Overfull \hbox (10.94998pt too wide) has occurred while \output is active
 [] \T1/lmr/m/n/10.95 13
  []
 
-[13 <./manuscript_files/figure-latex/coverage-1.pdf>]
-<../../man/figures/input-formats-scoring-rules.png, id=423, 408.0846pt x 479.8728pt>
-File: ../../man/figures/input-formats-scoring-rules.png Graphic file (type png)
-<use ../../man/figures/input-formats-scoring-rules.png>
-Package pdftex.def Info: ../../man/figures/input-formats-scoring-rules.png  used on input line 902.
-(pdftex.def)             Requested size: 442.65375pt x 520.54677pt.
-
-LaTeX Warning: Float too large for page by 16.34653pt on input line 907.
-
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-
-Overfull \hbox (0.35403pt too wide) in paragraph at lines 913--922
-\T1/lmr/m/n/10.95 when call-ing \T1/lmtt/m/n/10.95 score()\T1/lmr/m/n/10.95 . The de-fault lists can be ac-cessed by call-ing the func-tion \T1/lmtt/m/n/10.95 get_metrics()
- []
-
-
+[13]
 
 
 Overfull \hbox (10.94998pt too wide) has occurred while \output is active
 \T1/lmr/m/n/10.95 14 []
  []
 
-[14]
-<../../man/figures/pairwise-illustration.png, id=439, 276.0714pt x 118.041pt>
-File: ../../man/figures/pairwise-illustration.png Graphic file (type png)
-<use ../../man/figures/pairwise-illustration.png>
-Package pdftex.def Info: ../../man/figures/pairwise-illustration.png  used on input line 991.
-(pdftex.def)             Requested size: 442.65375pt x 189.27289pt.
+[14 <./manuscript_files/figure-latex/coverage-1.pdf>]
+<figures/input-formats-scoring-rules.png, id=427, 408.0846pt x 479.8728pt>
+File: figures/input-formats-scoring-rules.png Graphic file (type png)
+<use figures/input-formats-scoring-rules.png>
+Package pdftex.def Info: figures/input-formats-scoring-rules.png  used on input line 943.
+(pdftex.def)             Requested size: 442.65375pt x 520.54677pt.
+
+LaTeX Warning: Float too large for page by 16.34653pt on input line 948.
+
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+
+Overfull \hbox (0.35403pt too wide) in paragraph at lines 954--963
+\T1/lmr/m/n/10.95 when call-ing \T1/lmtt/m/n/10.95 score()\T1/lmr/m/n/10.95 . The de-fault lists can be ac-cessed by call-ing the func-tion \T1/lmtt/m/n/10.95 get_metrics()
+ []
 
 
 
@@ -951,6 +939,15 @@ Overfull \hbox (10.94998pt too wide) has occurred while \output is active
  []
 
 [15]
+<figures/pairwise-illustration.png, id=445, 276.0714pt x 118.041pt>
+File: figures/pairwise-illustration.png Graphic file (type png)
+<use figures/pairwise-illustration.png>
+Package pdftex.def Info: figures/pairwise-illustration.png  used on input line 1032.
+(pdftex.def)             Requested size: 442.65375pt x 189.27289pt.
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+
 
 
 Overfull \hbox (10.94998pt too wide) has occurred while \output is active
@@ -958,19 +955,11 @@ Overfull \hbox (10.94998pt too wide) has occurred while \output is active
  []
 
 [16]
-<manuscript_files/figure-latex/pairwise-plot-1.pdf, id=462, 578.16pt x 264.99pt>
+<manuscript_files/figure-latex/pairwise-plot-1.pdf, id=457, 578.16pt x 264.99pt>
 File: manuscript_files/figure-latex/pairwise-plot-1.pdf Graphic file (type pdf)
 <use manuscript_files/figure-latex/pairwise-plot-1.pdf>
-Package pdftex.def Info: manuscript_files/figure-latex/pairwise-plot-1.pdf  used on input line 1089.
+Package pdftex.def Info: manuscript_files/figure-latex/pairwise-plot-1.pdf  used on input line 1130.
 (pdftex.def)             Requested size: 442.65375pt x 202.88246pt.
-<manuscript_files/figure-latex/correlation-plot-1.pdf, id=464, 578.16pt x 361.35pt>
-File: manuscript_files/figure-latex/correlation-plot-1.pdf Graphic file (type pdf)
-<use manuscript_files/figure-latex/correlation-plot-1.pdf>
-Package pdftex.def Info: manuscript_files/figure-latex/correlation-plot-1.pdf  used on input line 1117.
-(pdftex.def)             Requested size: 442.65375pt x 276.65791pt.
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
 
 
 
@@ -979,6 +968,15 @@ Overfull \hbox (10.94998pt too wide) has occurred while \output is active
  []
 
 [17]
+<manuscript_files/figure-latex/correlation-plot-1.pdf, id=470, 578.16pt x 361.35pt>
+File: manuscript_files/figure-latex/correlation-plot-1.pdf Graphic file (type pdf)
+<use manuscript_files/figure-latex/correlation-plot-1.pdf>
+Package pdftex.def Info: manuscript_files/figure-latex/correlation-plot-1.pdf  used on input line 1158.
+(pdftex.def)             Requested size: 442.65375pt x 276.65791pt.
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+
 
 
 Overfull \hbox (10.94998pt too wide) has occurred while \output is active
@@ -986,25 +984,13 @@ Overfull \hbox (10.94998pt too wide) has occurred while \output is active
  []
 
 [18]
-<manuscript_files/figure-latex/score-heatmap-1.pdf, id=483, 578.16pt x 264.99pt>
+<manuscript_files/figure-latex/score-heatmap-1.pdf, id=480, 578.16pt x 264.99pt>
 File: manuscript_files/figure-latex/score-heatmap-1.pdf Graphic file (type pdf)
 <use manuscript_files/figure-latex/score-heatmap-1.pdf>
-Package pdftex.def Info: manuscript_files/figure-latex/score-heatmap-1.pdf  used on input line 1224.
+Package pdftex.def Info: manuscript_files/figure-latex/score-heatmap-1.pdf  used on input line 1264.
 (pdftex.def)             Requested size: 442.65375pt x 202.88246pt.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-<manuscript_files/figure-latex/wis-components-1.pdf, id=488, 686.565pt x 264.99pt>
-File: manuscript_files/figure-latex/wis-components-1.pdf Graphic file (type pdf)
-<use manuscript_files/figure-latex/wis-components-1.pdf>
-Package pdftex.def Info: manuscript_files/figure-latex/wis-components-1.pdf  used on input line 1257.
-(pdftex.def)             Requested size: 442.65375pt x 170.84647pt.
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-
-Package hyperref Warning: Difference (2) between bookmark levels is greater 
-(hyperref)                than one, level fixed on input line 1267.
 
 
 
@@ -1014,7 +1000,17 @@ Overfull \hbox (10.94998pt too wide) has occurred while \output is active
  []
 
 [19]
-Underfull \vbox (badness 1286) has occurred while \output is active []
+<manuscript_files/figure-latex/wis-components-1.pdf, id=495, 686.565pt x 264.99pt>
+File: manuscript_files/figure-latex/wis-components-1.pdf Graphic file (type pdf)
+<use manuscript_files/figure-latex/wis-components-1.pdf>
+Package pdftex.def Info: manuscript_files/figure-latex/wis-components-1.pdf  used on input line 1297.
+(pdftex.def)             Requested size: 442.65375pt x 170.84647pt.
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+
+Package hyperref Warning: Difference (2) between bookmark levels is greater 
+(hyperref)                than one, level fixed on input line 1307.
 
 
 
@@ -1031,11 +1027,6 @@ Overfull \hbox (10.94998pt too wide) has occurred while \output is active
  []
 
 [21]
-Underfull \hbox (badness 1127) in paragraph at lines 76--81
-[]\T1/lmr/m/n/10.95 Epstein ES (1969).  ``A Scor-ing Sys-tem for Prob-a-bil-ity Fore-casts of Ranked Cat-e-
- []
-
-
 
 
 Overfull \hbox (10.94998pt too wide) has occurred while \output is active
@@ -1043,6 +1034,11 @@ Overfull \hbox (10.94998pt too wide) has occurred while \output is active
  []
 
 [22]
+Underfull \hbox (badness 1127) in paragraph at lines 76--81
+[]\T1/lmr/m/n/10.95 Epstein ES (1969).  ``A Scor-ing Sys-tem for Prob-a-bil-ity Fore-casts of Ranked Cat-e-
+ []
+
+
 
 
 Overfull \hbox (10.94998pt too wide) has occurred while \output is active
@@ -1056,67 +1052,49 @@ Overfull \hbox (10.94998pt too wide) has occurred while \output is active
 \T1/lmr/m/n/10.95 24 []
  []
 
-[24])
+[24]
 
 
 Overfull \hbox (10.94998pt too wide) has occurred while \output is active
 [] \T1/lmr/m/n/10.95 25
  []
 
-[25]
+[25])
 
 
 Overfull \hbox (10.94998pt too wide) has occurred while \output is active
 \T1/lmr/m/n/10.95 26 []
  []
 
-[26 <../../man/figures/input-formats-scoring-rules.png>]
+[26]
 
 
 Overfull \hbox (10.94998pt too wide) has occurred while \output is active
 [] \T1/lmr/m/n/10.95 27
  []
 
-[27 <../../man/figures/pairwise-illustration.png> <./manuscript_files/figure-latex/pairwise-plot-1.pdf>]
+[27 <./figures/input-formats-scoring-rules.png>]
 
 
 Overfull \hbox (10.94998pt too wide) has occurred while \output is active
 \T1/lmr/m/n/10.95 28 []
  []
 
-[28 <./manuscript_files/figure-latex/correlation-plot-1.pdf> <./manuscript_files/figure-latex/score-heatmap-1.pdf>]
+[28 <./figures/pairwise-illustration.png> <./manuscript_files/figure-latex/pairwise-plot-1.pdf>]
 
 
 Overfull \hbox (10.94998pt too wide) has occurred while \output is active
 [] \T1/lmr/m/n/10.95 29
  []
 
-[29 <./manuscript_files/figure-latex/wis-components-1.pdf>]
-
-LaTeX Warning: Reference `fig:flowchart-validation' on page 30 undefined on input line 1401.
-
-
+[29 <./manuscript_files/figure-latex/correlation-plot-1.pdf> <./manuscript_files/figure-latex/score-heatmap-1.pdf>]
 
 
 Overfull \hbox (10.94998pt too wide) has occurred while \output is active
 \T1/lmr/m/n/10.95 30 []
  []
 
-[30
-
-]
-<manuscript_files/figure-latex/calibration-plots-1.pdf, id=621, 722.7pt x 867.24pt>
-File: manuscript_files/figure-latex/calibration-plots-1.pdf Graphic file (type pdf)
-<use manuscript_files/figure-latex/calibration-plots-1.pdf>
-Package pdftex.def Info: manuscript_files/figure-latex/calibration-plots-1.pdf  used on input line 1430.
-(pdftex.def)             Requested size: 442.65375pt x 531.18585pt.
-
-LaTeX Warning: Float too large for page by 40.58562pt on input line 1435.
-
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-
+[30 <./manuscript_files/figure-latex/wis-components-1.pdf>]
 
 
 Overfull \hbox (10.94998pt too wide) has occurred while \output is active
@@ -1126,48 +1104,69 @@ Overfull \hbox (10.94998pt too wide) has occurred while \output is active
 [31
 
 ]
+<manuscript_files/figure-latex/calibration-plots-1.pdf, id=627, 722.7pt x 867.24pt>
+File: manuscript_files/figure-latex/calibration-plots-1.pdf Graphic file (type pdf)
+<use manuscript_files/figure-latex/calibration-plots-1.pdf>
+Package pdftex.def Info: manuscript_files/figure-latex/calibration-plots-1.pdf  used on input line 1469.
+(pdftex.def)             Requested size: 442.65375pt x 531.18585pt.
+
+LaTeX Warning: Float too large for page by 40.58562pt on input line 1474.
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+
 
 
 Overfull \hbox (10.94998pt too wide) has occurred while \output is active
 \T1/lmr/m/n/10.95 32 []
  []
 
-[32 <./manuscript_files/figure-latex/calibration-plots-1.pdf>]
+[32
+
+]
 
 
 Overfull \hbox (10.94998pt too wide) has occurred while \output is active
 [] \T1/lmr/m/n/10.95 33
  []
 
-[33
+[33 <./manuscript_files/figure-latex/calibration-plots-1.pdf>]
+
+
+Overfull \hbox (10.94998pt too wide) has occurred while \output is active
+\T1/lmr/m/n/10.95 34 []
+ []
+
+[34
 
 {/Users/nikos/Library/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-mathsy.enc}{/Users/nikos/Library/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-mathex.enc}]
-Underfull \hbox (badness 10000) in paragraph at lines 1463--1463
+Underfull \hbox (badness 10000) in paragraph at lines 1502--1502
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1463--1463
+Underfull \hbox (badness 10000) in paragraph at lines 1502--1502
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1463--1463
+Underfull \hbox (badness 10000) in paragraph at lines 1502--1502
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1463--1463
+Underfull \hbox (badness 10000) in paragraph at lines 1502--1502
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1463--1463
+Underfull \hbox (badness 10000) in paragraph at lines 1502--1502
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1463--1463
+Underfull \hbox (badness 10000) in paragraph at lines 1502--1502
 
  []
 
@@ -1178,42 +1177,39 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
 Overfull \hbox (10.94998pt too wide) has occurred while \output is active
-\T1/lmr/m/n/10.95 34 []
+[] \T1/lmr/m/n/10.95 35
  []
 
-[34
+[35
 
 ]
 
 
 Overfull \hbox (10.94998pt too wide) has occurred while \output is active
-[] \T1/lmr/m/n/10.95 35
+\T1/lmr/m/n/10.95 36 []
  []
 
-[35] (./manuscript.aux)
+[36] (./manuscript.aux)
  ***********
 LaTeX2e <2024-06-01> patch level 2
 L3 programming layer <2024-09-10>
  ***********
-
-LaTeX Warning: There were undefined references.
-
 Package rerunfilecheck Info: File `manuscript.out' has not changed.
 (rerunfilecheck)             Checksum: F5A99C6B0B5CE1D80D6AB6B011A1E38A;9332.
  ) 
 Here is how much of TeX's memory you used:
  25300 strings out of 475496
- 478156 string characters out of 5775509
- 842078 words of memory out of 5000000
- 47308 multiletter control sequences out of 15000+600000
+ 477807 string characters out of 5775509
+ 841079 words of memory out of 5000000
+ 47307 multiletter control sequences out of 15000+600000
  653484 words of font info for 85 fonts, out of 8000000 for 9000
  36 hyphenation exceptions out of 8191
  99i,21n,101p,2611b,627s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </Users/nikos/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmb10.pfb></Users/nikos/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmbo10.pfb></Users/nikos/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmbx10.pfb></Users/nikos/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmbx12.pfb></Users/nikos/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmex10.pfb></Users/nikos/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmmi10.pfb></Users/nikos/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmmi6.pfb></Users/nikos/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmmi8.pfb></Users/nikos/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr10.pfb></Users/nikos/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr8.pfb></Users/nikos/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr9.pfb></Users/nikos/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmri10.pfb></Users/nikos/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmri12.pfb></Users/nikos/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmro10.pfb></Users/nikos/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmss10.pfb></Users/nikos/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmssbx10.pfb></Users/nikos/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmsso10.pfb></Users/nikos/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmsy10.pfb></Users/nikos/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmtt10.pfb></Users/nikos/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmtto10.pfb>
-Output written on manuscript.pdf (35 pages, 1000303 bytes).
+Output written on manuscript.pdf (36 pages, 851276 bytes).
 PDF statistics:
- 799 PDF objects out of 1000 (max. 8388607)
- 683 compressed objects within 7 object streams
- 152 named destinations out of 1000 (max. 500000)
+ 803 PDF objects out of 1000 (max. 8388607)
+ 686 compressed objects within 7 object streams
+ 153 named destinations out of 1000 (max. 500000)
  316 words of extra memory for PDF output out of 10000 (max. 10000000)
 
