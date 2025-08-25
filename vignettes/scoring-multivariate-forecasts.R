@@ -34,11 +34,9 @@ example_univ_multi
 score(example_univ_multi)
 
 ## -----------------------------------------------------------------------------
-grouping <- define_grouping_cols(example_univ_multi, across = c("location", "location_name"))
-
-example_multiv <- as_forecast_sample_multivariate(
+example_multiv <- as_forecast_multivariate_sample(
   data = example_univ_multi,
-  grouping = grouping
+  c("location", "location_name")
 )
 example_multiv
 
@@ -76,7 +74,7 @@ es_sr <- c(es_sr1, es_sr2)
 es_su <- energy_score_multivariate(
   observed = c(obs, obs2),
   predicted = rbind(fc_sample, fc_sample2),
-  grouping_id = c(rep(1, d), rep(2, d))
+  mv_group_id = c(rep(1, d), rep(2, d))
 )
 all.equal(es_sr, es_su, tolerance = 1e-6, check.attributes = FALSE)
 
@@ -92,7 +90,7 @@ es_sr <- c(es_sr1, es_sr2)
 es_su <- energy_score_multivariate(
   observed = c(obs, obs2),
   predicted = rbind(fc_sample, fc_sample2),
-  grouping_id = c(rep(1, d), rep(2, d)),
+  mv_group_id = c(rep(1, d), rep(2, d)),
   w = w
 )
 
