@@ -1,9 +1,10 @@
 #' @title Create a `forecast` object for binary forecasts
 #' @inherit as_forecast_doc_template params description
 #' @details
-#' # Required input
+#' # Target format
 #'
-#' The input needs to be a data.frame or similar with the following columns:
+#' The input for all further scoring needs to be a data.frame or similar with
+#' the following columns:
 #' - `observed`: `factor` with exactly two levels representing the observed
 #'   values. The highest factor level is assumed to be the reference level.
 #'   This means that corresponding value in `predicted` represent the
@@ -57,6 +58,7 @@ as_forecast_binary.default <- function(data,
 #' @export
 #' @rdname assert_forecast
 #' @importFrom cli cli_abort
+#' @importFrom checkmate test_names
 #' @keywords validate-forecast-object
 assert_forecast.forecast_binary <- function(
   forecast, forecast_type = NULL, verbose = TRUE, ...
@@ -64,16 +66,15 @@ assert_forecast.forecast_binary <- function(
   forecast <- assert_forecast_generic(forecast, verbose)
   assert_forecast_type(forecast, actual = "binary", desired = forecast_type)
 
-  columns_correct <- test_columns_not_present(
-    forecast, c("sample_id", "quantile_level")
+  columns_correct <- test_names(
+    colnames(forecast), disjunct.from = c("sample_id", "quantile_level")
   )
   if (!columns_correct) {
-    #nolint start: keyword_quote_linter
     cli_abort(
       c(
-        "!" = "Checking `forecast`: Input looks like a binary forecast, but an
+        `!` = "Checking `forecast`: Input looks like a binary forecast, but an
          additional column called `sample_id` or `quantile` was found.",
-        "i" = "Please remove the column."
+        i = "Please remove the column."
       )
     )
   }
@@ -81,11 +82,10 @@ assert_forecast.forecast_binary <- function(
   if (!isTRUE(input_check)) {
     cli_abort(
       c(
-        "!" = "Checking `forecast`: Input looks like a binary forecast, but
+        `!` = "Checking `forecast`: Input looks like a binary forecast, but
              found the following issue: {input_check}"
       )
     )
-    #nolint end
   }
   return(invisible(NULL))
 }

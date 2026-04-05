@@ -19,11 +19,11 @@ observed <- rnorm(n, 5, 4)^2
 predicted_mu <- mean(observed)
 predicted_not_mu <- predicted_mu - rnorm(n, 10, 2)
 
-mean(Metrics::ae(observed, predicted_mu))
-mean(Metrics::ae(observed, predicted_not_mu))
+mean(abs(observed - predicted_mu))
+mean(abs(observed - predicted_not_mu))
 
-mean(Metrics::se(observed, predicted_mu))
-mean(Metrics::se(observed, predicted_not_mu))
+mean((observed - predicted_mu)^2)
+mean((observed - predicted_not_mu)^2)
 
 ## ----echo=FALSE, out.width="100%", fig.cap="Input and output formats: metrics for binary forecasts."----
 knitr::include_graphics(file.path("scoring-rules", "input-binary.png"))

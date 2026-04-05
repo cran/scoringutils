@@ -15,10 +15,13 @@
 #' R](https://arxiv.org/abs/2205.07090).
 #' @param forecast A forecast object (a validated data.table with predicted and
 #'   observed values).
-#' @param metrics A named list of scoring functions. Names will be used as
-#'   column names in the output. See [get_metrics()] for more information on the
-#'   default metrics used. See the *Customising metrics* section below for
-#'   information on how to pass custom arguments to scoring functions.
+#' @param metrics A named list of scoring functions. Each element should be a
+#'   function reference, not a function call. For example, use
+#'   `list("crps" = crps_sample)` rather than `list("crps" = crps_sample())`.
+#'   Names will be used as column names in the output. See [get_metrics()] for
+#'   more information on the default metrics used. See the *Customising metrics*
+#'   section below for information on how to pass custom arguments to scoring
+#'   functions.
 #' @param ... Currently unused. You *cannot* pass additional arguments to scoring
 #'   functions via `...`. See the *Customising metrics* section below for
 #'   details on how to use [purrr::partial()] to pass arguments to individual
@@ -57,23 +60,22 @@
 #' @importFrom stats na.omit
 #' @keywords scoring
 #' @examples
-#' library(magrittr) # pipe operator
 #' \dontshow{
 #'   data.table::setDTthreads(2) # restricts number of cores used on CRAN
 #' }
 #'
 #' validated <- as_forecast_quantile(example_quantile)
-#' score(validated) %>%
+#' score(validated) |>
 #'   summarise_scores(by = c("model", "target_type"))
 #'
 #' # set forecast unit manually (to avoid issues with scoringutils trying to
 #' # determine the forecast unit automatically)
-#' example_quantile %>%
+#' example_quantile |>
 #'   as_forecast_quantile(
 #'     forecast_unit = c(
 #'       "location", "target_end_date", "target_type", "horizon", "model"
 #'     )
-#'   ) %>%
+#'   ) |>
 #'   score()
 #'
 #' # forecast formats with different metrics
@@ -84,6 +86,28 @@
 #' score(as_forecast_sample(example_sample_discrete))
 #' score(as_forecast_sample(example_sample_continuous))
 #' }
+#'
+#' # passing a subset of metrics using select_metrics()
+#' # (the preferred approach for selecting from default metrics)
+#' example_sample_continuous |>
+#'   as_forecast_sample() |>
+#'   score(metrics = select_metrics(
+#'     get_metrics(as_forecast_sample(example_sample_continuous)),
+#'     select = c("crps", "mad")
+#'   ))
+#'
+#' # passing a custom list of metrics manually
+#' # make sure to pass the function itself, not the result of calling it,
+#' # i.e. use `crps_sample` (correct) instead of `crps_sample()` (incorrect)
+#' example_sample_continuous |>
+#'   as_forecast_sample() |>
+#'   score(metrics = list("crps" = crps_sample, "mad" = mad_sample))
+#'
+#' # multivariate forecasts
+#' \dontrun{
+#' score(example_multivariate_sample)
+#' }
+#'
 #' @author Nikos Bosse \email{nikosbosse@@gmail.com}
 #' @references
 #' Bosse NI, Gruson H, Cori A, van Leeuwen E, Funk S, Abbott S
@@ -99,13 +123,11 @@ score <- function(forecast, metrics, ...) {
 #' @export
 score.default <- function(forecast, metrics, ...) {
   cli_abort(
-    #nolint start: keyword_quote_linter
     c(
-      "!" = "The input needs to be a valid forecast object.",
-      "i" = "Please convert to a `forecast` object first by calling the
+      `!` = "The input needs to be a valid forecast object.",
+      i = "Please convert to a `forecast` object first by calling the
       appropriate {.fn as_forecast_<type>} function)."
     )
-    #nolint end
   )
 }
 
@@ -117,15 +139,25 @@ score.default <- function(forecast, metrics, ...) {
 #' `score()` to apply all scoring rules to the data.
 #' Scoring rules are wrapped in [run_safely()] to catch errors and to make
 #' sure that only arguments are passed to the scoring rule that are actually
-#' accepted by it.
+#' accepted by it. A warning is issued if any column names in the input
+#' data match names in the metrics list, as these will be overwritten.
 #' @param ... Additional arguments to be passed to the scoring rules. Note that
 #'   this is currently not used, as all calls to `apply_scores` currently
 #'   avoid passing arguments via `...` and instead expect that the metrics
 #'   directly be modified using [purrr::partial()].
 #' @inheritParams score
 #' @returns A data table with the forecasts and the calculated metrics.
+#' @importFrom cli cli_warn
 #' @keywords internal
 apply_metrics <- function(forecast, metrics, ...) {
+  clashing <- intersect(names(metrics), colnames(forecast))
+  if (length(clashing) > 0) {
+    cli_warn(c(
+      `!` = "Column{?s} {.val {clashing}} already
+      present in the data will be overwritten with
+      metric results."
+    ))
+  }
   lapply(names(metrics), function(metric_name) {
     result <- do.call(
       run_safely,
@@ -169,15 +201,15 @@ apply_metrics <- function(forecast, metrics, ...) {
 run_safely <- function(..., fun, metric_name) {
   assert_function(fun)
   args <- list(...)
+  possible_args <- names(formals(fun))
+
   # Check if the function accepts ... as an argument
-  if ("..." %in% names(formals(fun))) {
+  if ("..." %in% possible_args) {
     valid_args <- args
   } else if (is.null(names(args))) {
     # if no arguments are named, just pass all arguments on
     valid_args <- args
   } else {
-    # Identify the arguments that fun() accepts
-    possible_args <- names(formals(fun))
     # keep valid arguments as well as unnamed arguments
     valid_args <- args[!nzchar(names(args)) | names(args) %in% possible_args]
   }
@@ -189,7 +221,7 @@ run_safely <- function(..., fun, metric_name) {
     msg <- conditionMessage(attr(result, "condition"))
     cli_warn(
       c(
-        "!" = "Computation for {.var {metric_name}} failed.
+        `!` = "Computation for {.var {metric_name}} failed.
         Error: {msg}."
       )
     )
@@ -225,13 +257,11 @@ validate_metrics <- function(metrics) {
   for (i in seq_along(metrics)) {
     check_fun <- check_function(metrics[[i]])
     if (!isTRUE(check_fun)) {
-      #nolint start: keyword_quote_linter
       cli_warn(
         c(
-          "!" = "`Metrics` element number {i} is not a valid function."
+          `!` = "`Metrics` element number {i} is not a valid function."
         )
       )
-      #nolint end
       names(metrics)[i] <- "scoringutils_delete"
     }
   }

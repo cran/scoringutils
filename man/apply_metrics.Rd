@@ -10,10 +10,13 @@ apply_metrics(forecast, metrics, ...)
 \item{forecast}{A forecast object (a validated data.table with predicted and
 observed values).}
 
-\item{metrics}{A named list of scoring functions. Names will be used as
-column names in the output. See \code{\link[=get_metrics]{get_metrics()}} for more information on the
-default metrics used. See the \emph{Customising metrics} section below for
-information on how to pass custom arguments to scoring functions.}
+\item{metrics}{A named list of scoring functions. Each element should be a
+function reference, not a function call. For example, use
+\code{list("crps" = crps_sample)} rather than \code{list("crps" = crps_sample())}.
+Names will be used as column names in the output. See \code{\link[=get_metrics]{get_metrics()}} for
+more information on the default metrics used. See the \emph{Customising metrics}
+section below for information on how to pass custom arguments to scoring
+functions.}
 
 \item{...}{Additional arguments to be passed to the scoring rules. Note that
 this is currently not used, as all calls to \code{apply_scores} currently
@@ -29,6 +32,7 @@ functions) to a data table of forecasts. \code{apply_metrics} is used within
 \code{score()} to apply all scoring rules to the data.
 Scoring rules are wrapped in \code{\link[=run_safely]{run_safely()}} to catch errors and to make
 sure that only arguments are passed to the scoring rule that are actually
-accepted by it.
+accepted by it. A warning is issued if any column names in the input
+data match names in the metrics list, as these will be overwritten.
 }
 \keyword{internal}

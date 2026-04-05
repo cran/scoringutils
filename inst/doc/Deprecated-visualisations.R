@@ -8,8 +8,7 @@ knitr::opts_chunk$set(
 library(scoringutils)
 library(data.table)
 library(ggplot2)
-library(magrittr)
-library(magrittr) #pipe operator
+library(ggdist)
 
 ## ----eval=require("ggdist", quietly = TRUE)-----------------------------------
 #" @title Plot Predictions vs True Values
@@ -35,19 +34,18 @@ library(magrittr) #pipe operator
 #" @export
 #" @examples
 #" library(ggplot2)
-#" library(magrittr)
 #"
-#" example_sample_continuous %>%
+#" example_sample_continuous |>
 #"   make_NA (
 #"     what = "truth",
 #"     target_end_date >= "2021-07-22",
 #"     target_end_date < "2021-05-01"
-#"   ) %>%
+#"   ) |>
 #"   make_NA (
 #"     what = "forecast",
 #"     model != "EuroCOVIDhub-ensemble",
 #"     forecast_date != "2021-06-07"
-#"   ) %>%
+#"   ) |>
 #"   plot_predictions (
 #"     x = "target_end_date",
 #"     by = c("target_type", "location"),
@@ -56,16 +54,16 @@ library(magrittr) #pipe operator
 #"   facet_wrap(~ location + target_type, scales = "free_y") +
 #"   aes(fill = model, color = model)
 #"
-#" example_sample_continuous %>%
+#" example_sample_continuous |>
 #"   make_NA (
 #"     what = "truth",
 #"     target_end_date >= "2021-07-22",
 #"     target_end_date < "2021-05-01"
-#"   ) %>%
+#"   ) |>
 #"   make_NA (
 #"     what = "forecast",
 #"     forecast_date != "2021-06-07"
-#"   ) %>%
+#"   ) |>
 #"   plot_predictions (
 #"     x = "target_end_date",
 #"     by = c("target_type", "location"),
@@ -75,12 +73,11 @@ library(magrittr) #pipe operator
 #"   aes(fill = model, color = model)
 
 
-library(ggdist)
+library(ggdist) # nolint: unused_import_linter
 plot_predictions <- function(data,
                              by = NULL,
                              x = "date",
                              interval_range = c(0, 50, 90)) {
-
   # split truth data and forecasts in order to apply different filtering
   truth_data <- data.table::as.data.table(data)[!is.na(observed)]
   forecasts <- data.table::as.data.table(data)[!is.na(predicted)]
@@ -94,17 +91,21 @@ plot_predictions <- function(data,
   # interval range data
 
   if ("quantile_level" %in% colnames(data)) {
+    # nolint start: undesirable_operator_linter
     forecasts <- scoringutils:::quantile_to_interval(
       forecasts,
       keep_quantile_col = FALSE
     )
+    # nolint end
   } else if ("sample_id" %in% colnames(data)) {
     # using a scoringutils internal function
+    # nolint start: undesirable_operator_linter
     forecasts <- scoringutils:::sample_to_interval_long(
       as_forecast_sample(forecasts),
       interval_range = interval_range,
       keep_quantile_col = FALSE
     )
+    # nolint end
   }
 
   # select appropriate boundaries and pivot wider
@@ -124,7 +125,8 @@ plot_predictions <- function(data,
   if (nrow(intervals) != 0) {
     # pivot wider and convert range to a factor
     intervals <- data.table::dcast(intervals, ... ~ boundary,
-                                   value.var = "predicted")
+      value.var = "predicted"
+    )
 
     # only plot interval ranges if there are interval ranges to plot
     plot <- plot +
@@ -195,38 +197,37 @@ plot_predictions <- function(data,
 }
 
 ## -----------------------------------------------------------------------------
-#" @title Make Rows NA in Data for Plotting
-#"
-#" @description
-#" Filters the data and turns values into `NA` before the data gets passed to
-#" [plot_predictions()]. The reason to do this is to this is that it allows to
-#" "filter" prediction and truth data separately. Any value that is NA will then
-#" be removed in the subsequent call to [plot_predictions()].
-#"
-#" @inheritParams score
-#" @param what character vector that determines which values should be turned
-#" into `NA`. If `what = "truth"`, values in the column "observed" will be
-#" turned into `NA`. If `what = "forecast"`, values in the column "prediction"
-#" will be turned into `NA`. If `what = "both"`, values in both column will be
-#" turned into `NA`.
-#" @param ... logical statements used to filter the data
-#" @return A data.table
-#" @importFrom rlang enexprs
-#" @keywords plotting
-#" @export
-#"
-#" @examples
-#" make_NA (
-#"     example_sample_continuous,
-#"     what = "truth",
-#"     target_end_date >= "2021-07-22",
-#"     target_end_date < "2021-05-01"
-#"   )
+# " @title Make Rows NA in Data for Plotting
+# "
+# " @description
+# " Filters the data and turns values into `NA` before the data gets passed to
+# " [plot_predictions()]. The reason to do this is to this is that it allows to
+# " "filter" prediction and truth data separately. Any value that is NA will then
+# " be removed in the subsequent call to [plot_predictions()].
+# "
+# " @inheritParams score
+# " @param what character vector that determines which values should be turned
+# " into `NA`. If `what = "truth"`, values in the column "observed" will be
+# " turned into `NA`. If `what = "forecast"`, values in the column "prediction"
+# " will be turned into `NA`. If `what = "both"`, values in both column will be
+# " turned into `NA`.
+# " @param ... logical statements used to filter the data
+# " @return A data.table
+# " @importFrom rlang enexprs
+# " @keywords plotting
+# " @export
+# "
+# " @examples
+# " make_NA (
+# "     example_sample_continuous,
+# "     what = "truth",
+# "     target_end_date >= "2021-07-22",
+# "     target_end_date < "2021-05-01"
+# "   )
 
 make_NA <- function(data = NULL,
                     what = c("truth", "forecast", "both"),
                     ...) {
-
   stopifnot(is.data.frame(data))
   data <- as.data.table(data)
   what <- match.arg(what)
@@ -247,29 +248,37 @@ make_NA <- function(data = NULL,
   return(data[])
 }
 
-## ----eval=require("ggdist", quietly = TRUE)-----------------------------------
+## -----------------------------------------------------------------------------
 median_forecasts <- example_quantile[quantile_level == 0.5]
-median_forecasts %>%
-  make_NA(what = "truth",
-          target_end_date <= "2021-05-01",
-          target_end_date > "2021-07-22") %>%
-  make_NA(what = "forecast",
-          model != "EuroCOVIDhub-ensemble",
-          forecast_date != "2021-06-07") %>%
+median_forecasts |>
+  make_NA(
+    what = "truth",
+    target_end_date <= "2021-05-01",
+    target_end_date > "2021-07-22"
+  ) |>
+  make_NA(
+    what = "forecast",
+    model != "EuroCOVIDhub-ensemble",
+    forecast_date != "2021-06-07"
+  ) |>
   plot_predictions(
     by = c("location", "target_type"),
     x = "target_end_date"
   ) +
   facet_wrap(location ~ target_type, scales = "free_y")
 
-## ----eval=require("ggdist", quiet = TRUE)-------------------------------------
-example_quantile %>%
-  make_NA(what = "truth",
-          target_end_date <= "2021-05-01",
-          target_end_date > "2021-07-22") %>%
-  make_NA(what = "forecast",
-          model != "EuroCOVIDhub-ensemble",
-          forecast_date != "2021-06-07") %>%
+## -----------------------------------------------------------------------------
+example_quantile |>
+  make_NA(
+    what = "truth",
+    target_end_date <= "2021-05-01",
+    target_end_date > "2021-07-22"
+  ) |>
+  make_NA(
+    what = "forecast",
+    model != "EuroCOVIDhub-ensemble",
+    forecast_date != "2021-06-07"
+  ) |>
   plot_predictions(
     by = c("location", "target_type"),
     x = "target_end_date",
@@ -277,14 +286,18 @@ example_quantile %>%
   ) +
   facet_wrap(location ~ target_type, scales = "free_y")
 
-## ----eval=require("ggdist", quietly = TRUE)-----------------------------------
-example_sample_continuous %>%
-  make_NA(what = "truth",
-          target_end_date <= "2021-05-01",
-          target_end_date > "2021-07-22") %>%
-  make_NA(what = "forecast",
-          model != "EuroCOVIDhub-ensemble",
-          forecast_date != "2021-06-07") %>%
+## -----------------------------------------------------------------------------
+example_sample_continuous |>
+  make_NA(
+    what = "truth",
+    target_end_date <= "2021-05-01",
+    target_end_date > "2021-07-22"
+  ) |>
+  make_NA(
+    what = "forecast",
+    model != "EuroCOVIDhub-ensemble",
+    forecast_date != "2021-06-07"
+  ) |>
   plot_predictions(
     by = c("location", "target_type"),
     x = "target_end_date",
@@ -292,52 +305,56 @@ example_sample_continuous %>%
   ) +
   facet_wrap(location ~ target_type, scales = "free_y")
 
-## ----eval=require("ggdist", quietly = TRUE)-----------------------------------
-example_quantile %>%
-  make_NA(what = "truth",
-          target_end_date > "2021-07-15",
-          target_end_date <= "2021-05-22") %>%
-  make_NA(what = "forecast",
-          !(model %in% c("EuroCOVIDhub-ensemble", "EuroCOVIDhub-baseline")),
-          forecast_date != "2021-06-28") %>%
+## -----------------------------------------------------------------------------
+example_quantile |>
+  make_NA(
+    what = "truth",
+    target_end_date > "2021-07-15",
+    target_end_date <= "2021-05-22"
+  ) |>
+  make_NA(
+    what = "forecast",
+    !(model %in% c("EuroCOVIDhub-ensemble", "EuroCOVIDhub-baseline")),
+    forecast_date != "2021-06-28"
+  ) |>
   plot_predictions(x = "target_end_date", by = c("target_type", "location")) +
   aes(colour = model, fill = model) +
   facet_wrap(target_type ~ location, ncol = 4, scales = "free_y") +
   labs(x = "Target end date")
 
 ## -----------------------------------------------------------------------------
-#" @title Plot Metrics by Range of the Prediction Interval
-#"
-#" @description
-#" Visualise the metrics by range, e.g. if you are interested how different
-#" interval ranges contribute to the overall interval score, or how
-#" sharpness / dispersion changes by range.
-#"
-#" @param scores A data.frame of scores based on quantile forecasts as
-#" produced by [score()] or [summarise_scores()]. Note that "range" must be included
-#" in the `by` argument when running [summarise_scores()]
-#" @param y The variable from the scores you want to show on the y-Axis.
-#" This could be something like "wis" (the default) or "dispersion"
-#" @param x The variable from the scores you want to show on the x-Axis.
-#" Usually this will be "model"
-#" @param colour Character vector of length one used to determine a variable
-#" for colouring dots. The Default is "range".
-#" @return A ggplot2 object showing a contributions from the three components of
-#" the weighted interval score
-#" @importFrom ggplot2 ggplot aes aes geom_point geom_line
-#" expand_limits theme theme_light element_text scale_color_continuous labs
-#" @export
-#" @examples
-#" library(ggplot2)
-#" ex <- data.table::copy(example_quantile)
-#" ex$range <- scoringutils:::get_range_from_quantile(ex$quantile)
-#" scores <- suppressWarnings(score(as_forecast_quantile(ex), metrics = list("wis" = wis)))
-#" summarised <- summarise_scores(
-#"   scores,
-#"   by = c("model", "target_type", "range")
-#" )
-#" plot_interval_ranges(summarised, x = "model") +
-#"   facet_wrap(~target_type, scales = "free")
+# " @title Plot Metrics by Range of the Prediction Interval
+# "
+# " @description
+# " Visualise the metrics by range, e.g. if you are interested how different
+# " interval ranges contribute to the overall interval score, or how
+# " sharpness / dispersion changes by range.
+# "
+# " @param scores A data.frame of scores based on quantile forecasts as
+# " produced by [score()] or [summarise_scores()]. Note that "range" must be included
+# " in the `by` argument when running [summarise_scores()]
+# " @param y The variable from the scores you want to show on the y-Axis.
+# " This could be something like "wis" (the default) or "dispersion"
+# " @param x The variable from the scores you want to show on the x-Axis.
+# " Usually this will be "model"
+# " @param colour Character vector of length one used to determine a variable
+# " for colouring dots. The Default is "range".
+# " @return A ggplot2 object showing a contributions from the three components of
+# " the weighted interval score
+# " @importFrom ggplot2 ggplot aes aes geom_point geom_line
+# " expand_limits theme theme_light element_text scale_color_continuous labs
+# " @export
+# " @examples
+# " library(ggplot2)
+# " ex <- data.table::copy(example_quantile)
+# " ex$range <- scoringutils:::get_range_from_quantile(ex$quantile)
+# " scores <- suppressWarnings(score(as_forecast_quantile(ex), metrics = list("wis" = wis)))
+# " summarised <- summarise_scores(
+# "   scores,
+# "   by = c("model", "target_type", "range")
+# " )
+# " plot_interval_ranges(summarised, x = "model") +
+# "   facet_wrap(~target_type, scales = "free")
 
 plot_interval_ranges <- function(scores,
                                  y = "wis",
@@ -371,14 +388,14 @@ plot_interval_ranges <- function(scores,
 }
 
 ## -----------------------------------------------------------------------------
-range_example <- copy(example_quantile) %>%
-  na.omit() %>%
-  .[, range := scoringutils:::get_range_from_quantile(quantile_level)]
+range_example <- copy(example_quantile) |>
+  na.omit()
+range_example[, range := scoringutils:::get_range_from_quantile(quantile_level)] # nolint: undesirable_operator_linter
 
-sum_scores <- range_example %>%
-  as_forecast_quantile() %>%
-  score(metrics = list(wis = wis, dispersion = dispersion_quantile)) %>%
-  summarise_scores(by = c("model", "target_type", "range")) %>%
+sum_scores <- range_example |>
+  as_forecast_quantile() |>
+  score(metrics = list(wis = wis, dispersion = dispersion_quantile)) |>
+  summarise_scores(by = c("model", "target_type", "range")) |>
   suppressWarnings()
 
 plot_interval_ranges(sum_scores, x = "model") +
@@ -414,13 +431,12 @@ plot_interval_ranges(sum_scores, y = "dispersion", x = "model") +
 #'
 #' @examples
 #' library(ggplot2)
-#' library(magrittr) # pipe operator
 #' \dontshow{
-#'   data.table::setDTthreads(2) # restricts number of cores used on CRAN
+#' data.table::setDTthreads(2) # restricts number of cores used on CRAN
 #' }
 #'
-#' scores <- score(as_forecast_quantile(example_quantile)) %>%
-#'   summarise_scores(by = c("model", "target_type")) %>%
+#' scores <- score(as_forecast_quantile(example_quantile)) |>
+#'   summarise_scores(by = c("model", "target_type")) |>
 #'   summarise_scores(by = c("model", "target_type"), fun = signif, digits = 2)
 #'
 #' plot_score_table(scores, y = "model", by = "target_type") +
@@ -428,14 +444,13 @@ plot_interval_ranges(sum_scores, y = "dispersion", x = "model") +
 #'
 #' # can also put target description on the y-axis
 #' plot_score_table(scores,
-#'                  y = c("model", "target_type"),
-#'                  by = "target_type")
-
+#'   y = c("model", "target_type"),
+#'   by = "target_type"
+#' )
 plot_score_table <- function(scores,
                              y = "model",
                              by = NULL,
                              metrics = NULL) {
-
   # identify metrics -----------------------------------------------------------
   id_vars <- get_forecast_unit(scores)
   metrics <- get_metrics(scores)
@@ -489,7 +504,8 @@ plot_score_table <- function(scores,
   # users can then pass in a factor and keep the ordering of that column intact
   if (length(y) > 1) {
     df[, identifCol := do.call(paste, c(.SD, sep = "_")),
-       .SDcols = y[y %in% names(df)]]
+      .SDcols = y[y %in% names(df)]
+    ]
   } else {
     setnames(df, old = eval(y), new = "identifCol")
   }
@@ -519,8 +535,8 @@ plot_score_table <- function(scores,
 }
 
 ## -----------------------------------------------------------------------------
-scores <- score(as_forecast_quantile(example_quantile)) %>%
-  summarise_scores(by = c("model", "target_type")) %>%
+scores <- score(as_forecast_quantile(example_quantile)) |>
+  summarise_scores(by = c("model", "target_type")) |>
   summarise_scores(by = c("model", "target_type"), fun = signif, digits = 2)
 
 plot_score_table(scores, y = "model", by = "target_type") +
@@ -529,7 +545,7 @@ plot_score_table(scores, y = "model", by = "target_type") +
 ## -----------------------------------------------------------------------------
 # can also put target description on the y-axis
 plot_score_table(scores,
-                 y = c("model", "target_type"),
-                 by = "target_type")
-
+  y = c("model", "target_type"),
+  by = "target_type"
+)
 

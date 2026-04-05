@@ -11,7 +11,8 @@ logs_sample(observed, predicted, ...)
 
 \item{predicted}{nxN matrix of predictive samples, n (number of rows) being
 the number of data points and N (number of columns) the number of Monte
-Carlo samples. Alternatively, \code{predicted} can just be a vector of size n.}
+Carlo samples. Alternatively, if n = 1, \code{predicted} can just be a vector
+of size n.}
 
 \item{...}{Additional arguments passed to
 \link[scoringRules:scores_sample_univ]{logs_sample()} from the scoringRules package.}
@@ -48,8 +49,8 @@ calculating scores for specific discrete probability distributions.
 }
 
 \examples{
-observed <- rpois(30, lambda = 1:30)
-predicted <- replicate(200, rpois(n = 30, lambda = 1:30))
+observed <- rnorm(30, mean = 1:30)
+predicted <- replicate(200, rnorm(30, mean = 1:30))
 logs_sample(observed, predicted)
 }
 \references{

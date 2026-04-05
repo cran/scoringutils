@@ -1,7 +1,11 @@
 #' @title Transform forecasts and observed values
 #'
 #' @description
-#' Function to transform forecasts and observed values before scoring.
+#' `transform_forecasts()` is a generic that applies a transformation to
+#' forecasts and observed values before scoring. It dispatches on the class of
+#' the forecast object, so custom forecast types can define their own methods.
+#' The default method (for the `forecast` class) handles all standard forecast
+#' types.
 #'
 #' @details
 #' There are a few reasons, depending on the circumstances, for
@@ -64,49 +68,46 @@
 #' <https://www.medrxiv.org/content/10.1101/2023.01.23.23284722v1>
 #' @keywords transform
 #' @examples
-#' library(magrittr) # pipe operator
 #'
 #' # transform forecasts using the natural logarithm
 #' # negative values need to be handled (here by replacing them with 0)
-#' example_quantile %>%
-#'   .[, observed := ifelse(observed < 0, 0, observed)] %>%
-#'   as_forecast_quantile() %>%
+#' example_quantile[, observed := ifelse(observed < 0, 0, observed)] |>
+#'   as_forecast_quantile() |>
 #' # Here we use the default function log_shift() which is essentially the same
 #' # as log(), but has an additional arguments (offset) that allows you add an
 #' # offset before applying the logarithm.
-#'   transform_forecasts(append = FALSE) %>%
+#'   transform_forecasts(append = FALSE) |>
 #'   head()
 #'
 #' # alternatively, integrating the truncation in the transformation function:
-#' example_quantile %>%
-#'   as_forecast_quantile() %>%
+#' example_quantile |>
+#'   as_forecast_quantile() |>
 #'  transform_forecasts(
 #'    fun = function(x) {log_shift(pmax(0, x))}, append = FALSE
-#'  ) %>%
+#'  ) |>
 #'  head()
 #'
 #' # specifying an offset for the log transformation removes the
 #' # warning caused by zeros in the data
-#' example_quantile %>%
-#'   as_forecast_quantile() %>%
-#'   .[, observed := ifelse(observed < 0, 0, observed)] %>%
-#'   transform_forecasts(offset = 1, append = FALSE) %>%
+#' example_quantile |>
+#'   as_forecast_quantile() |>
+#'   (function(x) x[, observed := ifelse(observed < 0, 0, observed)])() |>
+#'   transform_forecasts(offset = 1, append = FALSE) |>
 #'   head()
 #'
 #' # adding square root transformed forecasts to the original ones
-#' example_quantile %>%
-#'   .[, observed := ifelse(observed < 0, 0, observed)] %>%
-#'   as_forecast_quantile() %>%
-#'   transform_forecasts(fun = sqrt, label = "sqrt") %>%
-#'   score() %>%
+#' example_quantile[, observed := ifelse(observed < 0, 0, observed)] |>
+#'   as_forecast_quantile() |>
+#'   transform_forecasts(fun = sqrt, label = "sqrt") |>
+#'   score() |>
 #'   summarise_scores(by = c("model", "scale"))
 #'
 #' # adding multiple transformations
-#' example_quantile %>%
-#'   as_forecast_quantile() %>%
-#'   .[, observed := ifelse(observed < 0, 0, observed)] %>%
-#'   transform_forecasts(fun = log_shift, offset = 1) %>%
-#'   transform_forecasts(fun = sqrt, label = "sqrt") %>%
+#' example_quantile |>
+#'   as_forecast_quantile() |>
+#'   (function(x) x[, observed := ifelse(observed < 0, 0, observed)])() |>
+#'   transform_forecasts(fun = log_shift, offset = 1) |>
+#'   transform_forecasts(fun = sqrt, label = "sqrt") |>
 #'   head()
 
 transform_forecasts <- function(forecast,
@@ -114,41 +115,68 @@ transform_forecasts <- function(forecast,
                                 append = TRUE,
                                 label = "log",
                                 ...) {
+  UseMethod("transform_forecasts")
+}
+
+
+#' @importFrom cli cli_abort
+#' @export
+#' @rdname transform_forecasts
+transform_forecasts.default <- function(forecast,
+                                        fun = log_shift,
+                                        append = TRUE,
+                                        label = "log",
+                                        ...) {
+  cli_abort(
+    c(
+      `!` = "The input needs to be a valid forecast object.",
+      i = "Please convert to a `forecast` object first by calling the
+      appropriate {.fn as_forecast_<type>} function)."
+    )
+  )
+}
+
+
+#' @export
+#' @rdname transform_forecasts
+transform_forecasts.forecast <- function(forecast,
+                                         fun = log_shift,
+                                         append = TRUE,
+                                         label = "log",
+                                         ...) {
   original_forecast <- clean_forecast(forecast, copy = TRUE)
   assert_function(fun)
   assert_logical(append, len = 1)
   assert_character(label, len = 1)
 
-  # store forecast type to construct a valid forecast object later
   forecast_type <- get_forecast_type(original_forecast)
-
   scale_col_present <- ("scale" %in% colnames(original_forecast))
 
-  # Error handling
   if (scale_col_present) {
     if (!("natural" %in% original_forecast$scale)) {
-      #nolint start: keyword_quote_linter
       cli_abort(
         c(
-          `!` = "If a column 'scale' is present, entries with scale =='natural'
-          are required for the transformation."
+          `!` = "If a column 'scale' is present, entries with
+          scale =='natural' are required for the transformation."
         )
       )
     }
     if (append && (label %in% original_forecast$scale)) {
       cli_warn(
         c(
-          "i" = "Appending new transformations with label '{label}'
-          even though that entry is already present in column 'scale'."
+          i = "Appending new transformations with label
+          '{label}' even though that entry is already present
+          in column 'scale'."
         )
       )
-      #nolint end
     }
   }
 
   if (append) {
     if (scale_col_present) {
-      transformed_forecast <- copy(original_forecast)[scale == "natural"]
+      transformed_forecast <- copy(
+        original_forecast
+      )[scale == "natural"]
     } else {
       transformed_forecast <- copy(original_forecast)
       original_forecast[, scale := "natural"]
@@ -158,19 +186,23 @@ transform_forecasts <- function(forecast,
     transformed_forecast[, scale := label]
     out <- rbind(original_forecast, transformed_forecast)
 
-    # construct a new valid forecast object after binding rows together
     fn_name <- paste0("as_forecast_", forecast_type)
     fn <- get(fn_name)
-    out <- suppressWarnings(suppressMessages(do.call(fn, list(out))))
-
+    out <- suppressWarnings(suppressMessages(
+      fn(data = out)
+    ))
     return(out[])
   }
 
-  # check if a column called "scale" is already present and if so, only
-  # restrict to transformations of the original forecast
   if (scale_col_present) {
-    original_forecast[scale == "natural", predicted := fun(predicted, ...)]
-    original_forecast[scale == "natural", observed := fun(observed, ...)]
+    original_forecast[
+      scale == "natural",
+      predicted := fun(predicted, ...)
+    ]
+    original_forecast[
+      scale == "natural",
+      observed := fun(observed, ...)
+    ]
     original_forecast[scale == "natural", scale := label]
   } else {
     original_forecast[, predicted := fun(predicted, ...)]
@@ -178,6 +210,50 @@ transform_forecasts <- function(forecast,
   }
   return(original_forecast[])
 }
+
+
+# nolint start: object_name_linter
+#' @export
+#' @rdname transform_forecasts
+transform_forecasts.forecast_multivariate_sample <- function(
+    forecast,
+    fun = log_shift,
+    append = TRUE,
+    label = "log",
+    ...) {
+  out <- transform_forecasts.forecast(
+    forecast, fun, append, label, ...
+  )
+  if (!append) return(out)
+  joint_across <- setdiff(
+    get_forecast_unit(forecast),
+    get_grouping(forecast)
+  )
+  out <- as.data.table(out)
+  out[, .mv_group_id := NULL]
+  forecast_type <- get_forecast_type(forecast)
+  fn <- get(paste0("as_forecast_", forecast_type))
+  suppressWarnings(suppressMessages(
+    fn(data = out, joint_across = joint_across)
+  ))
+}
+# nolint end
+
+
+# nolint start: object_name_linter
+#' @export
+#' @rdname transform_forecasts
+transform_forecasts.forecast_multivariate_point <- function(
+    forecast,
+    fun = log_shift,
+    append = TRUE,
+    label = "log",
+    ...) {
+  transform_forecasts.forecast_multivariate_sample(
+    forecast, fun, append, label, ...
+  )
+}
+# nolint end
 
 
 #' @title Log transformation with an additive shift
@@ -206,12 +282,11 @@ transform_forecasts <- function(forecast,
 #' @keywords transform
 #' @importFrom checkmate assert_numeric assert_number
 #' @examples
-#' library(magrittr) # pipe operator
 #' log_shift(1:10)
 #' log_shift(0:9, offset = 1)
 #'
-#' example_quantile[observed > 0, ] %>%
-#'   as_forecast_quantile() %>%
+#' example_quantile[observed > 0, ] |>
+#'   as_forecast_quantile() |>
 #'   transform_forecasts(fun = log_shift, offset = 1)
 
 log_shift <- function(x, offset = 0, base = exp(1)) {
@@ -221,21 +296,19 @@ log_shift <- function(x, offset = 0, base = exp(1)) {
   assert_number(base, lower = 0)
 
   if (any(x < 0, na.rm = TRUE)) {
-    #nolint start: keyword_quote_linter
     cli_abort(
       c(
-        "!" = "Detected input values < 0."
+        `!` = "Detected input values < 0."
       )
     )
   }
   if (any(x == 0, na.rm = TRUE) && offset == 0) {
     cli_warn(
       c(
-        "!" = "Detected zeros in input values.",
-        "i" = "Try specifying offset = 1 (or any other offset)."
+        `!` = "Detected zeros in input values.",
+        i = "Try specifying offset = 1 (or any other offset)."
       )
     )
-    #nolint end
   }
   log(x + offset, base = base)
 }

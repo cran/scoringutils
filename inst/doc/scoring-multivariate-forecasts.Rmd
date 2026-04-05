@@ -1,0 +1,131 @@
+---
+title: "Scoring multivariate forecasts"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Scoring multivariate forecasts}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+This Vignette provides an overview about how to score multivariate forecasts.
+
+
+## Univariate forecasts
+
+Let's start with a simple univariate forecast: The number of cases of COVID-19 in Germany on 2021-05-15, forecasted by the EuroCOVIDhub-ensemble model on 2021-05-03. In our example, this forecast is represented by a set of 40 samples from the predictive distribution.
+
+```{r}
+library(scoringutils)
+
+example_univ_single <- example_sample_continuous[
+  target_type == "Cases" &
+    location == "DE" &
+    forecast_date == "2021-05-03" &
+    target_end_date == "2021-05-15" &
+    horizon == 2 &
+    model == "EuroCOVIDhub-ensemble"
+]
+example_univ_single
+```
+
+We can score this forecast and will receive a single score.
+```{r}
+score(example_univ_single)
+```
+
+Now, of course, we can also score multiple similar forecasts at the same time. Let's say we're not only interested in Germany, but other countries as well.
+
+```{r}
+example_univ_multi <- example_sample_continuous[
+  target_type == "Cases" &
+    forecast_date == "2021-05-03" &
+    target_end_date == "2021-05-15" &
+    horizon == 2 &
+    model == "EuroCOVIDhub-ensemble"
+]
+example_univ_multi
+```
+
+Now, we have a set of 4 forecasts for 4 different countries, each of them represented by a set of 40 samples from the predictive distribution.
+
+When we score these forecasts, we will get 4 scores, one for each forecast and observed value.
+```{r}
+score(example_univ_multi)
+```
+
+## Multivariate forecasts
+
+Now, instead of treating the four observations as independent, we could also think of them as a single realisation of a draw from the multivariate distribution of COVID-19 cases across several countries.
+
+The corresponding multivariate forecast would similarly specify a predictive distribution for the number of cases across all 4 countries. The samples are then not draws from four independent distributions, but instead samples from a joint multivariate predictive distribution.
+
+In the following, let's assume that our samples were draws from a multivariate distribution all along (we just treated them as independent for the univariate case).
+
+To tell `scoringutils` that we want to treat these as a multivariate forecast, we need to specify the columns that are pooled together to form a single multivariate forecast. We do this via the `joint_across` argument. For example, if we want to pool forecasts across locations and treat them as a single multivariate forecast, we could set `joint_across = c("location", "location_name")` (in our example, the two columns contain essentially the same information - we therefore have to include both in `joint_across` (or could alternatively delete one of them)).
+
+```{r}
+example_multiv <- as_forecast_multivariate_sample(
+  data = example_univ_multi,
+  c("location", "location_name")
+)
+example_multiv
+```
+
+The column `.mv_group_id` is created automatically and represents an identifier for each multivariate forecast. `.mv_group_id` is 1 everywhere, because we only have a single multivariate forecast. When scoring this forecast using an appropriate multivariate scoring function, we will get a single score, even though we have 4 observations, one for each country. (Note that for the purposes of scoring, it doesn't matter that sample ids are still 1-40, repeated 4 times, instead of 1-160. `scoringutils` handles this appropriately.)
+
+```{r}
+score(example_multiv)
+```
+
+By default, `score()` computes both the energy score and the variogram score for multivariate sample forecasts.
+The energy score is a multivariate generalisation of the CRPS that measures overall forecast accuracy.
+The variogram score (Scheuerer and Hamill, 2015) specifically targets the correlation structure between the targets being forecast jointly.
+For each pair of targets (e.g. two countries), it compares the observed absolute difference |y_i - y_j|^p against what the forecast distribution predicts for that difference.
+A forecast that gets the correlations between targets wrong will predict pairwise differences that do not match the observations, producing a higher score.
+This makes the variogram score more sensitive to misspecified correlations than the energy score.
+
+You can customise parameters using `purrr::partial()`.
+The order parameter `p` controls how differences are scaled: `p = 0.5` (the default) is more robust to outliers, while `p = 1` gives a standard absolute difference.
+See `?variogram_score_multivariate` for full parameter documentation.
+For example, to use `p = 1`:
+
+```{r}
+score(
+  example_multiv,
+  metrics = list(
+    energy_score = energy_score_multivariate,
+    variogram_score = purrr::partial(
+      variogram_score_multivariate, p = 1
+    )
+  )
+)
+```
+
+## Multivariate point forecasts
+
+If you have point forecasts rather than samples, you can score them using the variogram score via `as_forecast_multivariate_point()`.
+This treats each point forecast as a single-sample ensemble.
+
+```{r}
+example_point_multi <- example_point[
+  target_type == "Cases" &
+    forecast_date == "2021-05-03" &
+    target_end_date == "2021-05-15" &
+    horizon == 2 &
+    model == "EuroCOVIDhub-ensemble"
+]
+
+example_mv_point <- as_forecast_multivariate_point(
+  data = na.omit(example_point_multi),
+  joint_across = c("location", "location_name")
+)
+score(example_mv_point)
+```
+
+If, at any point, you want to score the same forecast using different groupings, you'd have create a new separate forecast object with a different grouping and score that new forecast object.

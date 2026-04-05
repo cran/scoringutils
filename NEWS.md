@@ -1,6 +1,23 @@
+# scoringutils 2.2.0
+
+- `get_pairwise_comparisons()` now works with only two models when a baseline is specified, instead of requiring at least three (#1022).
+- `score()` now warns when column names in the input data clash with metric names, as these columns are overwritten during scoring (#382).
+- The print method for multivariate forecasts now displays the `joint_across` columns, making it easier to see which variables are forecast jointly (#1043).
+- Renamed internal functions `assert_dims_ok_point()` and `check_dims_ok_point()` to `assert_dims_ok_scalar()` and `check_dims_ok_scalar()` to reflect that they are used by both point and binary forecasts, not just point (#938).
+- Added `forecast_multivariate_point` class for scoring multivariate point forecasts with the variogram score.
+The new `as_forecast_multivariate_point()` constructor takes a `joint_across` argument, matching the pattern of `as_forecast_multivariate_sample()`.
+The `transform_forecasts()` function now works with both multivariate forecast types (#1112).
+- Added the variogram score (`variogram_score_multivariate()`) as a default metric for multivariate sample forecasts.
+The variogram score (Scheuerer and Hamill, 2015) evaluates the dependence structure of multivariate forecasts and is more sensitive to correlation misspecification than the energy score (#1111).
+- Fixed `score()` dropping the `scale` column for multivariate forecasts when using `transform_forecasts(append = TRUE)`. The issue was caused by stale `.mv_group_id` values not being recomputed after appending transformed data (#1108).
+- Fixed a naming inconsistency where the class `forecast_sample_multivariate` did not match the constructor `as_forecast_multivariate_sample()`. The class has been renamed to `forecast_multivariate_sample`. The old class name is retained in the class vector during the deprecation period so `inherits(x, "forecast_sample_multivariate")` still works. `is_forecast_sample_multivariate()` is deprecated in favour of `is_forecast_multivariate_sample()`. This also fixes `transform_forecasts(append = TRUE)` which previously failed on multivariate sample forecasts (#1071).
+- Added support for scoring multivariate forecasts (#288, big thank you to Sam Abbott and Sebastian Funk). You can find detailed information in the Vignette "Scoring multivariate forecasts". There is a new forecast type, `forecast_multivariate_sample` and a corresponding `as_forecast_multivariate_sample()` function. To score a multivariate forecast, users are expected to provide a `joint_across` argument which specifies the variables which are forecast jointly.
+- Fixed a small bug with `bias_sample()` when continuous predictions were equal to observations. These ties could lead to incorrect bias scores. New calculations now use mid-ranks to deal with ties.
+- Removed workaround for `{distributional}` native pipe issue which has now been fixed upstream (#947).
+
 # scoringutils 2.1.2
 
-- fixed an issue that could arise with small rounding errors in quantile-based forecasts. This happened when there were quantile_levels like 0.5, and 0.5 + 1e-16 present at the same time. `scoringutils` now warns the user of the issue and automatically rounds all quantile levels to 10 digits. 
+- fixed an issue that could arise with small rounding errors in quantile-based forecasts. This happened when there were quantile_levels like 0.5, and 0.5 + 1e-16 present at the same time. `scoringutils` now warns the user of the issue and automatically rounds all quantile levels to 10 digits.
 - updated a few example plots to comply with an updated ggplot2 requirement to name labels in `labs()` explicitly.
 
 # scoringutils 2.1.1
@@ -154,7 +171,7 @@ This major release contains a range of new features and bug fixes that have been
 
 - Documentation updated to reflect changes since version 1.1.0, including new transform and workflow functions.
 - New `set_forecast_unit()` function allows manual setting of forecast unit.
-- `summarise_scores()` gains new `across` argument for summarizing across variables.
+- `summarise_scores()` gains new `across` argument for summarizing across variables. EDIT: This has since been removed again in [PR #831](https://github.com/epiforecasts/scoringutils/pull/831).
 - New `transform_forecasts()` and `log_shift()` functions allow forecast transformations. See the documentation for `transform_forecasts()` for more details and an example use case.
 - Input checks and test coverage improved for bias functions.
 - Bug fix in `get_prediction_type()` for integer matrix input.

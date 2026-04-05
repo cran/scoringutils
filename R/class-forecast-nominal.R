@@ -5,10 +5,10 @@
 #' generalisation of binary forecasts to multiple outcomes. The possible
 #' outcomes that the observed values can assume are not ordered.
 #'
-#' # Required input
+#' # Target format
 #'
-#' The input needs to be a data.frame or similar for the default method
-#' with the following columns:
+#' The input for all further scoring needs to be a data.frame or similar with
+#' the following columns:
 #' - `observed`: Column with observed values of type `factor` with N levels,
 #'    where N is the number of possible outcomes.
 #'    The levels of the factor represent the possible outcomes that
@@ -75,7 +75,6 @@ as_forecast_nominal.default <- function(data,
 assert_forecast.forecast_nominal <- function(
   forecast, forecast_type = NULL, verbose = TRUE, ...
 ) {
-  forecast <- assert_forecast_generic(forecast, verbose)
   assert(check_columns_present(forecast, "predicted_label"))
   assert_names(
     colnames(forecast),
@@ -90,6 +89,8 @@ assert_forecast.forecast_nominal <- function(
   outcomes <- levels(forecast$observed)
   assert_set_equal(levels(forecast$predicted_label), outcomes)
 
+  forecast <- assert_forecast_generic(forecast, verbose)
+
   # forecasts need to be complete
   forecast_unit <- get_forecast_unit(forecast)
   complete <- as.data.table(forecast)[, .(
@@ -99,13 +100,13 @@ assert_forecast.forecast_nominal <- function(
   if (!all(complete$correct)) {
     first_issue <- complete[(correct), ..forecast_unit][1]
     first_issue <- lapply(first_issue, FUN = as.character)
-    #nolint start: keyword_quote_linter object_usage_linter duplicate_argument_linter
+    #nolint start: object_usage_linter duplicate_argument_linter
     issue_location <- paste(names(first_issue), "==", first_issue)
     cli_abort(
       c(`!` = "Found incomplete forecasts",
-        `i` = "For a nominal forecast, all possible outcomes must be assigned
+        i = "For a nominal forecast, all possible outcomes must be assigned
         a probability explicitly.",
-        `i` = "Found first missing probabilities in the forecast identified by
+        i = "Found first missing probabilities in the forecast identified by
         {.emph {issue_location}}")
     )
     #nolint end

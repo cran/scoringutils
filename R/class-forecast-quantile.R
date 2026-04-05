@@ -1,10 +1,10 @@
 #' @title Create a `forecast` object for quantile-based forecasts
 #' @inherit as_forecast_doc_template params description
 #' @details
-#' # Required input
+#' # Target format
 #'
-#' The input needs to be a data.frame or similar for the default method
-#' with the following columns:
+#' The input for all further scoring needs to be a data.frame or similar with
+#' the following columns:
 #' - `observed`: Column of type `numeric` with observed values.
 #' - `predicted`: Column of type `numeric` with predicted values. Predicted
 #'    values represent quantiles of the predictive distribution.
@@ -81,6 +81,7 @@ as_forecast_quantile.default <- function(data,
 assert_forecast.forecast_quantile <- function(
   forecast, forecast_type = NULL, verbose = TRUE, ...
 ) {
+  assert(check_columns_present(forecast, "quantile_level"))
   forecast <- assert_forecast_generic(forecast, verbose)
   assert_forecast_type(forecast, actual = "quantile", desired = forecast_type)
   assert_numeric(forecast$quantile_level, lower = 0, upper = 1)
@@ -143,20 +144,20 @@ score.forecast_quantile <- function(forecast, metrics = get_metrics(forecast), .
   # forecasts have the same quantile_levels
   f_split <- split(f_transposed, f_transposed$scoringutils_quantile_level)
 
-  split_result <- lapply(f_split, function(forecast) {
+  split_result <- lapply(f_split, function(df) {
     # create a matrix out of the list of predicted values and quantile_levels
-    observed <- forecast$observed
-    predicted <- do.call(rbind, forecast$predicted)
-    quantile_level <- unlist(unique(forecast$quantile_level))
-    forecast[, c(
+    observed <- df$observed
+    predicted <- do.call(rbind, df$predicted)
+    quantile_level <- unlist(unique(df$quantile_level))
+    df[, c(
       "observed", "predicted", "quantile_level", "scoringutils_quantile_level"
     ) := NULL]
 
-    forecast <- apply_metrics(
-      forecast, metrics,
+    result <- apply_metrics(
+      df, metrics,
       observed, predicted, quantile_level
     )
-    return(forecast)
+    return(result)
   })
   scores <- rbindlist(split_result, fill = TRUE)
 
@@ -204,7 +205,7 @@ get_metrics.forecast_quantile <- function(x, select = NULL, exclude = NULL, ...)
     dispersion = dispersion_quantile,
     bias = bias_quantile,
     interval_coverage_50 = interval_coverage,
-    interval_coverage_90 = purrr::partial(
+    interval_coverage_90 = partial(
       interval_coverage, interval_range = 90
     ),
     ae_median = ae_median_quantile
@@ -238,7 +239,7 @@ get_pit_histogram.forecast_quantile <- function(forecast, num_bins = NULL,
   diffs <- round(diff(quantiles), 10)
 
   if (length(setdiff(quantiles, present_quantiles)) > 0) {
-    cli::cli_warn(
+    cli_warn(
       "Some requested quantiles are missing in the forecast. ",
       "The PIT histogram will be based on the quantiles present in the forecast."
     )

@@ -2,9 +2,45 @@
 % Please edit documentation in R/transform-forecasts.R
 \name{transform_forecasts}
 \alias{transform_forecasts}
+\alias{transform_forecasts.default}
+\alias{transform_forecasts.forecast}
+\alias{transform_forecasts.forecast_multivariate_sample}
+\alias{transform_forecasts.forecast_multivariate_point}
 \title{Transform forecasts and observed values}
 \usage{
 transform_forecasts(
+  forecast,
+  fun = log_shift,
+  append = TRUE,
+  label = "log",
+  ...
+)
+
+\method{transform_forecasts}{default}(
+  forecast,
+  fun = log_shift,
+  append = TRUE,
+  label = "log",
+  ...
+)
+
+\method{transform_forecasts}{forecast}(
+  forecast,
+  fun = log_shift,
+  append = TRUE,
+  label = "log",
+  ...
+)
+
+\method{transform_forecasts}{forecast_multivariate_sample}(
+  forecast,
+  fun = log_shift,
+  append = TRUE,
+  label = "log",
+  ...
+)
+
+\method{transform_forecasts}{forecast_multivariate_point}(
   forecast,
   fun = log_shift,
   append = TRUE,
@@ -47,7 +83,11 @@ be one additional column, `scale', present which will be set to "natural"
 for the untransformed forecasts.
 }
 \description{
-Function to transform forecasts and observed values before scoring.
+\code{transform_forecasts()} is a generic that applies a transformation to
+forecasts and observed values before scoring. It dispatches on the class of
+the forecast object, so custom forecast types can define their own methods.
+The default method (for the \code{forecast} class) handles all standard forecast
+types.
 }
 \details{
 There are a few reasons, depending on the circumstances, for
@@ -67,49 +107,46 @@ transformation after the score risks losing propriety of the proper scoring
 rule.
 }
 \examples{
-library(magrittr) # pipe operator
 
 # transform forecasts using the natural logarithm
 # negative values need to be handled (here by replacing them with 0)
-example_quantile \%>\%
-  .[, observed := ifelse(observed < 0, 0, observed)] \%>\%
-  as_forecast_quantile() \%>\%
+example_quantile[, observed := ifelse(observed < 0, 0, observed)] |>
+  as_forecast_quantile() |>
 # Here we use the default function log_shift() which is essentially the same
 # as log(), but has an additional arguments (offset) that allows you add an
 # offset before applying the logarithm.
-  transform_forecasts(append = FALSE) \%>\%
+  transform_forecasts(append = FALSE) |>
   head()
 
 # alternatively, integrating the truncation in the transformation function:
-example_quantile \%>\%
-  as_forecast_quantile() \%>\%
+example_quantile |>
+  as_forecast_quantile() |>
  transform_forecasts(
    fun = function(x) {log_shift(pmax(0, x))}, append = FALSE
- ) \%>\%
+ ) |>
  head()
 
 # specifying an offset for the log transformation removes the
 # warning caused by zeros in the data
-example_quantile \%>\%
-  as_forecast_quantile() \%>\%
-  .[, observed := ifelse(observed < 0, 0, observed)] \%>\%
-  transform_forecasts(offset = 1, append = FALSE) \%>\%
+example_quantile |>
+  as_forecast_quantile() |>
+  (function(x) x[, observed := ifelse(observed < 0, 0, observed)])() |>
+  transform_forecasts(offset = 1, append = FALSE) |>
   head()
 
 # adding square root transformed forecasts to the original ones
-example_quantile \%>\%
-  .[, observed := ifelse(observed < 0, 0, observed)] \%>\%
-  as_forecast_quantile() \%>\%
-  transform_forecasts(fun = sqrt, label = "sqrt") \%>\%
-  score() \%>\%
+example_quantile[, observed := ifelse(observed < 0, 0, observed)] |>
+  as_forecast_quantile() |>
+  transform_forecasts(fun = sqrt, label = "sqrt") |>
+  score() |>
   summarise_scores(by = c("model", "scale"))
 
 # adding multiple transformations
-example_quantile \%>\%
-  as_forecast_quantile() \%>\%
-  .[, observed := ifelse(observed < 0, 0, observed)] \%>\%
-  transform_forecasts(fun = log_shift, offset = 1) \%>\%
-  transform_forecasts(fun = sqrt, label = "sqrt") \%>\%
+example_quantile |>
+  as_forecast_quantile() |>
+  (function(x) x[, observed := ifelse(observed < 0, 0, observed)])() |>
+  transform_forecasts(fun = log_shift, offset = 1) |>
+  transform_forecasts(fun = sqrt, label = "sqrt") |>
   head()
 }
 \references{

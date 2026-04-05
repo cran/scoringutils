@@ -21,9 +21,12 @@ If \code{select} is not \code{NULL}, this argument is ignored.}
 \description{
 For point forecasts, the default scoring rules are:
 \itemize{
-\item "ae_point" = \link[Metrics:ae]{ae()}
-\item "se_point" = \link[Metrics:se]{se()}
-\item "ape" = \link[Metrics:ape]{ape()}
+\item "ae_point" = absolute error, calculated as
+\eqn{\text{ae} = |y - \hat{y}|}{ae = |y - y_hat|}
+\item "se_point" = squared error, calculated as
+\eqn{\text{se} = (y - \hat{y})^2}{se = (y - y_hat)^2}
+\item "ape" = absolute percentage error, calculated as
+\eqn{\text{ape} = |y - \hat{y}| / |y|}{ape = |y - y_hat| / |y|}
 }
 
 A note of caution: Every scoring rule for a point forecast
@@ -54,7 +57,6 @@ results! Consider the example in the section below.
 \examples{
 get_metrics(example_point, select = "ape")
 
-library(magrittr)
 set.seed(123)
 n <- 500
 observed <- rnorm(n, 5, 4)^2
@@ -67,9 +69,9 @@ df <- data.frame(
   predicted = c(rep(predicted_mu, n), predicted_not_mu),
   observed = rep(observed, 2),
   id = rep(1:n, 2)
-) \%>\%
+) |>
   as_forecast_point()
-score(df) \%>\%
+score(df) |>
   summarise_scores()
 }
 \references{
@@ -80,6 +82,8 @@ Journal of the American Statistical Association.
 Other get_metrics functions: 
 \code{\link{get_metrics}()},
 \code{\link{get_metrics.forecast_binary}()},
+\code{\link{get_metrics.forecast_multivariate_point}()},
+\code{\link{get_metrics.forecast_multivariate_sample}()},
 \code{\link{get_metrics.forecast_nominal}()},
 \code{\link{get_metrics.forecast_ordinal}()},
 \code{\link{get_metrics.forecast_quantile}()},

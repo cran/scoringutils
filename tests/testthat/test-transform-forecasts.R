@@ -1,24 +1,24 @@
 # ============================================================================ #
-# `transform_forecasts()`
+# `transform_forecasts()` # nolint: commented_code_linter
 # ============================================================================ #
 test_that("function transform_forecasts works", {
   predictions_original <- example_quantile$predicted
-  predictions <- example_quantile %>%
+  predictions <- example_quantile |>
     transform_forecasts(
-    fun = function(x) pmax(0, x),
-    append = FALSE
-  )
+      fun = function(x) pmax(0, x),
+      append = FALSE
+    )
 
-  expect_equal(predictions$predicted, pmax(0, predictions_original))
+  expect_equal(predictions$predicted, pmax(0, predictions_original)) # nolint: expect_identical_linter
 
   one <- transform_forecasts(predictions, offset = 1)
-  expect_equal(
+  expect_equal( # nolint: expect_identical_linter
     one$predicted,
     c(predictions$predicted, log(predictions$predicted + 1))
   )
 
   two <- transform_forecasts(predictions, fun = sqrt, label = "sqrt")
-  expect_equal(
+  expect_equal( # nolint: expect_identical_linter
     two$predicted,
     c(predictions$predicted, sqrt(predictions$predicted))
   )
@@ -36,7 +36,7 @@ test_that("function transform_forecasts works", {
 
   # multiple transformations
   three <- transform_forecasts(one, fun = sqrt, label = "sqrt")
-  expect_equal(unique(three$scale), c("natural", "log", "sqrt"))
+  expect_identical(unique(three$scale), c("natural", "log", "sqrt"))
 
   # expect_error if there is a scale column, but no value "natural"
   no_natural <- three[three$scale != "natural", ]
@@ -52,7 +52,7 @@ test_that("function transform_forecasts works", {
     three$predicted[three$scale == "sqrt"]
   )
 
-  expect_equal(four$predicted, compare)
+  expect_equal(four$predicted, compare) # nolint: expect_identical_linter
 })
 
 test_that("transform_forecasts() outputs an object of class forecast_*", {
@@ -60,12 +60,114 @@ test_that("transform_forecasts() outputs an object of class forecast_*", {
   expect_s3_class(transformed, "forecast_binary")
 })
 
+test_that("transform_forecasts() errors on non-forecast objects", {
+  expect_error(
+    transform_forecasts(data.frame(x = 1)),
+    "The input needs to be a valid forecast object."
+  )
+})
+
+test_that("transform_forecasts() works on multivariate sample forecasts", {
+  # append = FALSE should work
+  transformed <- transform_forecasts(
+    example_multivariate_sample,
+    fun = function(x) pmax(0, x),
+    append = FALSE
+  )
+  expect_s3_class(transformed, "forecast_multivariate_sample")
+
+  # append = TRUE should also work now that class naming is fixed
+  transformed_append <- transform_forecasts(
+    example_multivariate_sample,
+    fun = function(x) pmax(0, x),
+    append = TRUE
+  )
+  expect_s3_class(
+    transformed_append, "forecast_multivariate_sample"
+  )
+  expect_true("scale" %in% colnames(transformed_append))
+  expect_equal(
+    unique(transformed_append$scale), c("natural", "log")
+  )
+
+  # .mv_group_id must be distinct across scales
+  n_original <- nrow(example_multivariate_sample)
+  expect_equal(nrow(transformed_append), 2 * n_original)
+  ids_natural <- unique(
+    transformed_append[scale == "natural", .mv_group_id]
+  )
+  ids_log <- unique(
+    transformed_append[scale == "log", .mv_group_id]
+  )
+  expect_length(intersect(ids_natural, ids_log), 0)
+})
+
+test_that("transform_forecasts() works on multivariate point forecasts", {
+  mv_point <- as_forecast_multivariate_point(
+    data.frame(
+      observed = c(1, 2, 3, 4, 5, 6),
+      predicted = c(1.1, 2.2, 3.3, 4.4, 5.5, 6.6),
+      target = rep(c("a", "b", "c"), 2),
+      model = "m1",
+      date = rep(c("2020-01-01", "2020-01-02"), each = 3)
+    ),
+    forecast_unit = c("model", "date", "target"),
+    joint_across = "target"
+  )
+
+  # append = FALSE should work
+  transformed <- transform_forecasts(
+    mv_point, fun = function(x) pmax(0, x), append = FALSE
+  )
+  expect_s3_class(transformed, "forecast_multivariate_point")
+
+  # append = TRUE should work
+  transformed_append <- transform_forecasts(
+    mv_point, fun = function(x) pmax(0, x), append = TRUE
+  )
+  expect_s3_class(
+    transformed_append, "forecast_multivariate_point"
+  )
+  expect_true("scale" %in% colnames(transformed_append))
+  expect_equal(
+    unique(transformed_append$scale), c("natural", "log")
+  )
+
+  # .mv_group_id must be distinct across scales
+  n_original <- nrow(mv_point)
+  expect_equal(nrow(transformed_append), 2 * n_original)
+  ids_natural <- unique(
+    transformed_append[scale == "natural", .mv_group_id]
+  )
+  ids_log <- unique(
+    transformed_append[scale == "log", .mv_group_id]
+  )
+  expect_length(intersect(ids_natural, ids_log), 0)
+})
+
+test_that("score() preserves scale column for multivariate forecasts", {
+  transformed <- transform_forecasts(
+    example_multivariate_sample,
+    fun = sqrt, label = "sqrt",
+    append = TRUE
+  )
+  scored <- score(transformed)
+
+  # scale column must be present in scored output
+  expect_true("scale" %in% colnames(scored))
+  expect_equal(sort(unique(scored$scale)), c("natural", "sqrt"))
+
+  # score count should double (one set per scale)
+  scored_natural <- score(example_multivariate_sample)
+  expect_equal(nrow(scored), 2 * nrow(scored_natural))
+})
+
 
 # ============================================================================ #
-# `log_shift()`
+# `log_shift()` # nolint: commented_code_linter
 # ============================================================================ #
 test_that("log_shift() works as expected", {
-  expect_equal(log_shift(1:10, 1), log(1:10 + 1))
+  expect_equal(log_shift(1:10, 1), log(1:10 + 1)) # nolint: expect_identical_linter
 
   # expect errors if there are values < 0
   expect_error(
