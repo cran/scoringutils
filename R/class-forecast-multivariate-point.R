@@ -62,11 +62,12 @@ as_forecast_multivariate_point.default <- function(
 #' @export
 #' @rdname assert_forecast
 #' @importFrom cli cli_abort
+#' @importFrom checkmate assert_subset
 #' @keywords validate-forecast-object
 assert_forecast.forecast_multivariate_point <- function(
   forecast, forecast_type = NULL, verbose = TRUE, ...
 ) {
-  assert(check_columns_present(forecast, ".mv_group_id"))
+  assert_subset(".mv_group_id", colnames(forecast))
   forecast <- assert_forecast_generic(forecast, verbose)
 
   input_check <- check_input_point(
@@ -106,11 +107,9 @@ is_forecast_multivariate_point <- function(x) {
 score.forecast_multivariate_point <- function(
   forecast, metrics = get_metrics(forecast), ...
 ) {
-  forecast <- clean_forecast(
-    forecast, copy = TRUE, na.omit = TRUE
-  )
-  metrics <- validate_metrics(metrics)
-  forecast <- as.data.table(forecast)
+  prep <- prepare_forecast_for_scoring(forecast, metrics)
+  forecast <- prep$forecast
+  metrics <- prep$metrics
 
   observed <- forecast$observed
   predicted <- matrix(forecast$predicted, ncol = 1)

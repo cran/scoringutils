@@ -4,6 +4,66 @@
 # see tests for each forecast type for more specific tests.
 
 
+test_that("as_forecast_generic() errors when renaming onto an existing column", {
+  # stale `predicted` column alongside the column that should be renamed
+  dt <- data.table::data.table(
+    model = "m",
+    id = 1:2,
+    observed = factor(c(0, 1)),
+    predicted = c(0.9, 0.9),
+    prob = c(0.3, 0.7)
+  )
+  expect_error(
+    as_forecast_binary(dt, predicted = "prob"),
+    'rename column "prob" to "predicted".*already exists'
+  )
+
+  # same for other renameable columns, e.g. `quantile_level`
+  quantile_dt <- data.table::data.table(
+    model = "m",
+    target = "t",
+    observed = 5,
+    predicted = c(1, 5, 9),
+    quantile_level = c(0.1, 0.5, 0.9),
+    q = c(0.1, 0.5, 0.9)
+  )
+  expect_error(
+    as_forecast_quantile(quantile_dt, quantile_level = "q"),
+    'rename column "q" to "quantile_level".*already exists'
+  )
+
+  # multiple collisions produce a correctly pluralised message naming all
+  # source and target columns
+  multi_dt <- data.table::data.table(
+    model = "m",
+    id = 1:2,
+    observed = 1,
+    obs = 2,
+    predicted = 3,
+    prob = 4
+  )
+  expect_error(
+    as_forecast_binary(multi_dt, observed = "obs", predicted = "prob"),
+    paste0(
+      'rename\\s+columns\\s+"obs"\\s+and\\s+"prob"\\s+to\\s+"observed"',
+      '\\s+and\\s+"predicted".*already\\s+exist\\s+in\\s+the\\s+data'
+    )
+  )
+})
+
+test_that("as_forecast_generic() still allows identity renames", {
+  dt <- data.table::data.table(
+    model = "m",
+    id = 1:2,
+    observed = factor(c(0, 1)),
+    predicted = c(0.3, 0.7)
+  )
+  expect_no_condition(
+    as_forecast_binary(dt, observed = "observed", predicted = "predicted")
+  )
+})
+
+
 # ==============================================================================
 # is_forecast() # nolint: commented_code_linter
 # ==============================================================================
@@ -36,6 +96,21 @@ test_that("assert_forecast_generic() works as expected with a data.frame", {
   expect_error(
     assert_forecast_generic(example_quantile_df),
     "Assertion on 'data' failed: Must be a data.table, not data.frame."
+  )
+})
+
+test_that("assert_forecast_generic() errors on duplicate column names", {
+  dt <- data.table::data.table(
+    model = "m",
+    id = 1:2,
+    observed = factor(c(0, 1)),
+    predicted = c(0.3, 0.7),
+    stale = c(0.9, 0.9)
+  )
+  data.table::setnames(dt, "stale", "predicted")
+  expect_error(
+    assert_forecast_generic(dt),
+    "duplicate"
   )
 })
 
@@ -155,8 +230,6 @@ test_that("print() throws the expected messages", {
   test <- data.table::copy(example_point)
   class(test) <- c("point", "forecast", "data.table", "data.frame")
 
-  # note that since introducing a length maximum for validation to be triggered,
-  # we don't throw a warning automatically anymore
   suppressMessages(
     expect_message(
       capture.output(print(test)),
@@ -170,6 +243,131 @@ test_that("print() throws the expected messages", {
       capture.output(print(test)),
       "Could not determine forecast unit."
     )
+  )
+})
+
+
+# ==============================================================================
+# Autoprint suppression during := operations (issue #935)
+# ==============================================================================
+
+test_that(":= on forecast objects does not trigger spurious printing", {
+  ex <- data.table::copy(example_quantile)
+  output <- capture.output(ex[, model := paste(model, "a")])
+  expect_identical(output, character(0))
+})
+
+test_that(":= adding a new column to forecast objects does not print", {
+  ex <- data.table::copy(example_quantile)
+  output <- capture.output(ex[, new_col := "test"])
+  expect_identical(output, character(0))
+})
+
+test_that(":= on different forecast types does not trigger printing", {
+  # Test across all forecast types to ensure the fix is comprehensive
+  forecast_objects <- list(
+    binary = data.table::copy(example_binary),
+    quantile = data.table::copy(example_quantile),
+    point = data.table::copy(example_point),
+    sample_continuous = data.table::copy(example_sample_continuous),
+    sample_discrete = data.table::copy(example_sample_discrete)
+  )
+
+  for (name in names(forecast_objects)) {
+    ex <- forecast_objects[[name]]
+    output <- capture.output(ex[, model := paste(model, "a")])
+    expect_identical(
+      output, character(0),
+      label = paste("Spurious printing for forecast type:", name)
+    )
+  }
+})
+
+test_that("multiple sequential := operations do not trigger printing", {
+  ex <- data.table::copy(example_quantile)
+  output <- capture.output({
+    ex[, model := paste(model, "a")]
+    ex[, new_col1 := 1]
+    ex[, new_col2 := "test"]
+  })
+  expect_identical(output, character(0))
+})
+
+test_that("explicit print() still works after := suppression", {
+  # After :=, data.table sets a flag that suppresses the next print.
+  # In interactive R, autoprint consumes this flag. In non-interactive
+  # contexts (testthat, scripts), we consume it manually with x[].
+  ex <- data.table::copy(example_quantile)
+  ex[, model := paste(model, "a")]
+  invisible(capture.output(suppressMessages(ex[])))  # consume shouldPrint flag
+
+  output <- capture.output(suppressMessages(print(ex)))
+  expect_gt(length(output), 0)
+})
+
+test_that("print() on forecast objects still shows header and data", {
+  ex <- as_forecast_quantile(na.omit(example_quantile))
+
+  messages <- capture.output(print(ex), type = "message")
+  output <- capture.output(suppressMessages(print(ex)))
+
+  # Header should contain forecast type and unit info
+  header_text <- paste(messages, collapse = " ")
+  expect_true(grepl("Forecast type", header_text, fixed = TRUE))
+  expect_true(grepl("Forecast unit", header_text, fixed = TRUE))
+
+  # Data should be printed
+  expect_gt(length(output), 0)
+})
+
+test_that("x[] force-print still works on forecast objects", {
+  # x[] is data.table's force-print syntax, should still produce output
+  ex <- as_forecast_quantile(na.omit(example_quantile))
+  output <- capture.output(suppressMessages(ex[]))
+  expect_gt(length(output), 0)
+})
+
+test_that(":= on scores objects does not trigger spurious printing", {
+  scores <- score(example_quantile)
+  output <- capture.output(scores[, test := 3])
+  expect_identical(output, character(0))
+})
+
+test_that(":= that breaks the forecast contract still validates", {
+  # Validation must keep running during in-place `:=` modification: removing a
+  # required column should warn, even though the autoprint stays suppressed.
+  ex <- as_forecast_quantile(na.omit(example_quantile))
+  expect_warning(
+    ex[, observed := NULL],
+    "Error in validating"
+  )
+})
+
+test_that(":= that breaks the contract does not trigger spurious printing", {
+  # Restoring validation must not reintroduce the spurious autoprint from #935.
+  ex <- as_forecast_quantile(na.omit(example_quantile))
+  output <- capture.output(
+    suppressWarnings(ex[, observed := NULL])
+  )
+  expect_identical(output, character(0))
+})
+
+test_that("[.forecast() validates subsets regardless of size", {
+  # After removing the 30-row hack, validation should trigger for
+  # any size subset that breaks the forecast contract
+  test <- na.omit(data.table::copy(example_quantile))
+
+  # Small subset (previously skipped validation due to nrow <= 30 hack)
+  small_test <- test[1:20]
+  expect_warning(
+    local(small_test[, colnames(small_test) != "observed", with = FALSE]),
+    "Error in validating"
+  )
+
+  # Large subset (was already validated before)
+  expect_warning(
+    local(test[, colnames(test) != "observed", with = FALSE]),
+    "Error in validating"
   )
 })
 
@@ -196,6 +394,102 @@ test_that("check_number_per_forecast works", {
   expect_true(
     check_number_per_forecast(
       example_binary
+    )
+  )
+})
+
+
+# ==============================================================================
+# check_observed_constant() # nolint: commented_code_linter
+# ==============================================================================
+test_that("check_observed_constant() works as expected", {
+  consistent <- data.table::data.table(
+    model = "m1", target = "t1",
+    quantile_level = c(0.25, 0.5, 0.75),
+    predicted = 1:3,
+    observed = 10
+  )
+  expect_true(
+    check_observed_constant(consistent, forecast_unit = c("model", "target"))
+  )
+
+  conflicting <- data.table::copy(consistent)
+  conflicting$observed <- c(10, 10, 20)
+  result <- check_observed_constant(
+    conflicting,
+    forecast_unit = c("model", "target")
+  )
+  expect_type(result, "character")
+  expect_match(result, "different observed values")
+})
+
+test_that("check_observed_constant() ignores rows with NA observed values", {
+  dt <- data.table::data.table(
+    model = "m1", target = "t1",
+    sample_id = 1:4,
+    predicted = c(1, 2, 3, 4),
+    observed = c(5, 5, 5, NA)
+  )
+  expect_true(
+    check_observed_constant(dt, forecast_unit = c("model", "target"))
+  )
+})
+
+test_that("validation errors on conflicting observed values in a forecast unit", {
+  # quantile
+  expect_error(
+    as_forecast_quantile(data.table::data.table(
+      model = "m1", target = "t1",
+      quantile_level = c(0.25, 0.5, 0.75),
+      predicted = 1:3,
+      observed = c(10, 10, 20)
+    )),
+    "different observed values"
+  )
+
+  # sample
+  expect_error(
+    as_forecast_sample(data.table::data.table(
+      model = "m1", target = "t1",
+      sample_id = 1:4,
+      predicted = c(1, 2, 3, 4),
+      observed = c(5, 5, 5, 7)
+    )),
+    "different observed values"
+  )
+
+  # nominal
+  expect_error(
+    as_forecast_nominal(data.table::data.table(
+      model = "m1", target = "t1",
+      predicted_label = factor(c("a", "b", "c")),
+      predicted = c(0.2, 0.3, 0.5),
+      observed = factor(c("a", "a", "b"), levels = c("a", "b", "c"))
+    )),
+    "different observed values"
+  )
+})
+
+test_that("validation still passes when observed is constant apart from NAs", {
+  dt <- data.table::data.table(
+    model = "m1", target = "t1",
+    sample_id = 1:4,
+    predicted = c(1, 2, 3, 4),
+    observed = c(5, 5, 5, NA)
+  )
+  expect_s3_class(
+    suppressMessages(as_forecast_sample(dt)),
+    "forecast_sample"
+  )
+})
+
+test_that("multivariate sample forecasts with constant observed still validate", {
+  # observed varies across the multivariate group but not within a single
+  # (univariate) forecast unit, so this must not trigger the constancy check
+  expect_no_condition(
+    as_forecast_multivariate_sample(
+      na.omit(data.table::copy(example_sample_continuous)),
+      joint_across = c("location", "location_name")
     )
   )
 })

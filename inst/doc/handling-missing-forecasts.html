@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+
+<title>Handling missing forecasts</title>
+
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
+
+<style type="text/css">
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
+
+
+<style type="text/css">
+code {
+white-space: pre;
+}
+.sourceCode {
+overflow: visible;
+}
+</style>
+<style type="text/css" data-origin="pandoc">
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Handling missing forecasts</h1>
+
+
+
+<p>When comparing forecast models, not all models will have made
+predictions for every target. Naively averaging scores across different
+sets of targets can produce misleading summaries. This vignette walks
+through diagnosing which targets each model covers, scoring the
+forecasts, and then adjusting the scores using filtering and imputation
+so that summaries are comparable.</p>
+<p>The approaches here were initially inspired by <a href="https://doi.org/10.1016/j.ijforecast.2025.12.006">Kim, Ray &amp;
+Reich (2026)</a>, who discuss the importance of handling missing
+forecasts when evaluating model contributions beyond simple leaderboard
+rankings.</p>
+<div id="diagnosing-missingness" class="section level2">
+<h2>Diagnosing missingness</h2>
+<p>Before adjusting scores we should aim to understand the patterns of
+potential missingness. Models may have different coverage for legitimate
+reasons (a model may only forecast deaths, not cases) or because of
+operational failures (a missed submission deadline).</p>
+<p><code>get_forecast_counts()</code> tabulates how many forecasts each
+model has, grouped by the columns you choose.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">library</span>(scoringutils)</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>fc <span class="ot">&lt;-</span> <span class="fu">as_forecast_quantile</span>(example_quantile)</span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="co">#&gt; ℹ Some rows containing NA values may be removed. This is fine if not</span></span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a><span class="co">#&gt;   unexpected.</span></span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a><span class="fu">get_forecast_counts</span>(fc, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">&quot;model&quot;</span>, <span class="st">&quot;target_type&quot;</span>))</span>
+<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a><span class="co">#&gt; Key: &lt;model, target_type&gt;</span></span>
+<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a><span class="co">#&gt;                    model target_type count</span></span>
+<span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a><span class="co">#&gt;                   &lt;char&gt;      &lt;char&gt; &lt;int&gt;</span></span>
+<span id="cb1-9"><a href="#cb1-9" tabindex="-1"></a><span class="co">#&gt; 1: EuroCOVIDhub-baseline       Cases   128</span></span>
+<span id="cb1-10"><a href="#cb1-10" tabindex="-1"></a><span class="co">#&gt; 2: EuroCOVIDhub-baseline      Deaths   128</span></span>
+<span id="cb1-11"><a href="#cb1-11" tabindex="-1"></a><span class="co">#&gt; 3: EuroCOVIDhub-ensemble       Cases   128</span></span>
+<span id="cb1-12"><a href="#cb1-12" tabindex="-1"></a><span class="co">#&gt; 4: EuroCOVIDhub-ensemble      Deaths   128</span></span>
+<span id="cb1-13"><a href="#cb1-13" tabindex="-1"></a><span class="co">#&gt; 5:       UMass-MechBayes       Cases     0</span></span>
+<span id="cb1-14"><a href="#cb1-14" tabindex="-1"></a><span class="co">#&gt; 6:       UMass-MechBayes      Deaths   128</span></span>
+<span id="cb1-15"><a href="#cb1-15" tabindex="-1"></a><span class="co">#&gt; 7:  epiforecasts-EpiNow2       Cases   128</span></span>
+<span id="cb1-16"><a href="#cb1-16" tabindex="-1"></a><span class="co">#&gt; 8:  epiforecasts-EpiNow2      Deaths   119</span></span></code></pre></div>
+<p><code>UMass-MechBayes</code> does not forecast cases at all, and
+<code>epiforecasts-EpiNow2</code> has fewer death forecasts than the
+other models.</p>
+<p>To see exactly which death targets <code>epiforecasts-EpiNow2</code>
+is missing, we can request counts at a finer level and filter to
+zero-count rows.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>death_counts <span class="ot">&lt;-</span> <span class="fu">get_forecast_counts</span>(</span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>  fc,</span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>  <span class="at">by =</span> <span class="fu">c</span>(<span class="st">&quot;model&quot;</span>, <span class="st">&quot;target_type&quot;</span>, <span class="st">&quot;location&quot;</span>, <span class="st">&quot;target_end_date&quot;</span>)</span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a>)</span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a>death_counts[</span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a>  model <span class="sc">==</span> <span class="st">&quot;epiforecasts-EpiNow2&quot;</span> <span class="sc">&amp;</span></span>
+<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a>    target_type <span class="sc">==</span> <span class="st">&quot;Deaths&quot;</span> <span class="sc">&amp;</span></span>
+<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a>    count <span class="sc">==</span> <span class="dv">0</span></span>
+<span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a>]</span>
+<span id="cb2-10"><a href="#cb2-10" tabindex="-1"></a><span class="co">#&gt; Key: &lt;model, target_type, location, target_end_date&gt;</span></span>
+<span id="cb2-11"><a href="#cb2-11" tabindex="-1"></a><span class="co">#&gt;                   model target_type location target_end_date count</span></span>
+<span id="cb2-12"><a href="#cb2-12" tabindex="-1"></a><span class="co">#&gt;                  &lt;char&gt;      &lt;char&gt;   &lt;char&gt;          &lt;Date&gt; &lt;int&gt;</span></span>
+<span id="cb2-13"><a href="#cb2-13" tabindex="-1"></a><span class="co">#&gt; 1: epiforecasts-EpiNow2      Deaths       FR      2021-06-19     0</span></span></code></pre></div>
+<p>Note that <code>get_pairwise_comparisons()</code> handles missingness
+internally, restricting each pair of models to their shared set of
+targets before comparing. The functions below give you explicit control
+over how to handle missingness when computing score summaries.</p>
+</div>
+<div id="scoring" class="section level2">
+<h2>Scoring</h2>
+<p>We score all forecasts first, then adjust the resulting scores table.
+Both <code>filter_scores()</code> and
+<code>impute_missing_scores()</code> accept a <code>compare</code>
+argument (default <code>&quot;model&quot;</code>) that specifies which column
+identifies the units being compared.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>scores <span class="ot">&lt;-</span> <span class="fu">score</span>(fc)</span></code></pre></div>
+<p>A naive summary averages over different numbers of targets per model,
+which can make direct comparison misleading.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="fu">summarise_scores</span>(scores, <span class="at">by =</span> <span class="st">&quot;model&quot;</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a><span class="co">#&gt;                    model         wis overprediction underprediction dispersion</span></span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a><span class="co">#&gt;                   &lt;char&gt;       &lt;num&gt;          &lt;num&gt;           &lt;num&gt;      &lt;num&gt;</span></span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a><span class="co">#&gt; 1: EuroCOVIDhub-ensemble  8992.62316    5025.130095      2120.64029 1846.85278</span></span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a><span class="co">#&gt; 2: EuroCOVIDhub-baseline 14321.48926    7081.000000      5143.53567 2096.95360</span></span>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a><span class="co">#&gt; 3:  epiforecasts-EpiNow2 10827.40786    6179.439535      1697.23411 2950.73422</span></span>
+<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a><span class="co">#&gt; 4:       UMass-MechBayes    52.65195       8.978601        16.80095   26.87239</span></span>
+<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a><span class="co">#&gt;           bias interval_coverage_50 interval_coverage_90   ae_median</span></span>
+<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a><span class="co">#&gt;          &lt;num&gt;                &lt;num&gt;                &lt;num&gt;       &lt;num&gt;</span></span>
+<span id="cb4-10"><a href="#cb4-10" tabindex="-1"></a><span class="co">#&gt; 1:  0.00812500            0.6328125            0.9023438 12077.10156</span></span>
+<span id="cb4-11"><a href="#cb4-11" tabindex="-1"></a><span class="co">#&gt; 2:  0.21851562            0.4960938            0.9101562 19353.42969</span></span>
+<span id="cb4-12"><a href="#cb4-12" tabindex="-1"></a><span class="co">#&gt; 3: -0.04336032            0.4453441            0.8461538 14521.10526</span></span>
+<span id="cb4-13"><a href="#cb4-13" tabindex="-1"></a><span class="co">#&gt; 4: -0.02234375            0.4609375            0.8750000    78.47656</span></span></code></pre></div>
+<p>The sections below show two approaches to addressing this: filtering
+scores to a common set of targets, and imputing scores for missing
+targets.</p>
+</div>
+<div id="filtering-to-a-common-set-of-targets" class="section level2">
+<h2>Filtering to a common set of targets</h2>
+<p><code>filter_scores()</code> removes scores based on the supplied
+strategy. This can be appropriate when a model legitimately does not
+cover certain targets and you want to compare only on shared ground.</p>
+<p>The default strategy, <code>filter_to_intersection()</code>, keeps
+only targets covered by <strong>all</strong> models.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>scores_filtered <span class="ot">&lt;-</span> <span class="fu">filter_scores</span>(scores)</span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="co">#&gt; ℹ Filtered out 411 rows.</span></span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a><span class="co">#&gt; ℹ 476 of 887 rows remaining.</span></span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a><span class="fu">summarise_scores</span>(scores_filtered, <span class="at">by =</span> <span class="st">&quot;model&quot;</span>)</span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a><span class="co">#&gt;                    model       wis overprediction underprediction dispersion</span></span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a><span class="co">#&gt;                   &lt;char&gt;     &lt;num&gt;          &lt;num&gt;           &lt;num&gt;      &lt;num&gt;</span></span>
+<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a><span class="co">#&gt; 1: EuroCOVIDhub-ensemble  41.30642       7.366094        4.313117   29.62721</span></span>
+<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a><span class="co">#&gt; 2: EuroCOVIDhub-baseline 158.92682      66.312386        2.257216   90.35722</span></span>
+<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a><span class="co">#&gt; 3:       UMass-MechBayes  49.58008       7.935331       15.134819   26.50993</span></span>
+<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a><span class="co">#&gt; 4:  epiforecasts-EpiNow2  66.64282      18.892583       15.893314   31.85692</span></span>
+<span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a><span class="co">#&gt;           bias interval_coverage_50 interval_coverage_90 ae_median</span></span>
+<span id="cb5-12"><a href="#cb5-12" tabindex="-1"></a><span class="co">#&gt;          &lt;num&gt;                &lt;num&gt;                &lt;num&gt;     &lt;num&gt;</span></span>
+<span id="cb5-13"><a href="#cb5-13" tabindex="-1"></a><span class="co">#&gt; 1:  0.06890756            0.8655462            1.0000000  53.86555</span></span>
+<span id="cb5-14"><a href="#cb5-14" tabindex="-1"></a><span class="co">#&gt; 2:  0.32941176            0.6638655            1.0000000 230.96639</span></span>
+<span id="cb5-15"><a href="#cb5-15" tabindex="-1"></a><span class="co">#&gt; 3: -0.01495798            0.4621849            0.8991597  74.17647</span></span>
+<span id="cb5-16"><a href="#cb5-16" tabindex="-1"></a><span class="co">#&gt; 4: -0.00512605            0.4201681            0.9075630 104.74790</span></span></code></pre></div>
+<p>This drops all case targets (since <code>UMass-MechBayes</code> has
+no case forecasts) and the death targets
+<code>epiforecasts-EpiNow2</code> missed.</p>
+<div id="requiring-partial-coverage" class="section level3">
+<h3>Requiring partial coverage</h3>
+<p>The default requires every model to cover a target for it to be kept.
+The <code>min_coverage</code> argument relaxes this by keeping targets
+covered by at least a given proportion of models. With four models,
+<code>min_coverage = 0.75</code> requires coverage by at least
+three.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a>scores_relaxed <span class="ot">&lt;-</span> <span class="fu">filter_scores</span>(</span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>  scores,</span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a>  <span class="at">strategy =</span> <span class="fu">filter_to_intersection</span>(<span class="at">min_coverage =</span> <span class="fl">0.75</span>)</span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a>)</span>
+<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a><span class="co">#&gt; ℹ No rows filtered. Returning scores unchanged.</span></span>
+<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a><span class="fu">summarise_scores</span>(scores_relaxed, <span class="at">by =</span> <span class="st">&quot;model&quot;</span>)</span>
+<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a><span class="co">#&gt;                    model         wis overprediction underprediction dispersion</span></span>
+<span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a><span class="co">#&gt;                   &lt;char&gt;       &lt;num&gt;          &lt;num&gt;           &lt;num&gt;      &lt;num&gt;</span></span>
+<span id="cb6-9"><a href="#cb6-9" tabindex="-1"></a><span class="co">#&gt; 1: EuroCOVIDhub-ensemble  8992.62316    5025.130095      2120.64029 1846.85278</span></span>
+<span id="cb6-10"><a href="#cb6-10" tabindex="-1"></a><span class="co">#&gt; 2: EuroCOVIDhub-baseline 14321.48926    7081.000000      5143.53567 2096.95360</span></span>
+<span id="cb6-11"><a href="#cb6-11" tabindex="-1"></a><span class="co">#&gt; 3:  epiforecasts-EpiNow2 10827.40786    6179.439535      1697.23411 2950.73422</span></span>
+<span id="cb6-12"><a href="#cb6-12" tabindex="-1"></a><span class="co">#&gt; 4:       UMass-MechBayes    52.65195       8.978601        16.80095   26.87239</span></span>
+<span id="cb6-13"><a href="#cb6-13" tabindex="-1"></a><span class="co">#&gt;           bias interval_coverage_50 interval_coverage_90   ae_median</span></span>
+<span id="cb6-14"><a href="#cb6-14" tabindex="-1"></a><span class="co">#&gt;          &lt;num&gt;                &lt;num&gt;                &lt;num&gt;       &lt;num&gt;</span></span>
+<span id="cb6-15"><a href="#cb6-15" tabindex="-1"></a><span class="co">#&gt; 1:  0.00812500            0.6328125            0.9023438 12077.10156</span></span>
+<span id="cb6-16"><a href="#cb6-16" tabindex="-1"></a><span class="co">#&gt; 2:  0.21851562            0.4960938            0.9101562 19353.42969</span></span>
+<span id="cb6-17"><a href="#cb6-17" tabindex="-1"></a><span class="co">#&gt; 3: -0.04336032            0.4453441            0.8461538 14521.10526</span></span>
+<span id="cb6-18"><a href="#cb6-18" tabindex="-1"></a><span class="co">#&gt; 4: -0.02234375            0.4609375            0.8750000    78.47656</span></span></code></pre></div>
+<p>In this example, case targets are covered by three of four models and
+death targets by three or four, so <code>min_coverage = 0.75</code>
+retains all targets. The default (<code>min_coverage = 1</code>) is
+stricter and drops all case targets because <code>UMass-MechBayes</code>
+has no case forecasts. Between 0.75 and 1.0 no intermediate threshold
+changes the result here because no target is covered by exactly three
+out of four models while being missing for one that isn’t
+<code>UMass-MechBayes</code>.</p>
+</div>
+<div id="filtering-to-a-specific-models-targets" class="section level3">
+<h3>Filtering to a specific model’s targets</h3>
+<p><code>filter_to_include()</code> restricts to targets covered by
+named models. For example, to evaluate all models only on the targets
+<code>epiforecasts-EpiNow2</code> covered:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a>scores_epinow2 <span class="ot">&lt;-</span> <span class="fu">filter_scores</span>(</span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>  scores,</span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a>  <span class="at">strategy =</span> <span class="fu">filter_to_include</span>(<span class="st">&quot;epiforecasts-EpiNow2&quot;</span>)</span>
+<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a>)</span>
+<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a><span class="co">#&gt; ℹ Filtered out 27 rows.</span></span>
+<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a><span class="co">#&gt; ℹ 860 of 887 rows remaining.</span></span>
+<span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a><span class="fu">summarise_scores</span>(scores_epinow2, <span class="at">by =</span> <span class="st">&quot;model&quot;</span>)</span>
+<span id="cb7-8"><a href="#cb7-8" tabindex="-1"></a><span class="co">#&gt;                    model         wis overprediction underprediction dispersion</span></span>
+<span id="cb7-9"><a href="#cb7-9" tabindex="-1"></a><span class="co">#&gt;                   &lt;char&gt;       &lt;num&gt;          &lt;num&gt;           &lt;num&gt;      &lt;num&gt;</span></span>
+<span id="cb7-10"><a href="#cb7-10" tabindex="-1"></a><span class="co">#&gt; 1: EuroCOVIDhub-ensemble  9318.72435    5208.081676      2197.86217 1912.78050</span></span>
+<span id="cb7-11"><a href="#cb7-11" tabindex="-1"></a><span class="co">#&gt; 2: EuroCOVIDhub-baseline 14837.28683    7336.810069      5330.95195 2169.52482</span></span>
+<span id="cb7-12"><a href="#cb7-12" tabindex="-1"></a><span class="co">#&gt; 3:  epiforecasts-EpiNow2 10827.40786    6179.439535      1697.23411 2950.73422</span></span>
+<span id="cb7-13"><a href="#cb7-13" tabindex="-1"></a><span class="co">#&gt; 4:       UMass-MechBayes    49.58008       7.935331        15.13482   26.50993</span></span>
+<span id="cb7-14"><a href="#cb7-14" tabindex="-1"></a><span class="co">#&gt;            bias interval_coverage_50 interval_coverage_90   ae_median</span></span>
+<span id="cb7-15"><a href="#cb7-15" tabindex="-1"></a><span class="co">#&gt;           &lt;num&gt;                &lt;num&gt;                &lt;num&gt;       &lt;num&gt;</span></span>
+<span id="cb7-16"><a href="#cb7-16" tabindex="-1"></a><span class="co">#&gt; 1:  0.003967611            0.6194332            0.8987854 12515.57490</span></span>
+<span id="cb7-17"><a href="#cb7-17" tabindex="-1"></a><span class="co">#&gt; 2:  0.209473684            0.4898785            0.9068826 20049.01215</span></span>
+<span id="cb7-18"><a href="#cb7-18" tabindex="-1"></a><span class="co">#&gt; 3: -0.043360324            0.4453441            0.8461538 14521.10526</span></span>
+<span id="cb7-19"><a href="#cb7-19" tabindex="-1"></a><span class="co">#&gt; 4: -0.014957983            0.4621849            0.8991597    74.17647</span></span></code></pre></div>
+<p>This keeps both case and death targets where EpiNow2 submitted
+forecasts, but <code>UMass-MechBayes</code> will still be missing case
+scores in the result.</p>
+</div>
+</div>
+<div id="imputing-missing-scores" class="section level2">
+<h2>Imputing missing scores</h2>
+<p>Instead of dropping data, <code>impute_missing_scores()</code> fills
+in scores for target combinations a model did not cover. Imputed rows
+are marked with <code>.imputed = TRUE</code> so they can be identified
+later.</p>
+<div id="na" class="section level3">
+<h3>NA</h3>
+<p>The simplest option: fill missing scores with <code>NA</code>. This
+preserves the structure of the data without making assumptions about
+what the score would have been. <code>NA</code> values propagate through
+summaries, so this can also serve as a diagnostic check to confirm where
+missingness exists.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a>scores_na <span class="ot">&lt;-</span> <span class="fu">impute_missing_scores</span>(</span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a>  scores,</span>
+<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a>  <span class="at">strategy =</span> <span class="fu">impute_na_score</span>()</span>
+<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a>)</span>
+<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a><span class="co">#&gt; ℹ Imputing 137 missing score rows.</span></span>
+<span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a><span class="co">#&gt; ℹ 2 model values affected.</span></span>
+<span id="cb8-7"><a href="#cb8-7" tabindex="-1"></a><span class="fu">summarise_scores</span>(scores_na, <span class="at">by =</span> <span class="st">&quot;model&quot;</span>)</span>
+<span id="cb8-8"><a href="#cb8-8" tabindex="-1"></a><span class="co">#&gt;                    model       wis overprediction underprediction dispersion</span></span>
+<span id="cb8-9"><a href="#cb8-9" tabindex="-1"></a><span class="co">#&gt;                   &lt;char&gt;     &lt;num&gt;          &lt;num&gt;           &lt;num&gt;      &lt;num&gt;</span></span>
+<span id="cb8-10"><a href="#cb8-10" tabindex="-1"></a><span class="co">#&gt; 1: EuroCOVIDhub-ensemble  8992.623        5025.13        2120.640   1846.853</span></span>
+<span id="cb8-11"><a href="#cb8-11" tabindex="-1"></a><span class="co">#&gt; 2: EuroCOVIDhub-baseline 14321.489        7081.00        5143.536   2096.954</span></span>
+<span id="cb8-12"><a href="#cb8-12" tabindex="-1"></a><span class="co">#&gt; 3:  epiforecasts-EpiNow2        NA             NA              NA         NA</span></span>
+<span id="cb8-13"><a href="#cb8-13" tabindex="-1"></a><span class="co">#&gt; 4:       UMass-MechBayes        NA             NA              NA         NA</span></span>
+<span id="cb8-14"><a href="#cb8-14" tabindex="-1"></a><span class="co">#&gt;         bias interval_coverage_50 interval_coverage_90 ae_median</span></span>
+<span id="cb8-15"><a href="#cb8-15" tabindex="-1"></a><span class="co">#&gt;        &lt;num&gt;                &lt;num&gt;                &lt;num&gt;     &lt;num&gt;</span></span>
+<span id="cb8-16"><a href="#cb8-16" tabindex="-1"></a><span class="co">#&gt; 1: 0.0081250            0.6328125            0.9023438  12077.10</span></span>
+<span id="cb8-17"><a href="#cb8-17" tabindex="-1"></a><span class="co">#&gt; 2: 0.2185156            0.4960938            0.9101562  19353.43</span></span>
+<span id="cb8-18"><a href="#cb8-18" tabindex="-1"></a><span class="co">#&gt; 3:        NA                   NA                   NA        NA</span></span>
+<span id="cb8-19"><a href="#cb8-19" tabindex="-1"></a><span class="co">#&gt; 4:        NA                   NA                   NA        NA</span></span></code></pre></div>
+</div>
+<div id="worst-score" class="section level3">
+<h3>Worst score</h3>
+<p>Fill each missing score with the worst (maximum) observed score for
+that target across all models. This penalises models most heavily for
+missing targets.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a>scores_worst <span class="ot">&lt;-</span> <span class="fu">impute_missing_scores</span>(</span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a>  scores,</span>
+<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a>  <span class="at">strategy =</span> <span class="fu">impute_worst_score</span>()</span>
+<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a>)</span>
+<span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a><span class="co">#&gt; ℹ Imputing 137 missing score rows.</span></span>
+<span id="cb9-6"><a href="#cb9-6" tabindex="-1"></a><span class="co">#&gt; ℹ 2 model values affected.</span></span>
+<span id="cb9-7"><a href="#cb9-7" tabindex="-1"></a><span class="fu">summarise_scores</span>(scores_worst, <span class="at">by =</span> <span class="st">&quot;model&quot;</span>)</span>
+<span id="cb9-8"><a href="#cb9-8" tabindex="-1"></a><span class="co">#&gt;                    model       wis overprediction underprediction dispersion</span></span>
+<span id="cb9-9"><a href="#cb9-9" tabindex="-1"></a><span class="co">#&gt;                   &lt;char&gt;     &lt;num&gt;          &lt;num&gt;           &lt;num&gt;      &lt;num&gt;</span></span>
+<span id="cb9-10"><a href="#cb9-10" tabindex="-1"></a><span class="co">#&gt; 1: EuroCOVIDhub-ensemble  8992.623       5025.130        2120.640   1846.853</span></span>
+<span id="cb9-11"><a href="#cb9-11" tabindex="-1"></a><span class="co">#&gt; 2: EuroCOVIDhub-baseline 14321.489       7081.000        5143.536   2096.954</span></span>
+<span id="cb9-12"><a href="#cb9-12" tabindex="-1"></a><span class="co">#&gt; 3:  epiforecasts-EpiNow2 10452.972       5964.931        1638.933   2850.699</span></span>
+<span id="cb9-13"><a href="#cb9-13" tabindex="-1"></a><span class="co">#&gt; 4:       UMass-MechBayes 15389.614       7632.698        6020.870   3725.102</span></span>
+<span id="cb9-14"><a href="#cb9-14" tabindex="-1"></a><span class="co">#&gt;           bias interval_coverage_50 interval_coverage_90 ae_median</span></span>
+<span id="cb9-15"><a href="#cb9-15" tabindex="-1"></a><span class="co">#&gt;          &lt;num&gt;                &lt;num&gt;                &lt;num&gt;     &lt;num&gt;</span></span>
+<span id="cb9-16"><a href="#cb9-16" tabindex="-1"></a><span class="co">#&gt; 1:  0.00812500            0.6328125            0.9023438  12077.10</span></span>
+<span id="cb9-17"><a href="#cb9-17" tabindex="-1"></a><span class="co">#&gt; 2:  0.21851562            0.4960938            0.9101562  19353.43</span></span>
+<span id="cb9-18"><a href="#cb9-18" tabindex="-1"></a><span class="co">#&gt; 3: -0.02054688            0.4648438            0.8515625  14020.69</span></span>
+<span id="cb9-19"><a href="#cb9-19" tabindex="-1"></a><span class="co">#&gt; 4:  0.13046875            0.6015625            0.9101562  21026.91</span></span></code></pre></div>
+<p>We can check that the imputed rows match the models and targets we
+identified as missing earlier.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a>scores_worst[</span>
+<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a>  (.imputed),</span>
+<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a>  .(<span class="at">n_imputed =</span> .N),</span>
+<span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a>  by <span class="ot">=</span> <span class="fu">c</span>(<span class="st">&quot;model&quot;</span>, <span class="st">&quot;target_type&quot;</span>)</span>
+<span id="cb10-5"><a href="#cb10-5" tabindex="-1"></a>]</span>
+<span id="cb10-6"><a href="#cb10-6" tabindex="-1"></a><span class="co">#&gt;                   model target_type n_imputed</span></span>
+<span id="cb10-7"><a href="#cb10-7" tabindex="-1"></a><span class="co">#&gt;                  &lt;char&gt;      &lt;char&gt;     &lt;int&gt;</span></span>
+<span id="cb10-8"><a href="#cb10-8" tabindex="-1"></a><span class="co">#&gt; 1:      UMass-MechBayes       Cases       128</span></span>
+<span id="cb10-9"><a href="#cb10-9" tabindex="-1"></a><span class="co">#&gt; 2: epiforecasts-EpiNow2      Deaths         9</span></span></code></pre></div>
+</div>
+<div id="reference-model" class="section level3">
+<h3>Reference model</h3>
+<p>Fill with the scores of a named baseline model, treating a missing
+forecast as performing no better than that baseline.</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a>scores_ref <span class="ot">&lt;-</span> <span class="fu">impute_missing_scores</span>(</span>
+<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a>  scores,</span>
+<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a>  <span class="at">strategy =</span> <span class="fu">impute_model_score</span>(<span class="st">&quot;EuroCOVIDhub-baseline&quot;</span>)</span>
+<span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a>)</span>
+<span id="cb11-5"><a href="#cb11-5" tabindex="-1"></a><span class="co">#&gt; ℹ Imputing 137 missing score rows.</span></span>
+<span id="cb11-6"><a href="#cb11-6" tabindex="-1"></a><span class="co">#&gt; ℹ 2 model values affected.</span></span>
+<span id="cb11-7"><a href="#cb11-7" tabindex="-1"></a><span class="fu">summarise_scores</span>(scores_ref, <span class="at">by =</span> <span class="st">&quot;model&quot;</span>)</span>
+<span id="cb11-8"><a href="#cb11-8" tabindex="-1"></a><span class="co">#&gt;                    model       wis overprediction underprediction dispersion</span></span>
+<span id="cb11-9"><a href="#cb11-9" tabindex="-1"></a><span class="co">#&gt;                   &lt;char&gt;     &lt;num&gt;          &lt;num&gt;           &lt;num&gt;      &lt;num&gt;</span></span>
+<span id="cb11-10"><a href="#cb11-10" tabindex="-1"></a><span class="co">#&gt; 1: EuroCOVIDhub-ensemble  8992.623       5025.130        2120.640   1846.853</span></span>
+<span id="cb11-11"><a href="#cb11-11" tabindex="-1"></a><span class="co">#&gt; 2: EuroCOVIDhub-baseline 14321.489       7081.000        5143.536   2096.954</span></span>
+<span id="cb11-12"><a href="#cb11-12" tabindex="-1"></a><span class="co">#&gt; 3:  epiforecasts-EpiNow2 10452.583       5964.318        1637.566   2850.699</span></span>
+<span id="cb11-13"><a href="#cb11-13" tabindex="-1"></a><span class="co">#&gt; 4:       UMass-MechBayes 14268.113       7052.540        5150.887   2064.687</span></span>
+<span id="cb11-14"><a href="#cb11-14" tabindex="-1"></a><span class="co">#&gt;           bias interval_coverage_50 interval_coverage_90 ae_median</span></span>
+<span id="cb11-15"><a href="#cb11-15" tabindex="-1"></a><span class="co">#&gt;          &lt;num&gt;                &lt;num&gt;                &lt;num&gt;     &lt;num&gt;</span></span>
+<span id="cb11-16"><a href="#cb11-16" tabindex="-1"></a><span class="co">#&gt; 1:  0.00812500            0.6328125            0.9023438  12077.10</span></span>
+<span id="cb11-17"><a href="#cb11-17" tabindex="-1"></a><span class="co">#&gt; 2:  0.21851562            0.4960938            0.9101562  19353.43</span></span>
+<span id="cb11-18"><a href="#cb11-18" tabindex="-1"></a><span class="co">#&gt; 3: -0.02542969            0.4531250            0.8515625  14019.86</span></span>
+<span id="cb11-19"><a href="#cb11-19" tabindex="-1"></a><span class="co">#&gt; 4:  0.03781250            0.3945312            0.8476562  19276.04</span></span></code></pre></div>
+<p>This is a reasonable default when a suitable baseline exists, though
+more research is needed on best practice for choosing the reference
+model and understanding the impact of this choice.</p>
+</div>
+<div id="mean-score" class="section level3">
+<h3>Mean score</h3>
+<p>Fill with the mean score across models that did forecast each target.
+This is the least severe penalty as it assigns the average performance,
+which may be close to the ensemble performance.</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a>scores_mean <span class="ot">&lt;-</span> <span class="fu">impute_missing_scores</span>(</span>
+<span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a>  scores,</span>
+<span id="cb12-3"><a href="#cb12-3" tabindex="-1"></a>  <span class="at">strategy =</span> <span class="fu">impute_mean_score</span>()</span>
+<span id="cb12-4"><a href="#cb12-4" tabindex="-1"></a>)</span>
+<span id="cb12-5"><a href="#cb12-5" tabindex="-1"></a><span class="co">#&gt; ℹ Imputing 137 missing score rows.</span></span>
+<span id="cb12-6"><a href="#cb12-6" tabindex="-1"></a><span class="co">#&gt; ℹ 2 model values affected.</span></span>
+<span id="cb12-7"><a href="#cb12-7" tabindex="-1"></a><span class="fu">summarise_scores</span>(scores_mean, <span class="at">by =</span> <span class="st">&quot;model&quot;</span>)</span>
+<span id="cb12-8"><a href="#cb12-8" tabindex="-1"></a><span class="co">#&gt;                    model       wis overprediction underprediction dispersion</span></span>
+<span id="cb12-9"><a href="#cb12-9" tabindex="-1"></a><span class="co">#&gt;                   &lt;char&gt;     &lt;num&gt;          &lt;num&gt;           &lt;num&gt;      &lt;num&gt;</span></span>
+<span id="cb12-10"><a href="#cb12-10" tabindex="-1"></a><span class="co">#&gt; 1: EuroCOVIDhub-ensemble  8992.623       5025.130        2120.640   1846.853</span></span>
+<span id="cb12-11"><a href="#cb12-11" tabindex="-1"></a><span class="co">#&gt; 2: EuroCOVIDhub-baseline 14321.489       7081.000        5143.536   2096.954</span></span>
+<span id="cb12-12"><a href="#cb12-12" tabindex="-1"></a><span class="co">#&gt; 3:  epiforecasts-EpiNow2 10450.295       5963.217        1638.036   2849.042</span></span>
+<span id="cb12-13"><a href="#cb12-13" tabindex="-1"></a><span class="co">#&gt; 4:       UMass-MechBayes 11236.152       6012.164        2972.151   2251.837</span></span>
+<span id="cb12-14"><a href="#cb12-14" tabindex="-1"></a><span class="co">#&gt;           bias interval_coverage_50 interval_coverage_90 ae_median</span></span>
+<span id="cb12-15"><a href="#cb12-15" tabindex="-1"></a><span class="co">#&gt;          &lt;num&gt;                &lt;num&gt;                &lt;num&gt;     &lt;num&gt;</span></span>
+<span id="cb12-16"><a href="#cb12-16" tabindex="-1"></a><span class="co">#&gt; 1:  0.00812500            0.6328125            0.9023438  12077.10</span></span>
+<span id="cb12-17"><a href="#cb12-17" tabindex="-1"></a><span class="co">#&gt; 2:  0.21851562            0.4960938            0.9101562  19353.43</span></span>
+<span id="cb12-18"><a href="#cb12-18" tabindex="-1"></a><span class="co">#&gt; 3: -0.03634115            0.4544271            0.8463542  14015.78</span></span>
+<span id="cb12-19"><a href="#cb12-19" tabindex="-1"></a><span class="co">#&gt; 4: -0.01739583            0.4283854            0.8398438  15122.32</span></span></code></pre></div>
+</div>
+</div>
+<div id="combining-filter-and-impute" class="section level2">
+<h2>Combining filter and impute</h2>
+<p>Consider combining filtering and imputation when you want to focus on
+a specific model’s targets but still need complete scores for all
+models. For example, to evaluate on the targets
+<code>epiforecasts-EpiNow2</code> covered and then impute scores for
+models that are missing forecasts within that set:</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a>result <span class="ot">&lt;-</span> scores <span class="sc">|&gt;</span></span>
+<span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a>  <span class="fu">filter_scores</span>(</span>
+<span id="cb13-3"><a href="#cb13-3" tabindex="-1"></a>    <span class="at">strategy =</span> <span class="fu">filter_to_include</span>(<span class="st">&quot;epiforecasts-EpiNow2&quot;</span>)</span>
+<span id="cb13-4"><a href="#cb13-4" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb13-5"><a href="#cb13-5" tabindex="-1"></a>  <span class="fu">impute_missing_scores</span>(</span>
+<span id="cb13-6"><a href="#cb13-6" tabindex="-1"></a>    <span class="at">strategy =</span> <span class="fu">impute_worst_score</span>()</span>
+<span id="cb13-7"><a href="#cb13-7" tabindex="-1"></a>  )</span>
+<span id="cb13-8"><a href="#cb13-8" tabindex="-1"></a><span class="co">#&gt; ℹ Filtered out 27 rows.</span></span>
+<span id="cb13-9"><a href="#cb13-9" tabindex="-1"></a><span class="co">#&gt; ℹ 860 of 887 rows remaining.</span></span>
+<span id="cb13-10"><a href="#cb13-10" tabindex="-1"></a><span class="co">#&gt; ℹ Imputing 128 missing score rows.</span></span>
+<span id="cb13-11"><a href="#cb13-11" tabindex="-1"></a><span class="co">#&gt; ℹ 1 model value affected.</span></span>
+<span id="cb13-12"><a href="#cb13-12" tabindex="-1"></a><span class="fu">summarise_scores</span>(result, <span class="at">by =</span> <span class="st">&quot;model&quot;</span>)</span>
+<span id="cb13-13"><a href="#cb13-13" tabindex="-1"></a><span class="co">#&gt;                    model       wis overprediction underprediction dispersion</span></span>
+<span id="cb13-14"><a href="#cb13-14" tabindex="-1"></a><span class="co">#&gt;                   &lt;char&gt;     &lt;num&gt;          &lt;num&gt;           &lt;num&gt;      &lt;num&gt;</span></span>
+<span id="cb13-15"><a href="#cb13-15" tabindex="-1"></a><span class="co">#&gt; 1: EuroCOVIDhub-ensemble  9318.724       5208.082        2197.862   1912.781</span></span>
+<span id="cb13-16"><a href="#cb13-16" tabindex="-1"></a><span class="co">#&gt; 2: EuroCOVIDhub-baseline 14837.287       7336.810        5330.952   2169.525</span></span>
+<span id="cb13-17"><a href="#cb13-17" tabindex="-1"></a><span class="co">#&gt; 3:  epiforecasts-EpiNow2 10827.408       6179.440        1697.234   2950.734</span></span>
+<span id="cb13-18"><a href="#cb13-18" tabindex="-1"></a><span class="co">#&gt; 4:       UMass-MechBayes 15946.971       7909.983        6238.839   3859.681</span></span>
+<span id="cb13-19"><a href="#cb13-19" tabindex="-1"></a><span class="co">#&gt;            bias interval_coverage_50 interval_coverage_90 ae_median</span></span>
+<span id="cb13-20"><a href="#cb13-20" tabindex="-1"></a><span class="co">#&gt;           &lt;num&gt;                &lt;num&gt;                &lt;num&gt;     &lt;num&gt;</span></span>
+<span id="cb13-21"><a href="#cb13-21" tabindex="-1"></a><span class="co">#&gt; 1:  0.003967611            0.6194332            0.8987854  12515.57</span></span>
+<span id="cb13-22"><a href="#cb13-22" tabindex="-1"></a><span class="co">#&gt; 2:  0.209473684            0.4898785            0.9068826  20049.01</span></span>
+<span id="cb13-23"><a href="#cb13-23" tabindex="-1"></a><span class="co">#&gt; 3: -0.043360324            0.4453441            0.8461538  14521.11</span></span>
+<span id="cb13-24"><a href="#cb13-24" tabindex="-1"></a><span class="co">#&gt; 4:  0.139595142            0.6072874            0.9230769  21788.14</span></span></code></pre></div>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

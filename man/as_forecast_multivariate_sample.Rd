@@ -19,7 +19,7 @@ as_forecast_multivariate_sample(data, ...)
 }
 \arguments{
 \item{data}{A data.frame (or similar) with predicted and observed values.
-See the details section of for additional information
+See the "Target format" section in Details for additional information
 on the required input format.}
 
 \item{...}{Unused}
@@ -119,14 +119,14 @@ or "observed" are retained.
 }
 
 \seealso{
-Other functions to create forecast objects: 
-\code{\link{as_forecast_binary}()},
-\code{\link{as_forecast_multivariate_point}()},
-\code{\link{as_forecast_nominal}()},
-\code{\link{as_forecast_ordinal}()},
-\code{\link{as_forecast_point}()},
-\code{\link{as_forecast_quantile}()},
-\code{\link{as_forecast_sample}()}
+Other functions to create forecast objects:
+\code{\link[=as_forecast_binary]{as_forecast_binary()}},
+\code{\link[=as_forecast_multivariate_point]{as_forecast_multivariate_point()}},
+\code{\link[=as_forecast_nominal]{as_forecast_nominal()}},
+\code{\link[=as_forecast_ordinal]{as_forecast_ordinal()}},
+\code{\link[=as_forecast_point]{as_forecast_point()}},
+\code{\link[=as_forecast_quantile]{as_forecast_quantile()}},
+\code{\link[=as_forecast_sample]{as_forecast_sample()}}
 }
 \concept{functions to create forecast objects}
 \keyword{as_forecast}

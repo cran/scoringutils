@@ -20,6 +20,26 @@ test_that("as_forecast_multivariate_sample() works as expected", {
   )
 })
 
+test_that("as_forecast_multivariate_sample() errors on non-numeric observed and predicted", {
+  df <- data.frame(
+    observed = as.character(c(5, 5, 5, 6, 6, 6)),
+    predicted = as.character(c(4, 5, 6, 5, 6, 7)),
+    sample_id = rep(1:3, 2),
+    location = rep(c("A", "B"), each = 3),
+    model = "m1"
+  )
+  expect_error(
+    as_forecast_multivariate_sample(df, joint_across = "location"),
+    "Must be of type 'numeric', not 'character'"
+  )
+
+  df$observed <- c(5, 5, 5, 6, 6, 6)
+  expect_error(
+    as_forecast_multivariate_sample(df, joint_across = "location"),
+    "Must be of type 'numeric', not 'character'"
+  )
+})
+
 test_that("as_forecast_multivariate_sample() creates expected structure", {
   test <- na.omit(data.table::copy(example_sample_continuous))
   data.table::setnames(test,
@@ -351,7 +371,7 @@ test_that(
       cat(
         "Energy score range:",
         paste(
-          range(scores$energy_score, na.rm = TRUE),
+          round(range(scores$energy_score, na.rm = TRUE), 4),
           collapse = " to "
         ), "\n"
       )
@@ -361,7 +381,7 @@ test_that(
       )
       cat(
         "Sample of energy scores:",
-        toString(head(scores$energy_score, 5)), "\n"
+        toString(round(head(scores$energy_score, 5), 4)), "\n"
       )
     })
 
@@ -387,8 +407,8 @@ test_that(
       cat(
         "Energy score range:",
         paste(
-          range(
-            scores_specific$energy_score, na.rm = TRUE
+          round(
+            range(scores_specific$energy_score, na.rm = TRUE), 4
           ),
           collapse = " to "
         ), "\n"
@@ -412,7 +432,7 @@ test_that(
         data_bad,
         joint_across = c("location", "location_name")
       ),
-      "Column 'sample_id' not found in data."
+      "Must be a subset of"
     )
 
     # Test with inconsistent sample lengths within groups

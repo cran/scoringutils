@@ -786,8 +786,8 @@ bound)).</p>
 <span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a>range_example[, range <span class="sc">:=</span> scoringutils<span class="sc">:::</span><span class="fu">get_range_from_quantile</span>(quantile_level)] <span class="co"># nolint: undesirable_operator_linter</span></span>
 <span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a><span class="co">#&gt; Forecast type: quantile</span></span>
 <span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a><span class="co">#&gt; Forecast unit:</span></span>
-<span id="cb9-6"><a href="#cb9-6" tabindex="-1"></a><span class="co">#&gt; location, target_end_date, target_type, location_name, forecast_date, model,</span></span>
-<span id="cb9-7"><a href="#cb9-7" tabindex="-1"></a><span class="co">#&gt; horizon, and range</span></span>
+<span id="cb9-6"><a href="#cb9-6" tabindex="-1"></a><span class="co">#&gt; location, target_end_date, target_type, location_name, forecast_date, model, horizon,</span></span>
+<span id="cb9-7"><a href="#cb9-7" tabindex="-1"></a><span class="co">#&gt; and range</span></span>
 <span id="cb9-8"><a href="#cb9-8" tabindex="-1"></a><span class="co">#&gt; </span></span>
 <span id="cb9-9"><a href="#cb9-9" tabindex="-1"></a><span class="co">#&gt; Key: &lt;location, target_end_date, target_type&gt;</span></span>
 <span id="cb9-10"><a href="#cb9-10" tabindex="-1"></a><span class="co">#&gt;        location target_end_date target_type observed location_name</span></span>
@@ -992,7 +992,7 @@ according to the same grouping).</p>
 <span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a>  <span class="fu">summarise_scores</span>(<span class="at">by =</span> <span class="fu">c</span>(<span class="st">&quot;model&quot;</span>, <span class="st">&quot;target_type&quot;</span>)) <span class="sc">|&gt;</span></span>
 <span id="cb12-3"><a href="#cb12-3" tabindex="-1"></a>  <span class="fu">summarise_scores</span>(<span class="at">by =</span> <span class="fu">c</span>(<span class="st">&quot;model&quot;</span>, <span class="st">&quot;target_type&quot;</span>), <span class="at">fun =</span> signif, <span class="at">digits =</span> <span class="dv">2</span>)</span>
 <span id="cb12-4"><a href="#cb12-4" tabindex="-1"></a><span class="co">#&gt; ℹ Some rows containing NA values may be removed. This is fine if not</span></span>
-<span id="cb12-5"><a href="#cb12-5" tabindex="-1"></a><span class="co">#&gt;   unexpected.</span></span>
+<span id="cb12-5"><a href="#cb12-5" tabindex="-1"></a><span class="co">#&gt; unexpected.</span></span>
 <span id="cb12-6"><a href="#cb12-6" tabindex="-1"></a></span>
 <span id="cb12-7"><a href="#cb12-7" tabindex="-1"></a><span class="fu">plot_score_table</span>(scores, <span class="at">y =</span> <span class="st">&quot;model&quot;</span>, <span class="at">by =</span> <span class="st">&quot;target_type&quot;</span>) <span class="sc">+</span></span>
 <span id="cb12-8"><a href="#cb12-8" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>target_type, <span class="at">ncol =</span> <span class="dv">1</span>)</span></code></pre></div>

@@ -7,6 +7,7 @@
 #' @param ... Named arguments that are used to rename columns. The names of the
 #'  arguments are the names of the columns that should be renamed. The values
 #'  are the new names.
+#' @importFrom cli cli_abort
 #' @keywords as_forecast
 as_forecast_generic <- function(data,
                                 forecast_unit = NULL,
@@ -26,6 +27,24 @@ as_forecast_generic <- function(data,
   oldnames <- unlist(oldnames[provided])
   newnames <- unlist(newnames[provided])
   if (!is.null(oldnames) && length(oldnames) > 0) {
+    # renaming a column onto a name that already exists (and is not itself
+    # being renamed away) would create duplicate column names
+    remaining <- setdiff(colnames(data), oldnames)
+    collides <- newnames %in% remaining
+    if (any(collides)) {
+      # sources/targets are used inside the cli glue strings below
+      sources <- oldnames[collides] # nolint: object_usage_linter.
+      targets <- newnames[collides] # nolint: object_usage_linter.
+      cli_abort(
+        c(
+          `!` = "Cannot rename {cli::qty(sources)} column{?s} {.val {sources}}
+          to {.val {targets}}: {?a column/columns} with {?this name/these
+          names} already exist{?s/} in the data.",
+          i = "Rename or remove the existing {cli::qty(targets)}
+          column{?s} first."
+        )
+      )
+    }
     setnames(data, old = oldnames, new = newnames)
   }
 
@@ -57,7 +76,7 @@ as_forecast_generic <- function(data,
 #'   warnings will be created.
 #' @return
 #' Returns `NULL` invisibly.
-#' @importFrom data.table ':=' is.data.table
+#' @importFrom data.table ":=" is.data.table
 #' @importFrom checkmate assert_data_frame
 #' @export
 #' @keywords validate-forecast-object
@@ -97,21 +116,32 @@ assert_forecast.default <- function(
 #' `predicted`
 #' - checks the forecast type and forecast unit
 #' - checks there are no duplicate forecasts
+#' - checks that observed values are constant within each forecast unit
 #' - if appropriate, checks the number of samples / quantiles is the same
 #' for all forecasts.
 #' @param data A data.table with forecasts and observed values that should
 #' be validated.
 #' @inheritParams assert_forecast
 #' @returns returns the input
-#' @importFrom data.table ':=' is.data.table
-#' @importFrom checkmate assert_data_table
+#' @importFrom data.table ":=" is.data.table
+#' @importFrom checkmate assert_data_table assert_subset test_subset
 #' @importFrom cli cli_abort cli_inform cli_warn
 #' @keywords internal_input_check
 assert_forecast_generic <- function(data, verbose = TRUE) {
   # check that data is a data.table and that the columns look fine
   assert_data_table(data, min.rows = 1)
-  assert(check_columns_present(data, c("observed", "predicted")))
-  problem <- test_columns_present(data, c("sample_id", "quantile_level"))
+  duplicated_cols <- unique(colnames(data)[duplicated(colnames(data))])
+  if (length(duplicated_cols) > 0) {
+    cli_abort(
+      c(
+        `!` = "Found duplicate column{?s} in the data:
+        {.val {duplicated_cols}}.",
+        i = "Column names must be unique."
+      )
+    )
+  }
+  assert_subset(c("observed", "predicted"), colnames(data))
+  problem <- test_subset(c("sample_id", "quantile_level"), colnames(data))
   if (problem) {
     cli_abort(
       c(
@@ -124,6 +154,9 @@ assert_forecast_generic <- function(data, verbose = TRUE) {
   # check that there aren't any duplicated forecasts
   forecast_unit <- get_forecast_unit(data)
   assert(check_duplicates(data))
+
+  # check that observed values are constant within each forecast unit
+  assert(check_observed_constant(data, forecast_unit))
 
   # check that the number of forecasts per sample / quantile level is the same
   number_quantiles_samples <- check_number_per_forecast(data, forecast_unit)
@@ -188,6 +221,37 @@ check_number_per_forecast <- function(data, forecast_unit) {
   return(TRUE)
 }
 
+
+#' Check that observed values are constant within each forecast unit
+#' @description
+#' Helper function that checks that all rows belonging to the same forecast
+#' (as defined by the forecast unit) share a single observed value. Rows
+#' where `observed` is `NA` are ignored.
+#' If the observed values are constant within each forecast unit, the
+#' function returns `TRUE` and a string with an error message otherwise.
+#' @param forecast_unit Character vector denoting the unit of a single forecast.
+#' @importFrom data.table as.data.table uniqueN
+#' @inherit document_check_functions params return
+#' @keywords internal_input_check
+check_observed_constant <- function(data, forecast_unit) {
+  # This function doesn't return a forecast object so it's fine to unclass it
+  # to avoid validation error while subsetting
+  data <- as.data.table(data)
+  data <- data[!is.na(observed)]
+  data <- data[, .(scoringutils_InternalNumCheck = uniqueN(observed)),
+               by = forecast_unit]
+  if (any(data$scoringutils_InternalNumCheck > 1)) {
+    msg <- paste0(
+      "There are instances with different observed values for the ",
+      "same forecast. Observed values must be constant within each ",
+      "forecast unit. This can't be right and needs to be resolved. ",
+      "Maybe you need to check the unit of a single forecast and ",
+      "add missing columns?"
+    )
+    return(msg)
+  }
+  return(TRUE)
+}
 
 
 #' Clean forecast object
@@ -271,16 +335,22 @@ is_forecast <- function(x) {
   #   where we used data.table := operator which will turn x into out before we
   #   arrive to this function.
   is_dt_force_print <- identical(x, out) && ...length() == 1
-  #   ...length() as it still returns 1 in x[] and then skips validations in
-  #   undesired situation if we set ...length() > 1
+
   # is.data.table: when [.data.table returns an atomic vector, it's clear it
   #   cannot be a valid forecast object, and it is likely intended by the user
 
-  # in addition, we also check for a maximum length. The reason is that
-  # print.data.table will internally subset the data.table before printing.
-  # this subsetting triggers the validation, which is not desired in this case.
-  # this is a hack and ideally, we'd do things differently.
-  if (nrow(out) > 30 && is.data.table(out) && !is_dt_force_print) {
+  if (is.data.table(out) && !is_dt_force_print) {
+    # Validation (e.g. after a `:=` in-place modification) runs data.table
+    # operations internally that overwrite data.table's autoprint-suppression
+    # flag. data.table records the address of an object modified by `:=` in its
+    # internal `.global$print`, and print.forecast() reads it via shouldPrint()
+    # to suppress the spurious autoprint. We capture that state before
+    # validating and restore it afterwards so `:=` keeps validating without
+    # reintroducing the spurious print.
+    # See https://github.com/epiforecasts/scoringutils/issues/935
+    dt_global <- utils::getFromNamespace(".global", "data.table")
+    suppress_autoprint <- identical(dt_global$print, data.table::address(out))
+
     # check whether subset object passes validation
     validation <- try(
       assert_forecast(forecast = out, verbose = FALSE),
@@ -290,12 +360,15 @@ is_forecast <- function(x) {
       cli_warn(
         c(
           `!` = "Error in validating forecast object: {validation}.",
-          i = "Note this error is sometimes related to `data.table`s `print`.
-          Run {.help [{.fun assert_forecast}](scoringutils::assert_forecast)}
+          i = "Run {.help [{.fun assert_forecast}](scoringutils::assert_forecast)}
           to confirm. To get rid of this warning entirely,
           call `as.data.table()` on the forecast object."
         )
       )
+    }
+
+    if (suppress_autoprint) {
+      dt_global$print <- data.table::address(out)
     }
   }
 
@@ -407,6 +480,17 @@ tail.forecast <- function(x, ...) {
 #' dat <- as_forecast_quantile(example_quantile)
 #' print(dat)
 print.forecast <- function(x, ...) {
+
+  # Suppress autoprinting during data.table `:=` operations.
+  # When `:=` modifies a data.table in place, R's autoprint mechanism triggers
+  # the print method. data.table tracks this via an internal shouldPrint()
+  # function which returns FALSE when `:=` was just used. We check this early
+  # to avoid printing the forecast header in that case.
+  # See https://github.com/epiforecasts/scoringutils/issues/935
+  shouldPrint <- utils::getFromNamespace("shouldPrint", "data.table") # nolint: object_name_linter
+  if (!shouldPrint(x)) {
+    return(invisible(x))
+  }
 
   # get forecast type, forecast unit and score columns
   forecast_type <- try(

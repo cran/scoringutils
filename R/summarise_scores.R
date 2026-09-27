@@ -15,6 +15,7 @@
 #'   scores and an additional attribute `metrics` as produced by [score()]).
 #' @param by Character vector with column names to summarise scores by. Default
 #'   is "model", i.e. scores are summarised by the "model" column.
+#'   `by` must not contain any of the score (metric) columns themselves.
 #' @param fun A function used for summarising scores. Default is [mean()].
 #' @param ... Additional parameters that can be passed to the summary function
 #'   provided to `fun`. For more information see the documentation of the
@@ -46,6 +47,7 @@
 #' @export
 #' @importFrom checkmate assert_subset assert_function test_subset
 #'   assert_data_frame
+#' @importFrom cli cli_abort
 #' @keywords scoring
 
 summarise_scores <- function(scores,
@@ -59,11 +61,35 @@ summarise_scores <- function(scores,
   assert_function(fun)
 
   metrics <- get_metrics.scores(scores, error = TRUE)
+  by_metrics <- intersect(by, metrics)
+  if (length(by_metrics) > 0) {
+    cli_abort(
+      c(
+        `!` = "Cannot summarise scores by a metric column:
+               {.val {by_metrics}}.",
+        i = "{.arg by} must only contain columns that identify groups of
+             forecasts, not the score columns themselves. Remove
+             {.val {by_metrics}} from {.arg by}."
+      )
+    )
+  }
+  metric_cols <- intersect(colnames(scores), metrics)
+  if (length(metric_cols) == 0) {
+    cli_abort(
+      c(
+        `!` = "No score columns to summarise.",
+        i = "The {.cls scores} object has no columns matching its
+             {.code metrics} attribute. This usually means every metric
+             passed to {.fn score} failed (e.g. warned and returned no
+             values)."
+      )
+    )
+  }
 
   # summarise scores -----------------------------------------------------------
   scores <- scores[, lapply(.SD, fun, ...),
     by = c(by),
-    .SDcols = colnames(scores) %like% paste(metrics, collapse = "|")
+    .SDcols = metric_cols
   ]
 
   attr(scores, "metrics") <- metrics
